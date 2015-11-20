@@ -1,0 +1,13 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Bruschetta</title>
+  </head>
+  <body>
+    <h1>Bruschetta</h1>
+    {% for message in get_flashed_message() %}
+      <div class="flash">{{ message }}</div>
+    {% endfor %}
+    {% block %}{% endblock %}
+  </body>
+</html>
