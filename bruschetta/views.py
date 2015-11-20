@@ -22,4 +22,4 @@ def book_new():
         flash('New book was successfully added.')
         return redirect(url_for('index'))
     else:
-        render_template('book_new.html')
+        return render_template('book_new.html')
