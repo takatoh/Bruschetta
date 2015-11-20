@@ -11,6 +11,8 @@ class Book(db.Model):
     author         = db.Column(db.String)
     translator     = db.Column(db.String)
     publisher      = db.Column(db.String)
+    category_id    = db.Column(db.Integer, db.ForeignKey('categories.id'))
+    format_id      = db.Column(db.Integer, db.ForeignKey('formats.id'))
     isbn           = db.Column(db.String)
     published_on   = db.Column(db.String)
     original_title = db.Column(db.String)
@@ -29,6 +31,29 @@ class Book(db.Model):
     def __repr__(self):
         return u'<Book title={id} title={title}>'.format(
             id=self.id, title=self.title_with_vol())
+
+
+class Category(db.Model):
+    __tablename__ = 'categories'
+    id    = db.Column(db.Integer, primary_key=True)
+    name  = db.Column(db.String)
+    books = db.relationship('Book', backref='category', lazy='dynamic')
+
+    def __repr__(self):
+        return u'<Category id={id} name={name}>'.format(
+            id=self.id, name=self.name)
+
+
+class Format(db.Model):
+    __tablename__ = 'formats'
+    id    = db.Column(db.Integer, primary_key=True)
+    name  = db.Column(db.String)
+    books = db.relationship('Book', backref='format', lazy='dynamic')
+
+    def __repr__(self):
+        return u'<Format id={id} name={name}>'.format(
+            id=self.id, name=self.name)
+
 
 def init():
     db.create_all()
