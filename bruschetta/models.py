@@ -17,7 +17,7 @@ class Book(db.Model):
     note           = db.Column(db.String)
     keyword        = db.Column(db.String)
     disk           = db.Column(db.String)
-    disposed       = db.Column(db.Boolean)
+    disposed       = db.Column(db.Boolean, default=False)
 
     def title_with_vol(self):
         if self.volume == '':
