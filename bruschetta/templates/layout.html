@@ -5,6 +5,10 @@
   </head>
   <body>
     <h1>Bruschetta</h1>
+    <div id="menu">
+      <ul>
+        <li><a href="{{ url_for("book_new") }}" />Add new book</a></li>
+      </ul>
     {% for message in get_flashed_messages() %}
       <div class="flash">{{ message }}</div>
     {% endfor %}
