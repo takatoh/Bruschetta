@@ -1,11 +1,11 @@
-from bruschetta import request, redirect, url_for, render_template, flash
+from flask import request, redirect, url_for, render_template, flash
 from bruschetta import app, db
 from bruschetta.models import Book
 
 
 @app.route('/')
 def index():
-    books = Book.query.orderby(Book.id.desc()).all()
+    books = Book.query.order_by(Book.id.desc()).all()
     return render_template('index.html', books=books)
 
 @app.route('/book/add', methods=['POST'])

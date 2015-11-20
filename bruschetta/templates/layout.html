@@ -5,9 +5,9 @@
   </head>
   <body>
     <h1>Bruschetta</h1>
-    {% for message in get_flashed_message() %}
+    {% for message in get_flashed_messages() %}
       <div class="flash">{{ message }}</div>
     {% endfor %}
-    {% block %}{% endblock %}
+    {% block body %}{% endblock %}
   </body>
 </html>
