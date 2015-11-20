@@ -23,3 +23,8 @@ def book_new():
         return redirect(url_for('index'))
     else:
         return render_template('book_new.html')
+
+@app.route('/book/<int:book_id>/')
+def book_detail(book_id):
+    book = Book.query.get(book_id)
+    return render_template('book_detail.html', book=book)

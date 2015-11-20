@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+
+{% block body %}
+  <h2>{{ book.title }}</h2>
+  <table>
+    <tr><th>Title:</th><td>{{ book.title }}</td></tr>
+    <tr><th>Volume:</th><td>{{ book.volume }}</td></tr>
+    <tr><th>Author:</th><td>{{ book.author }}</td></tr>
+    <tr><th>Translator:</th><td>{{ book.translator }}</td></tr>
+    <tr><th>Publisher:</th><td>{{ book.publisher }}</td></tr>
+  </table>
+{% endblock %}
