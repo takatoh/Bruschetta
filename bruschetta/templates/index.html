@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block body %}
+  <table class="books">
+    <thead>
+      <tr><td>Title</td><td>Volume</td><td>Author</td></tr>
+    </thead>
+    <tbody>
+    {% for book in books %}
+      <tr><td>{{ book.title }}</td><td>{{ book.volume }}</td><td>{{ book.author }}</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
