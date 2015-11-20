@@ -6,7 +6,7 @@ from bruschetta.models import Book
 @app.route('/')
 def index():
     books = Book.query.orderby(Book.id.desc()).all()
-    return render_template('index.html')
+    return render_template('index.html', books=books)
 
 @app.route('/book/add', methods=['POST'])
 def book_new():
