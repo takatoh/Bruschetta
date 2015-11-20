@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block body %}
+  <h2>Adding a new book</h2>
+  <form action="" method="post">
+    <dl>
+      <dt>Title:</dt>
+      <dd><input type="text" size=30 name="title" />
+      <dt>Volume:</dt>
+      <dd><input type="text" size=30 name="volume" />
+      <td>Author:</td>
+      <dd><input type="text" size=30 name="author" />
+      <td>Translator:</td>
+      <dd><input type="text" size=30 name="translator" />
+      <td>Publisher:</td>
+      <dd><input type="text" size=30 name="publisher" />
+      <dd><input type="submit" value="Add" />
+    </dl>
+  </form>
+{% endblock %}
