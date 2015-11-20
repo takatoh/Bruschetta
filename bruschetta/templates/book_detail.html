@@ -5,9 +5,17 @@
   <table>
     <tr><th>Title:</th><td>{{ book.title }}</td></tr>
     <tr><th>Volume:</th><td>{{ book.volume }}</td></tr>
+    <tr><th>Series:</th><td>{{ book.series }}</td></tr>
+    <tr><th>Series volume:</th><td>{{ book.series_volume }}</td></tr>
     <tr><th>Author:</th><td>{{ book.author }}</td></tr>
     <tr><th>Translator:</th><td>{{ book.translator }}</td></tr>
     <tr><th>Publisher:</th><td>{{ book.publisher }}</td></tr>
+    <tr><th>ISBN:</th><td>{{ book.isbn }}</td></tr>
+    <tr><th>Published on:</th><td>{{ book.published_on }}</td></tr>
+    <tr><th>Original title:</th><td>{{ book.original_title }}</td></tr>
+    <tr><th>Note:</th><td>{{ book.note }}</td></tr>
+    <tr><th>Keyword:</th><td>{{ book.keyword }}</td></tr>
+    <tr><th>Disk:</th><td>{{ book.disk }}</td></tr>
   </table>
 
   <a href="{{ url_for('index') }}">Back</a>
