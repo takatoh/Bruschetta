@@ -96,3 +96,8 @@ def format_add():
     db.session.add(fmt)
     db.session.commit()
     return redirect(url_for('format_list'))
+
+@app.route('/book/disposed/')
+def book_list_disposed():
+    books = Book.query.filter_by(disposed=True).all()
+    return render_template('book_list_disposed.html', books=books)
