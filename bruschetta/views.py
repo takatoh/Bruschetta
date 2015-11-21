@@ -60,6 +60,10 @@ def book_edit(book_id):
         book.note           = request.form['note']
         book.keyword        = request.form['keyword']
         book.disk           = request.form['disk']
+        if len(request.form.getlist('disposed')) == 1:
+            book.disposed = True
+        else:
+            book.disposed = False
         db.session.commit()
         flash('The book was successfully updated.')
         return redirect(url_for('book_detail', book_id=book_id))
