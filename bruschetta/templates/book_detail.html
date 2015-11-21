@@ -21,5 +21,6 @@
     <tr><th>Disposed:</th><td>{{ book.disposed }}</td></tr>
   </table>
 
-  <a href="{{ url_for('index') }}">Back</a>
+  <a href="{{ url_for('index') }}">Back</a> |
+  <a href="{{ url_for('book_edit') }}">Edit</a>
 {% endblock %}
