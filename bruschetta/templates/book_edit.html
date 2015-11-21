@@ -28,7 +28,7 @@
       <td>Format:</td>
       <dd><select name="format">
         {% for format in formats %}
-        <option value="{{ format.id }}">
+        <option value="{{ format.id }}"
           {% if format.id == book.format_id %}selected{% endif %}>
           {{ format.name }}</option>
         {% endfor %}

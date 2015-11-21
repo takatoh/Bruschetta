@@ -61,7 +61,7 @@ def book_edit(book_id):
         book.keyword        = request.form['keyword']
         book.disk           = request.form['disk']
         db.session.commit()
-        flash('New book was successfully updated.')
+        flash('The book was successfully updated.')
         return redirect(url_for('book_detail', book_id=book_id))
     else:
         book = Book.query.get(book_id)
