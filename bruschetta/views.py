@@ -12,25 +12,29 @@ def index():
 def book_new():
     if request.method == 'POST':
         book = Book(
-            title = request.form['title'],
-            volume = request.form['volume'],
-            series = request.form['series'],
-            series_volume = request.form['series_volume'],
-            author = request.form['author'],
-            translator = request.form['translator'],
-            publisher = request.form['publisher'],
-            isbn = request.form['isbn'],
-            published_on = request.form['published_on'],
+            title          = request.form['title'],
+            volume         = request.form['volume'],
+            series         = request.form['series'],
+            series_volume  = request.form['series_volume'],
+            author         = request.form['author'],
+            translator     = request.form['translator'],
+            publisher      = request.form['publisher'],
+            category_id    = request.form['category'],
+            format_id      = request.form['format'],
+            isbn           = request.form['isbn'],
+            published_on   = request.form['published_on'],
             original_title = request.form['original_title'],
-            note = request.form['note'],
-            keyword = request.form['keyword'],
-            disk = request.form['disk'])
+            note           = request.form['note'],
+            keyword        = request.form['keyword'],
+            disk           = request.form['disk'])
         db.session.add(book)
         db.session.commit()
         flash('New book was successfully added.')
         return redirect(url_for('index'))
     else:
-        return render_template('book_new.html')
+        categories = Category.query.all()
+        formats = Format.query.all()
+        return render_template('book_new.html', categories=categories, formats=formats)
 
 @app.route('/book/<int:book_id>/')
 def book_detail(book_id):

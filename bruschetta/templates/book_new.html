@@ -17,6 +17,18 @@
       <dd><input type="text" size=30 name="translator" /></dd>
       <td>Publisher:</td>
       <dd><input type="text" size=30 name="publisher" /></dd>
+      <td>Category:</td>
+      <dd><select name="category">
+        {% for category in categories %}
+        <option value="{{ category.id }}">{{ category.name }}</option>
+        {% endfor %}
+      </select></dd>
+      <td>Format:</td>
+      <dd><select name="format">
+        {% for format in formats %}
+        <option value="{{ format.id }}">{{ format.name }}</option>
+        {% endfor %}
+      </select></dd>
       <dt>ISBN:</dt>
       <dd><input type="text" size=30 name="isbn" /></dd>
       <dt>Publihed on:</dt>
