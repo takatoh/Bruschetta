@@ -5,7 +5,7 @@ from bruschetta.models import Book, Category, Format
 
 @app.route('/')
 def index():
-    books = Book.query.order_by(Book.id.desc()).all()
+    books = Book.query.filter_by(disposed=False).order_by(Book.id.desc()).all()
     return render_template('index.html', books=books)
 
 @app.route('/book/<int:book_id>/')
@@ -73,6 +73,11 @@ def book_edit(book_id):
         formats = Format.query.all()
         return render_template('book_edit.html', book=book, categories=categories, formats=formats)
 
+@app.route('/book/disposed/')
+def book_list_disposed():
+    books = Book.query.filter_by(disposed=True).all()
+    return render_template('book_list_disposed.html', books=books)
+
 @app.route('/categories/')
 def category_list():
     categories = Category.query.all()
@@ -96,8 +101,3 @@ def format_add():
     db.session.add(fmt)
     db.session.commit()
     return redirect(url_for('format_list'))
-
-@app.route('/book/disposed/')
-def book_list_disposed():
-    books = Book.query.filter_by(disposed=True).all()
-    return render_template('book_list_disposed.html', books=books)
