@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block body %}
+  <h2>Listing formats</h2>
+  <table class="format">
+    <thead>
+      <tr><td>ID</td><td>Name</td></tr>
+    </thead>
+    <tbody>
+    {% for fmt in formats %}
+      <tr><td>{{ fmt.id }}</td><td>{{ fmt.name }}</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+  <h2>Add format</h2>
+  <form action="/format/add/" method="post">
+    <dl>
+      <dt>Name:</dt>
+      <dd><input type="text" size=20 name="name" /></dd>
+      <dd><input type="submit" value="Add" /></dd>
+    </dl>
+  </form>
+{% endblock %}
