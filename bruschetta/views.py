@@ -8,6 +8,11 @@ def index():
     books = Book.query.order_by(Book.id.desc()).all()
     return render_template('index.html', books=books)
 
+@app.route('/book/<int:book_id>/')
+def book_detail(book_id):
+    book = Book.query.get(book_id)
+    return render_template('book_detail.html', book=book)
+
 @app.route('/book/add', methods=['GET', 'POST'])
 def book_new():
     if request.method == 'POST':
@@ -36,10 +41,33 @@ def book_new():
         formats = Format.query.all()
         return render_template('book_new.html', categories=categories, formats=formats)
 
-@app.route('/book/<int:book_id>/')
-def book_detail(book_id):
-    book = Book.query.get(book_id)
-    return render_template('book_detail.html', book=book)
+@app.route('/book/edit/<int:book_id>/', methods=['GET', 'POST'])
+def book_edit(book_id):
+    if request.method == 'POST':
+        book = Book.query.get(book_id)
+        book.title          = request.form['title']
+        book.volume         = request.form['volume']
+        book.series         = request.form['series']
+        book.series_volume  = request.form['series_volume']
+        book.author         = request.form['author']
+        book.translator     = request.form['translator']
+        book.publisher      = request.form['publisher']
+        book.category_id    = request.form['category']
+        book.format_id      = request.form['format']
+        book.isbn           = request.form['isbn']
+        book.published_on   = request.form['published_on']
+        book.original_title = request.form['original_title']
+        book.note           = request.form['note']
+        book.keyword        = request.form['keyword']
+        book.disk           = request.form['disk']
+        db.session.commit()
+        flash('New book was successfully updated.')
+        return redirect(url_for('book_detail', book_id=book_id))
+    else:
+        book = Book.query.get(book_id)
+        categories = Category.query.all()
+        formats = Format.query.all()
+        return render_template('book_edit.html', book=book, categories=categories, formats=formats)
 
 @app.route('/categories/')
 def category_list():
