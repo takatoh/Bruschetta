@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block body %}
+  <h2>Listing disposed books</h2>
+  <table class="books">
+    <thead>
+      <tr><td>Title</td><td>Volume</td><td>Author</td></tr>
+    </thead>
+    <tbody>
+    {% for book in books %}
+      <tr><td><a href="{{ url_for('book_detail', book_id=book.id) }}"/>{{ book.title }}</a></td>
+        <td>{{ book.volume }}</td><td>{{ book.author }}</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
