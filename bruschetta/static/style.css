@@ -63,3 +63,14 @@ table.books .vol {
 table.books .author {
   width: 12em;
 }
+
+table.book_detail {
+  margin: 0em auto;
+  margin-bottom: 0.5em;
+  width: 38em;
+}
+
+table.book_detail th {
+  width: 10em;
+  text-align: left;
+}
