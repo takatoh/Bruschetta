@@ -3,11 +3,12 @@
   <h2>Listing books</h2>
   <table class="books">
     <thead>
-      <tr><td class="title">Title</td><td class="vol">Vol.</td><td class="author">Author</td></tr>
+      <tr><td>ID</td><td class="title">Title</td><td class="vol">Vol.</td><td class="author">Author</td></tr>
     </thead>
     <tbody>
     {% for book in books %}
-      <tr><td><a href="{{ url_for('book_detail', book_id=book.id) }}"/>{{ book.title }}</a></td>
+      <tr><td>{{ book.id }}</td>
+        <td><a href="{{ url_for('book_detail', book_id=book.id) }}"/>{{ book.title }}</a></td>
         <td>{{ book.volume }}</td><td>{{ book.author }}</td></tr>
     {% endfor %}
     </tbody>
