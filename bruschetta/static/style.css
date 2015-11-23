@@ -74,3 +74,8 @@ table.book_detail th {
   width: 10em;
   text-align: left;
 }
+
+#menu ul li {
+  display: inline;
+  margin: 0 10px;
+}
