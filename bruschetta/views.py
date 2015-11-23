@@ -13,8 +13,8 @@ def book_detail(book_id):
     book = Book.query.get(book_id)
     return render_template('book_detail.html', book=book)
 
-@app.route('/book/add', methods=['GET', 'POST'])
-def book_new():
+@app.route('/book/add/', methods=['GET', 'POST'])
+def book_add():
     if request.method == 'POST':
         book = Book(
             title          = request.form['title'],
@@ -39,7 +39,7 @@ def book_new():
     else:
         categories = Category.query.all()
         formats = Format.query.all()
-        return render_template('book_new.html', categories=categories, formats=formats)
+        return render_template('book_add.html', categories=categories, formats=formats)
 
 @app.route('/book/edit/<int:book_id>/', methods=['GET', 'POST'])
 def book_edit(book_id):
