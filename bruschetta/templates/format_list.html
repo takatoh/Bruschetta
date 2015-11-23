@@ -1,9 +1,9 @@
 {% extends "layout.html" %}
 {% block body %}
   <h2>Listing formats</h2>
-  <table class="format">
+  <table class="formats">
     <thead>
-      <tr><td>ID</td><td>Name</td></tr>
+      <tr><td class="format_id">ID</td><td class="format_name">Name</td></tr>
     </thead>
     <tbody>
     {% for fmt in formats %}

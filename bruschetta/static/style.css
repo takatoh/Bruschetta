@@ -81,3 +81,21 @@ table.book_detail th {
   display: inline;
   margin: 0 10px;
 }
+
+table.categories {
+  margin: 0em auto;
+  width: 38em;
+}
+
+table.categories td.category_id {
+  width: 3em;
+}
+
+table.formats {
+  margin: 0em auto;
+  width: 38em;
+}
+
+table.formats td.format_id {
+  width: 3em;
+}
