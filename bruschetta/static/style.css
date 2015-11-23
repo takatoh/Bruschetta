@@ -1,0 +1,24 @@
+body {
+  font-family: sans-serif,;
+  background-color: #e0e0e0;
+}
+
+a, h1, h2 {
+  color: #377ba8;
+}
+
+h1 {
+  border-bottom: 2px solid #e0e0e0
+}
+
+h2 {
+  font-size: 1.2em;
+}
+
+.container {
+  margin: 2em auto;
+  width: 40em;
+  border: 5px solid #c0c0c0;
+  padding: 0.8em;
+  background-color: white;
+}
