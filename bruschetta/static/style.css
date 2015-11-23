@@ -1,0 +1,101 @@
+body {
+  font-family: sans-serif,;
+  color: #444;
+  background-color: #e0e0e0;
+}
+
+a, h1, h2 {
+  color: #377ba8;
+}
+
+h1 {
+  border-bottom: 2px solid #e0e0e0
+}
+
+h2 {
+  font-size: 1.2em;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.container {
+  margin: 2em auto;
+  width: 40em;
+  border: 5px solid #c0c0c0;
+  padding: 0.8em;
+  background-color: white;
+}
+
+.flash {
+  font-size: 0.7em;
+  padding: 0.3em;
+  border: 1px solid #aacbe2;
+  color: green;
+}
+
+table.books {
+  margin: 0em auto;
+  width: 38em;
+  border-collapse: collapse;
+}
+
+table.books thead {
+  border-top: 1px solid #aacbe2;
+}
+
+table.books tr {
+  border-bottom: 1px solid #aacbe2;
+}
+
+table.books .title {
+  width: 20em;
+}
+
+table.books .vol {
+  width: 6em;
+}
+
+table.books .author {
+  width: 12em;
+}
+
+table.book_detail {
+  margin: 0em auto;
+  margin-bottom: 0.5em;
+  width: 38em;
+}
+
+table.book_detail th {
+  width: 10em;
+  text-align: left;
+  color: #444;
+}
+
+#menu ul li {
+  display: inline;
+  margin: 0 10px;
+}
+
+table.categories {
+  margin: 0em auto;
+  width: 38em;
+}
+
+table.categories td.category_id {
+  width: 3em;
+}
+
+table.formats {
+  margin: 0em auto;
+  width: 38em;
+}
+
+table.formats td.format_id {
+  width: 3em;
+}

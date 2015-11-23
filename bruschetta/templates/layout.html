@@ -2,20 +2,24 @@
 <html>
   <head>
     <title>Bruschetta</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}" />
   </head>
   <body>
-    <h1>Bruschetta</h1>
-    <div id="menu">
-      <ul>
-        <li><a href="{{ url_for("index") }}" />Books</a></li>
-        <li><a href="{{ url_for("book_new") }}" />Add a new book</a></li>
-        <li><a href="{{ url_for("book_list_disposed") }}" />Disposed</a></li>
-        <li><a href="{{ url_for("category_list") }}" />Categories</a></li>
-        <li><a href="{{ url_for("format_list") }}" />Formats</a></li>
-      </ul>
-    {% for message in get_flashed_messages() %}
-      <div class="flash">{{ message }}</div>
-    {% endfor %}
-    {% block body %}{% endblock %}
+    <div class="container">
+      <h1>Bruschetta</h1>
+      <div id="menu">
+        <ul>
+          <li><a href="{{ url_for("index") }}" />Books</a></li>
+          <li><a href="{{ url_for("book_new") }}" />Add a new book</a></li>
+          <li><a href="{{ url_for("book_list_disposed") }}" />Disposed</a></li>
+          <li><a href="{{ url_for("category_list") }}" />Categories</a></li>
+          <li><a href="{{ url_for("format_list") }}" />Formats</a></li>
+        </ul>
+      </div>
+      {% for message in get_flashed_messages() %}
+        <div class="flash">{{ message }}</div>
+      {% endfor %}
+      {% block body %}{% endblock %}
+    </div>
   </body>
 </html>
