@@ -28,6 +28,26 @@ class Book(db.Model):
             twv = self.title + ' [' + self.volume + ']'
         return twv
 
+    def to_dictionary(self):
+        return {
+            'title':          self.title,
+            'volume':         self.volume,
+            'series':         self.series,
+            'series_volume':  self.series_volume,
+            'author':         self.author,
+            'translator':     self.translator,
+            'publisher':      self.publisher,
+            'category':       self.category.name,
+            'format':         self.format.name,
+            'isbn':           self.isbn,
+            'published_on':   self.published_on,
+            'original_title': self.original_title,
+            'note':           self.note,
+            'keyword':        self.keyword,
+            'disk':           self.disk,
+            'disposed':       self.disposed
+        }
+
     def __repr__(self):
         return u'<Book title={id} title={title}>'.format(
             id=self.id, title=self.title_with_vol())
