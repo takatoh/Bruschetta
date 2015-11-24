@@ -119,3 +119,30 @@ def api_book(book_id):
     data = { 'books': [] }
     data['books'].append(book.to_dictionary())
     return json.dumps(data, ensure_ascii=False)
+
+@app.route('/api/book/add/', methods=['POST'])
+def api_book_add():
+    category = Category.query.filter(name=request.form['category']).first()
+    fmt = Format.query.filter(name=request.form['format']).first()
+    book = Book(
+        title          = request.form['title'],
+        volume         = request.form['volume'],
+        series         = request.form['series'],
+        series_volume  = request.form['series_volume'],
+        author         = request.form['author'],
+        translator     = request.form['translator'],
+        publisher      = request.form['publisher'],
+        category_id    = category.id,
+        format_id      = fmt.id,
+        isbn           = request.form['isbn'],
+        published_on   = request.form['published_on'],
+        original_title = request.form['original_title'],
+        note           = request.form['note'],
+        keyword        = request.form['keyword'],
+        disk           = request.form['disk']
+        )
+    if request.form['disposed'] == '1':
+        book.disposed = True
+    db.session.add(book)
+    db.session.commit()
+    return json.dumps({ "status": "OK", "books": [book.to_dictionary()]})
