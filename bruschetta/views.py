@@ -122,8 +122,8 @@ def api_book(book_id):
 
 @app.route('/api/book/add/', methods=['POST'])
 def api_book_add():
-    category = Category.query.filter(name=request.form['category']).first()
-    fmt = Format.query.filter(name=request.form['format']).first()
+    category = Category.query.filter_by(name=request.form['category']).first()
+    fmt = Format.query.filter_by(name=request.form['format']).first()
     book = Book(
         title          = request.form['title'],
         volume         = request.form['volume'],
