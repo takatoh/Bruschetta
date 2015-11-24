@@ -1,4 +1,4 @@
-from flask import request, redirect, url_for, render_template, flash
+from flask import request, redirect, url_for, render_template, flash, json
 from bruschetta import app, db
 from bruschetta.models import Book, Category, Format
 
@@ -101,3 +101,21 @@ def format_add():
     db.session.add(fmt)
     db.session.commit()
     return redirect(url_for('format_list'))
+
+
+# Web API
+
+@app.route('/api/books/')
+def api_books():
+    books = Book.query.order_by(Book.id.asc()).all()
+    data = { 'books': [] }
+    for book in books:
+        data['books'].append(book.to_dictionary())
+    return json.dumps(data, ensure_ascii=False)
+
+@app.route('/api/book/<int:book_id>/')
+def api_book(book_id):
+    book = Book.query.get(book_id)
+    data = { 'books': [] }
+    data['books'].append(book.to_dictionary())
+    return json.dumps(data, ensure_ascii=False)
