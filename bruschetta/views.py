@@ -107,7 +107,9 @@ def format_add():
 
 @app.route('/api/books/')
 def api_books():
-    books = Book.query.order_by(Book.id.asc()).all()
+    offset = request.args.get('offset', default=0, type=int)
+    limit = request.args.get('limit', default=100, type=int)
+    books = Book.query.order_by(Book.id.asc()).offset(offset).limit(limit).all()
     data = { 'books': [] }
     for book in books:
         data['books'].append(book.to_dictionary())
