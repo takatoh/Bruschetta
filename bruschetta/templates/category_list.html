@@ -1,5 +1,15 @@
 {% extends "layout.html" %}
 {% block body %}
+  <script type="text/javascript">
+    $(function (){
+      $('#addCategory').hide();
+      $('#addCategoryLink').click(function() {
+        $('#addCategoryLink').hide();
+        $('#addCategory').show();
+      });
+    });
+  </script>
+
   <h2>Categories</h2>
   <table class="categories">
     <thead>
@@ -12,6 +22,9 @@
     </tbody>
   </table>
 
+  <div id="addCategoryLink"><a href="javascript:void();">(Add)</a></div>
+
+  <div id="addCategory">
   <h2>Add category</h2>
   <form action="/category/add/" method="post">
     <dl>
@@ -20,4 +33,5 @@
       <dd><input type="submit" value="Add" /></dd>
     </dl>
   </form>
+  </div>
 {% endblock %}
