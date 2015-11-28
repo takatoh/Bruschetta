@@ -1,5 +1,15 @@
 {% extends "layout.html" %}
 {% block body %}
+  <script type="text/javascript">
+    $(function (){
+      $('#addFormat').hide();
+      $('#addFormatLink').click(function() {
+        $('#addFormatLink').hide();
+        $('#addFormat').show();
+      });
+    });
+  </script>
+
   <h2>Formats</h2>
   <table class="formats">
     <thead>
@@ -12,6 +22,9 @@
     </tbody>
   </table>
 
+  <div id="addFormatLink"><a href="javascript:void();">(Add)</a></div>
+
+  <div id="addFormat">
   <h2>Add format</h2>
   <form action="/format/add/" method="post">
     <dl>
@@ -20,4 +33,5 @@
       <dd><input type="submit" value="Add" /></dd>
     </dl>
   </form>
+  </div>
 {% endblock %}
