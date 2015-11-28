@@ -20,6 +20,7 @@
     <tr><th>Keyword:</th><td>{{ book.keyword }}</td></tr>
     <tr><th>Disk:</th><td>{{ book.disk }}</td></tr>
     <tr><th>Disposed:</th><td>{{ book.disposed }}</td></tr>
+    <tr><th>Created at:</th><td>{{ book.str_created_at() }}</td></tr>
   </table>
 
   <a href="{{ url_for('index') }}">Back</a> |
