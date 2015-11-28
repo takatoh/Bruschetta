@@ -1,4 +1,5 @@
 from bruschetta import db
+from datetime import datetime
 
 
 class Book(db.Model):
@@ -20,6 +21,7 @@ class Book(db.Model):
     keyword        = db.Column(db.String)
     disk           = db.Column(db.String)
     disposed       = db.Column(db.Boolean, default=False)
+    created_at     = db.Column(db.DateTime, default=datetime.utcnow)
 
     def title_with_vol(self):
         if self.volume == '':
