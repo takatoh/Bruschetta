@@ -1,5 +1,6 @@
 from bruschetta import db
 from datetime import datetime
+from bruschetta.timezone import UTC, JST
 
 
 class Book(db.Model):
@@ -49,6 +50,10 @@ class Book(db.Model):
             'disk':           self.disk,
             'disposed':       self.disposed
         }
+
+    def str_created_at(self):
+        dt = self.created_at.replace(tzinfo=UTC()).astimezone(JST())
+        return "{0:%Y-%m-%d %H:%M:%S}".format(dt)
 
     def __repr__(self):
         return u'<Book title={id} title={title}>'.format(
