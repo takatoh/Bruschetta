@@ -124,26 +124,26 @@ def api_book(book_id):
 
 @app.route('/api/book/add/', methods=['POST'])
 def api_book_add():
-    category = Category.query.filter_by(name=request.form['category']).first()
-    fmt = Format.query.filter_by(name=request.form['format']).first()
+    category = Category.query.filter_by(name=request.json['category']).first()
+    fmt = Format.query.filter_by(name=request.json['format']).first()
     book = Book(
-        title          = request.form['title'],
-        volume         = request.form['volume'],
-        series         = request.form['series'],
-        series_volume  = request.form['series_volume'],
-        author         = request.form['author'],
-        translator     = request.form['translator'],
-        publisher      = request.form['publisher'],
+        title          = request.json['title'],
+        volume         = request.json['volume'],
+        series         = request.json['series'],
+        series_volume  = request.json['series_volume'],
+        author         = request.json['author'],
+        translator     = request.json['translator'],
+        publisher      = request.json['publisher'],
         category_id    = category.id,
         format_id      = fmt.id,
-        isbn           = request.form['isbn'],
-        published_on   = request.form['published_on'],
-        original_title = request.form['original_title'],
-        note           = request.form['note'],
-        keyword        = request.form['keyword'],
-        disk           = request.form['disk']
+        isbn           = request.json['isbn'],
+        published_on   = request.json['published_on'],
+        original_title = request.json['original_title'],
+        note           = request.json['note'],
+        keyword        = request.json['keyword'],
+        disk           = request.json['disk']
         )
-    if request.form['disposed'] == '1':
+    if request.json['disposed'] == '1':
         book.disposed = True
     db.session.add(book)
     db.session.commit()
