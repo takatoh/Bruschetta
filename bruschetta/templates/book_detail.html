@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block body %}
-  <h2>{{ book.title }}</h2>
+  <h2>{{ book.title_with_vol() }}</h2>
   <table class="book_detail">
     <tr><th>ID:</th><td>{{ book.id }}</td></tr>
     <tr><th>Title:</th><td>{{ book.title }}</td></tr>
