@@ -25,10 +25,10 @@ class Book(db.Model):
     created_at     = db.Column(db.DateTime, default=datetime.utcnow)
 
     def title_with_vol(self):
-        if self.volume == '':
-            twv = self.title
-        else:
+        if self.volume:
             twv = self.title + ' [' + self.volume + ']'
+        else:
+            twv = self.title
         return twv
 
     def to_dictionary(self):
