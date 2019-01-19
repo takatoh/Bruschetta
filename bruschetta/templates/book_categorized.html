@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block body %}
+  <h2>Books categorized into {{ category.name }}</h2>
+  <table class="books">
+    <thead>
+      <tr><td>ID</td><td class="title">Title</td><td class="author">Author</td></tr>
+    </thead>
+    <tbody>
+    {% for book in books %}
+      <tr><td>{{ book.id }}</td>
+        <td><a href="{{ url_for('book_detail', book_id=book.id) }}"/>{{ book.title_with_vol() }}</a></td>
+        <td>{{ book.author }}</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
