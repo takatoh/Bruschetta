@@ -78,7 +78,7 @@ def book_list_disposed():
     books = Book.query.filter_by(disposed=True).all()
     return render_template('book_list_disposed.html', books=books)
 
-@app.route('/book/category/<int:category_id>/')
+@app.route('/book/categorized/<int:category_id>/')
 def book_list_categorized(category_id):
     books = Book.query.filter_by(category_id=category_id, disposed=False).all()
     return render_template('index.html', books=books)
