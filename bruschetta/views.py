@@ -125,7 +125,8 @@ def api_books():
 def api_book(book_id):
     book = Book.query.get(book_id)
     data = { 'books': [] }
-    data['books'].append(book.to_dictionary())
+    if not book is None:
+        data['books'].append(book.to_dictionary())
     return jsonify(data)
 
 @app.route('/api/book/add/', methods=['POST'])
