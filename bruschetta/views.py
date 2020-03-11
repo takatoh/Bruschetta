@@ -1,4 +1,4 @@
-from flask import request, redirect, url_for, render_template, flash, json
+from flask import request, redirect, url_for, render_template, flash, json, jsonify
 from bruschetta import app, db
 from bruschetta.models import Book, Category, Format
 
@@ -119,14 +119,14 @@ def api_books():
     data = { 'books': [] }
     for book in books:
         data['books'].append(book.to_dictionary())
-    return json.dumps(data, ensure_ascii=False)
+    return jsonify(data)
 
 @app.route('/api/book/<int:book_id>/')
 def api_book(book_id):
     book = Book.query.get(book_id)
     data = { 'books': [] }
     data['books'].append(book.to_dictionary())
-    return json.dumps(data, ensure_ascii=False)
+    return jsonify(data)
 
 @app.route('/api/book/add/', methods=['POST'])
 def api_book_add():
@@ -153,4 +153,4 @@ def api_book_add():
         book.disposed = True
     db.session.add(book)
     db.session.commit()
-    return json.dumps({ "status": "OK", "books": [book.to_dictionary()]})
+    return jsonify({ "status": "OK", "books": [book.to_dictionary()]})
