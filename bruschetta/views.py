@@ -155,3 +155,12 @@ def api_book_add():
     db.session.add(book)
     db.session.commit()
     return jsonify({ "status": "OK", "books": [book.to_dictionary()]})
+
+@app.route('/api/search/')
+def api_search():
+    title = '%' + request.args.get('title') + '%'
+    books = Book.query.order_by(Book.id.asc()).filter_by(disposed=False).filter(Book.title.like(title)).all()
+    data = { 'books' : [] }
+    for book in books:
+        data['books'].append(book.to_dictionary())
+    return jsonify(data)
