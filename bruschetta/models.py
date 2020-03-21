@@ -33,6 +33,7 @@ class Book(db.Model):
 
     def to_dictionary(self):
         return {
+            'id':             self.id,
             'title':          self.title,
             'volume':         self.volume,
             'series':         self.series,
