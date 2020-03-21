@@ -158,8 +158,14 @@ def api_book_add():
 
 @app.route('/api/search/')
 def api_search():
-    title = '%' + request.args.get('title') + '%'
-    books = Book.query.order_by(Book.id.asc()).filter_by(disposed=False).filter(Book.title.like(title)).all()
+    title = request.args.get('title')
+    author = request.args.get('author')
+    dataset = Book.query.order_by(Book.id.asc()).filter_by(disposed=False)
+    if title:
+        dataset = dataset.filter(Book.title.like('%' + title + '%'))
+    if author:
+        dataset = dataset.filter(Book.author.like('%' + author + '%'))
+    books = dataset.all()
     data = { 'books' : [] }
     for book in books:
         data['books'].append(book.to_dictionary())
