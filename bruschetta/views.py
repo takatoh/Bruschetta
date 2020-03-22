@@ -160,11 +160,16 @@ def api_book_add():
 def api_search():
     title = request.args.get('title')
     author = request.args.get('author')
+    both = request.args.get('both')
     dataset = Book.query.order_by(Book.id.asc()).filter_by(disposed=False)
-    if title:
-        dataset = dataset.filter(Book.title.like('%' + title + '%'))
-    if author:
-        dataset = dataset.filter(Book.author.like('%' + author + '%'))
+    if both:
+        both = '%' + both + '%'
+        dataset = dataset.filter(Book.title.like(both) | Book.author.like(both))
+    else:
+        if title:
+            dataset = dataset.filter(Book.title.like('%' + title + '%'))
+        if author:
+            dataset = dataset.filter(Book.author.like('%' + author + '%'))
     books = dataset.all()
     data = { 'books' : [] }
     for book in books:
