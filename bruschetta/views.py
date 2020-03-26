@@ -115,7 +115,11 @@ def format_add():
 def api_books():
     offset = request.args.get('offset', default=0, type=int)
     limit = request.args.get('limit', default=100, type=int)
-    books = Book.query.order_by(Book.id.asc()).offset(offset).limit(limit).all()
+    include_disposed = request.args.get('include_disposed', default=False, type=bool)
+    dataset = Book.query.order_by(Book.id.asc())
+    if not include_disposed:
+        dataset = dataset.filter_by(disposed=False)
+    books = dataset.offset(offset).limit(limit).all()
     data = { 'books': [] }
     for book in books:
         data['books'].append(book.to_dictionary())
