@@ -1,6 +1,7 @@
 from flask import request, redirect, url_for, render_template, flash, json, jsonify
 from bruschetta import app, db
 from bruschetta.models import Book, Category, Format
+from bruschetta.utils import str_to_bool
 
 
 @app.route('/')
@@ -115,7 +116,7 @@ def format_add():
 def api_books():
     offset = request.args.get('offset', default=0, type=int)
     limit = request.args.get('limit', default=100, type=int)
-    include_disposed = request.args.get('include_disposed', default=False, type=bool)
+    include_disposed = str_to_bool(request.args.get('include_disposed', default=''))
     dataset = Book.query.order_by(Book.id.asc())
     if not include_disposed:
         dataset = dataset.filter_by(disposed=False)
