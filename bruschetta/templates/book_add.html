@@ -1,23 +1,23 @@
 {% extends "layout.html" %}
 {% block body %}
   <h2>Adding a new book</h2>
-  <input type="button" value="Insert"> Insert book info from openBD with ISBN.
+  <input type="button" value="Insert" id="insert"> Insert book info from openBD with ISBN.
   <form action="" method="post">
     <dl>
       <dt>Title:</dt>
-      <dd><input type="text" size=30 name="title" />
+      <dd><input type="text" size=30 name="title" id="title" />
       <dt>Volume:</dt>
-      <dd><input type="text" size=30 name="volume" /></dd>
+      <dd><input type="text" size=30 name="volume" id="volume" /></dd>
       <dt>Series:</dt>
-      <dd><input type="text" size=30 name="series" /></dd>
+      <dd><input type="text" size=30 name="series" id="series" /></dd>
       <dt>Series volume:</dt>
       <dd><input type="text" size=30 name="series_volume" /></dd>
       <td>Author:</td>
-      <dd><input type="text" size=30 name="author" /></dd>
+      <dd><input type="text" size=30 name="author" id="author" /></dd>
       <td>Translator:</td>
       <dd><input type="text" size=30 name="translator" /></dd>
       <td>Publisher:</td>
-      <dd><input type="text" size=30 name="publisher" /></dd>
+      <dd><input type="text" size=30 name="publisher" id="publisher" /></dd>
       <td>Category:</td>
       <dd><select name="category">
         {% for category in categories %}
@@ -31,7 +31,7 @@
         {% endfor %}
       </select></dd>
       <dt>ISBN:</dt>
-      <dd><input type="text" size=30 name="isbn" /></dd>
+      <dd><input type="text" size=30 name="isbn" id="isbn" /></dd>
       <dt>Publihed on:</dt>
       <dd><input type="text" size=30 name="published_on" /></dd>
       <dt>Original title:</dt>
@@ -45,4 +45,22 @@
       <dd><input type="submit" value="Add" /></dd>
     </dl>
   </form>
+  <script>
+    const insert = () => {
+      const isbn = $("input#isbn").val();
+      $.ajax({
+        type: "GET",
+        url: "https://api.openbd.jp/v1/get?isbn=" + isbn,
+        dataType: "json"
+      }).done((response) => {
+        const summary = response[0].summary;
+        $("input#title").val(summary.title);
+        $("input#volume").val(summary.volume);
+        $("input#series").val(summary.series);
+        $("input#author").val(summary.author);
+        $("input#publisher").val(summary.publisher);
+      })
+    }
+    $("input#insert").click(insert);
+  </script>
 {% endblock %}
