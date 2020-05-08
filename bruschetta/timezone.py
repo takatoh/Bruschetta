@@ -27,8 +27,7 @@ class JST(tzinfo):
 
 if __name__ == '__main__':
     utc_now = datetime.utcnow()
-    print utc_now
+    print(utc_now)
 
     jst_now = utc_now.replace(tzinfo=UTC()).astimezone(JST())
-    print jst_now
-
+    print(jst_now)
