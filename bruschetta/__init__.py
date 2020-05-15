@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 
 app = Flask(__name__)
-app.config.from_object('bruschetta.config')
+app.config.from_pyfile('../bruschetta.conf')
 
 db = SQLAlchemy(app)
 
