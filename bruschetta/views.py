@@ -1,4 +1,5 @@
 from flask import request, redirect, url_for, render_template, flash, json, jsonify
+import requests
 from bruschetta import app, db
 from bruschetta.models import Book, Category, Format
 from bruschetta.utils import str_to_bool
@@ -74,10 +75,18 @@ def book_edit(book_id):
         formats = Format.query.all()
         return render_template('book_edit.html', book=book, categories=categories, formats=formats)
 
-@app.route('/book/fetch_coverart/<int:book_id>/')
+@app.route('/book/fetch_coverart/<int:book_id>/', methods=['GET', 'POST'])
 def book_fetch_coverart(book_id):
-    book = Book.query.get(book_id)
-    return render_template('book_fetch_coverart.html', book=book)
+    if request.method == 'POST':
+        book = Book.query.get(book_id)
+        isbn = book.isbn
+        r = requests.get('https://api.openbd.jp/v1/get?isbn=' + isbn)
+        book_info = r.json()
+        coverart_url = book_info[0]['summary']['cover']
+        return coverart_url
+    else:
+        book = Book.query.get(book_id)
+        return render_template('book_fetch_coverart.html', book=book)
 
 @app.route('/book/disposed/')
 def book_list_disposed():
