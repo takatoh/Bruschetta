@@ -2,6 +2,7 @@
 
 {% block body %}
   <h2>{{ book.title_with_vol() }}</h2>
+  <img src="{{ coverart_url }}">
   <table class="book_detail">
     <tr><th>ID:</th><td>{{ book.id }}</td></tr>
     <tr><th>Title:</th><td>{{ book.title }}</td></tr>
