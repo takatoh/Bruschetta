@@ -1,7 +1,7 @@
 from flask import request, redirect, url_for, render_template, flash, json, jsonify
 import requests
 from bruschetta import app, db
-from bruschetta.models import Book, Category, Format
+from bruschetta.models import Book, Category, Format, CoverArt
 from bruschetta.utils import str_to_bool
 
 
@@ -83,7 +83,16 @@ def book_fetch_coverart(book_id):
         r = requests.get('https://api.openbd.jp/v1/get?isbn=' + isbn)
         book_info = r.json()
         coverart_url = book_info[0]['summary']['cover']
-        return coverart_url
+        filename = 'coverart-' + coverart_url.split('/')[-1]
+        r = requests.get(coverart_url)
+        with open(app.config['COVERARTS_DIR'] + '/' + filename, 'wb') as f:
+            f.write(r.content)
+        coverart = CoverArt(filename = filename)
+        db.session.add(coverart)
+        db.session.commit()
+        book.coverart_id = coverart.id
+        db.session.commit()
+        return render_template('book_detail.html', book=book)
     else:
         book = Book.query.get(book_id)
         return render_template('book_fetch_coverart.html', book=book)
