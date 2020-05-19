@@ -1,4 +1,4 @@
-from flask import request, redirect, url_for, render_template, flash, json, jsonify
+from flask import request, redirect, url_for, render_template, flash, json, jsonify, Response
 import requests
 from bruschetta import app, db
 from bruschetta.models import Book, Category, Format, CoverArt
@@ -131,6 +131,13 @@ def format_add():
     db.session.add(fmt)
     db.session.commit()
     return redirect(url_for('format_list'))
+
+@app.route('/coverart/<filename>')
+def coverart(filename):
+    path = app.config['COVERARTS_DIR'] + '/' + filename
+    with open(path, 'rb') as f:
+        content = f.read()
+    return Response(content, mimetype='image/jpeg')
 
 
 # Web API
