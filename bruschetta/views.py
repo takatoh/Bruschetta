@@ -77,7 +77,7 @@ def book_edit(book_id):
 @app.route('/book/fetch_coverart/<int:book_id>/')
 def book_fetch_coverart(book_id):
     book = Book.query.get(book_id)
-    return render_template('book_fetch_coverart', book=book)
+    return render_template('book_fetch_coverart.html', book=book)
 
 @app.route('/book/disposed/')
 def book_list_disposed():
