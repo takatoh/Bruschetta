@@ -24,5 +24,6 @@
   </table>
 
   <a href="{{ url_for('index') }}">Back</a> |
-  <a href="{{ url_for('book_edit', book_id=book.id) }}">Edit</a>
+  <a href="{{ url_for('book_edit', book_id=book.id) }}">Edit</a> |
+  <a href="{{ url_for('book_fetch_coverart', book_id=book.id) }}">Fetcg civera art</a> |
 {% endblock %}
