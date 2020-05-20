@@ -88,6 +88,9 @@ def book_fetch_coverart(book_id):
         r = requests.get('https://api.openbd.jp/v1/get?isbn=' + isbn)
         book_info = r.json()
         coverart_url = book_info[0]['summary']['cover']
+        if not coverart_url:
+            flash('Failed to fetch cover art.')
+            return redirect(url_for('book_detail', book_id=book_id))
         filename = 'coverart-' + coverart_url.split('/')[-1]
         r = requests.get(coverart_url)
         with open(app.config['COVERARTS_DIR'] + '/' + filename, 'wb') as f:
