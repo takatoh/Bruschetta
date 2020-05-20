@@ -3,7 +3,7 @@
 {% block body %}
   <h2>{{ book.title_with_vol() }}</h2>
   {% if coverart_url %}
-  <img src="{{ coverart_url }}">
+  <img src="{{ coverart_url }}" id="coverart">
   {% endif %}
   <table class="book_detail">
     <tr><th>ID:</th><td>{{ book.id }}</td></tr>

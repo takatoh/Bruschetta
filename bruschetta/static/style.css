@@ -99,3 +99,7 @@ table.formats {
 table.formats td.format_id {
   width: 3em;
 }
+
+img#coverart {
+  max-height: 300px;
+}
