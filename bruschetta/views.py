@@ -13,8 +13,11 @@ def index():
 @app.route('/book/<int:book_id>/')
 def book_detail(book_id):
     book = Book.query.get(book_id)
-    coverart = CoverArt.query.get(book.coverart_id).filename
-    coverart_url = '/coverart/' + coverart
+    if book.coverart_id:
+        coverart = CoverArt.query.get(book.coverart_id).filename
+        coverart_url = '/coverart/' + coverart
+    else:
+        coverart_url = None
     return render_template('book_detail.html', book=book, coverart_url=coverart_url)
 
 @app.route('/book/add/', methods=['GET', 'POST'])
