@@ -100,7 +100,7 @@ def book_fetch_coverart(book_id):
         db.session.commit()
         book.coverart_id = coverart.id
         db.session.commit()
-        return render_template('book_detail.html', book=book)
+        return redirect(url_for('book_detail', book_id=book_id))
     else:
         book = Book.query.get(book_id)
         return render_template('book_fetch_coverart.html', book=book)
