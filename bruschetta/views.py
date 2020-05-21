@@ -91,7 +91,7 @@ def book_fetch_coverart(book_id):
         if not coverart_url:
             flash('Failed to fetch cover art.')
             return redirect(url_for('book_detail', book_id=book_id))
-        filename = 'coverart-' + coverart_url.split('/')[-1]
+        filename = 'isbn-' + coverart_url.split('/')[-1]
         r = requests.get(coverart_url)
         with open(app.config['COVERARTS_DIR'] + '/' + filename, 'wb') as f:
             f.write(r.content)
