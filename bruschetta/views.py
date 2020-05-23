@@ -1,5 +1,7 @@
 from flask import request, redirect, url_for, render_template, flash, json, jsonify, Response
 import requests
+import os
+from PIL import Image
 from bruschetta import app, db
 from bruschetta.models import Book, Category, Format, CoverArt
 from bruschetta.utils import str_to_bool, mk_filename
@@ -110,10 +112,10 @@ def book_upload_coverart(book_id):
     if request.method == 'POST':
         book = Book.query.get(book_id)
         file = request.files['file']
-        filename = file.filename
-#        return filename
-        file.save(app.config['COVERARTS_DIR'] + '/' + filename)
-        coverart = CoverArt(filename = filename)
+        tmp_filename = 'tmp/' + file.filename
+        file.save(tmp_filename)
+        coverart_filename = save_coverart(tmp_filename)
+        coverart = CoverArt(filename = coverart_filename)
         db.session.add(coverart)
         db.session.commit()
         book.coverart_id = coverart.id
@@ -236,3 +238,15 @@ def api_search():
     for book in books:
         data['books'].append(book.to_dictionary())
     return jsonify(data)
+
+
+# Functions
+
+def save_coverart(tmp_filename):
+    coverart_filename = mk_filename()
+    while os.path.isfile(app.config['COVERARTS_DIR'] + '/' + coverart_filename):
+            coverart_filename = mk_filename()
+    img = Image.open(tmp_filename)
+    img.thumbnail((300, 300))
+    img.save(app.config['COVERARTS_DIR'] + '/' + coverart_filename)
+    return coverart_filename
