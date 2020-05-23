@@ -2,7 +2,7 @@ from flask import request, redirect, url_for, render_template, flash, json, json
 import requests
 from bruschetta import app, db
 from bruschetta.models import Book, Category, Format, CoverArt
-from bruschetta.utils import str_to_bool
+from bruschetta.utils import str_to_bool, mk_filename
 
 
 @app.route('/')
@@ -105,10 +105,23 @@ def book_fetch_coverart(book_id):
         book = Book.query.get(book_id)
         return render_template('book_fetch_coverart.html', book=book)
 
-@app.route('/book/upload_coverart/<int:book_id>/')
+@app.route('/book/upload_coverart/<int:book_id>/', methods=['GET', 'POST'])
 def book_upload_coverart(book_id):
-    book = Book.query.get(book_id)
-    return render_template('book_upload_coverart.html', book=book)
+    if request.method == 'POST':
+        book = Book.query.get(book_id)
+        file = request.files['file']
+        filename = file.filename
+#        return filename
+        file.save(app.config['COVERARTS_DIR'] + '/' + filename)
+        coverart = CoverArt(filename = filename)
+        db.session.add(coverart)
+        db.session.commit()
+        book.coverart_id = coverart.id
+        db.session.commit()
+        return redirect(url_for('book_detail', book_id=book_id))
+    else:
+        book = Book.query.get(book_id)
+        return render_template('book_upload_coverart.html', book=book)
 
 @app.route('/book/disposed/')
 def book_list_disposed():
