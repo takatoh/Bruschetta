@@ -31,5 +31,7 @@
   {% if not coverart_url %}
    | <a href="{{ url_for('book_fetch_coverart', book_id=book.id) }}">Fetch cover art</a>
    | <a href="{{ url_for('book_upload_coverart', book_id=book.id) }}">Upload cover art</a>
-   {% endif %}
+  {% else %}
+   | <a href="{{ url_for('book_delete_coverart', book_id=book.id) }}">Delete cover art</a>
+  {% endif %}
 {% endblock %}

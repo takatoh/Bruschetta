@@ -89,9 +89,12 @@ def book_fetch_coverart(book_id):
         isbn = book.isbn
         r = requests.get('https://api.openbd.jp/v1/get?isbn=' + isbn)
         book_info = r.json()
+        if not book_info[0]:
+            flash('Failed to get book infomations from OpenBD.')
+            return redirect(url_for('book_detail', book_id=book_id))
         coverart_url = book_info[0]['summary']['cover']
         if not coverart_url:
-            flash('Failed to fetch cover art.')
+            flash('Not found cover art on OpenBD.')
             return redirect(url_for('book_detail', book_id=book_id))
         filename = 'isbn-' + coverart_url.split('/')[-1]
         r = requests.get(coverart_url)
@@ -128,6 +131,16 @@ def book_upload_coverart(book_id):
     else:
         book = Book.query.get(book_id)
         return render_template('book_upload_coverart.html', book=book)
+
+@app.route('/book/delete_coverart/<int:book_id>/')
+def book_delete_coverart(book_id):
+    book = Book.query.get(book_id)
+    coverart = CoverArt.query.get(book.coverart_id)
+    os.remove(app.config['COVERARTS_DIR'] + '/' + coverart.filename)
+    book.coverart_id = None
+    db.session.delete(coverart)
+    db.session.commit()
+    return redirect(url_for('book_detail', book_id=book_id))
 
 @app.route('/book/disposed/')
 def book_list_disposed():
