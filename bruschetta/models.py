@@ -21,6 +21,7 @@ class Book(db.Model):
     note           = db.Column(db.String)
     keyword        = db.Column(db.String)
     disk           = db.Column(db.String)
+    coverart_id    = db.Column(db.Integer, db.ForeignKey('coverarts.id'))
     disposed       = db.Column(db.Boolean, default=False)
     created_at     = db.Column(db.DateTime, default=datetime.utcnow)
 
@@ -81,6 +82,12 @@ class Format(db.Model):
     def __repr__(self):
         return u'<Format id={id} name={name}>'.format(
             id=self.id, name=self.name)
+
+
+class CoverArt(db.Model):
+    __tablename__ = 'coverarts'
+    id       = db.Column(db.Integer, primary_key=True)
+    filename = db.Column(db.String)
 
 
 def init():

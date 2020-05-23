@@ -2,6 +2,9 @@
 
 {% block body %}
   <h2>{{ book.title_with_vol() }}</h2>
+  {% if coverart_url %}
+  <img src="{{ coverart_url }}" id="coverart">
+  {% endif %}
   <table class="book_detail">
     <tr><th>ID:</th><td>{{ book.id }}</td></tr>
     <tr><th>Title:</th><td>{{ book.title }}</td></tr>
@@ -25,4 +28,8 @@
 
   <a href="{{ url_for('index') }}">Back</a> |
   <a href="{{ url_for('book_edit', book_id=book.id) }}">Edit</a>
+  {% if not coverart_url %}
+   | <a href="{{ url_for('book_fetch_coverart', book_id=book.id) }}">Fetch cover art</a>
+   | <a href="{{ url_for('book_upload_coverart', book_id=book.id) }}">Upload cover art</a>
+   {% endif %}
 {% endblock %}

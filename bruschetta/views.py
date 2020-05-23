@@ -1,7 +1,10 @@
-from flask import request, redirect, url_for, render_template, flash, json, jsonify
+from flask import request, redirect, url_for, render_template, flash, json, jsonify, Response
+import requests
+import os
+from PIL import Image
 from bruschetta import app, db
-from bruschetta.models import Book, Category, Format
-from bruschetta.utils import str_to_bool
+from bruschetta.models import Book, Category, Format, CoverArt
+from bruschetta.utils import str_to_bool, mk_filename
 
 
 @app.route('/')
@@ -12,7 +15,12 @@ def index():
 @app.route('/book/<int:book_id>/')
 def book_detail(book_id):
     book = Book.query.get(book_id)
-    return render_template('book_detail.html', book=book)
+    if book.coverart_id:
+        coverart = CoverArt.query.get(book.coverart_id).filename
+        coverart_url = '/coverart/' + coverart
+    else:
+        coverart_url = None
+    return render_template('book_detail.html', book=book, coverart_url=coverart_url)
 
 @app.route('/book/add/', methods=['GET', 'POST'])
 def book_add():
@@ -74,6 +82,52 @@ def book_edit(book_id):
         formats = Format.query.all()
         return render_template('book_edit.html', book=book, categories=categories, formats=formats)
 
+@app.route('/book/fetch_coverart/<int:book_id>/', methods=['GET', 'POST'])
+def book_fetch_coverart(book_id):
+    if request.method == 'POST':
+        book = Book.query.get(book_id)
+        isbn = book.isbn
+        r = requests.get('https://api.openbd.jp/v1/get?isbn=' + isbn)
+        book_info = r.json()
+        coverart_url = book_info[0]['summary']['cover']
+        if not coverart_url:
+            flash('Failed to fetch cover art.')
+            return redirect(url_for('book_detail', book_id=book_id))
+        filename = 'isbn-' + coverart_url.split('/')[-1]
+        r = requests.get(coverart_url)
+        with open(app.config['COVERARTS_DIR'] + '/' + filename, 'wb') as f:
+            f.write(r.content)
+        coverart = CoverArt(filename = filename)
+        db.session.add(coverart)
+        db.session.commit()
+        book.coverart_id = coverart.id
+        db.session.commit()
+        return redirect(url_for('book_detail', book_id=book_id))
+    else:
+        book = Book.query.get(book_id)
+        return render_template('book_fetch_coverart.html', book=book)
+
+@app.route('/book/upload_coverart/<int:book_id>/', methods=['GET', 'POST'])
+def book_upload_coverart(book_id):
+    if request.method == 'POST':
+        book = Book.query.get(book_id)
+        file = request.files['file']
+        if not is_picture(file.filename):
+            flash('Looked like non-picture file.')
+            return redirect(url_for('book_detail', book_id=book_id))
+        tmp_filename = 'tmp/' + file.filename
+        file.save(tmp_filename)
+        coverart_filename = save_coverart(tmp_filename)
+        coverart = CoverArt(filename = coverart_filename)
+        db.session.add(coverart)
+        db.session.commit()
+        book.coverart_id = coverart.id
+        db.session.commit()
+        return redirect(url_for('book_detail', book_id=book_id))
+    else:
+        book = Book.query.get(book_id)
+        return render_template('book_upload_coverart.html', book=book)
+
 @app.route('/book/disposed/')
 def book_list_disposed():
     books = Book.query.filter_by(disposed=True).all()
@@ -108,6 +162,13 @@ def format_add():
     db.session.add(fmt)
     db.session.commit()
     return redirect(url_for('format_list'))
+
+@app.route('/coverart/<filename>')
+def coverart(filename):
+    path = app.config['COVERARTS_DIR'] + '/' + filename
+    with open(path, 'rb') as f:
+        content = f.read()
+    return Response(content, mimetype='image/jpeg')
 
 
 # Web API
@@ -180,3 +241,21 @@ def api_search():
     for book in books:
         data['books'].append(book.to_dictionary())
     return jsonify(data)
+
+
+# Functions
+
+def save_coverart(tmp_filename):
+    coverart_filename = mk_filename()
+    while os.path.isfile(app.config['COVERARTS_DIR'] + '/' + coverart_filename):
+            coverart_filename = mk_filename()
+    img = Image.open(tmp_filename)
+    img.thumbnail((300, 300))
+    img.save(app.config['COVERARTS_DIR'] + '/' + coverart_filename)
+    return coverart_filename
+
+
+def is_picture(filename):
+    picture_exts = ['.png', '.jpg', '.jpeg']
+    base, ext = os.path.splitext(filename)
+    return ext.lower() in picture_exts
