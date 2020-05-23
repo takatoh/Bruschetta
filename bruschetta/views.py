@@ -112,6 +112,9 @@ def book_upload_coverart(book_id):
     if request.method == 'POST':
         book = Book.query.get(book_id)
         file = request.files['file']
+        if not is_picture(file.filename):
+            flash('Looked like non-picture file.')
+            return redirect(url_for('book_detail', book_id=book_id))
         tmp_filename = 'tmp/' + file.filename
         file.save(tmp_filename)
         coverart_filename = save_coverart(tmp_filename)
@@ -250,3 +253,9 @@ def save_coverart(tmp_filename):
     img.thumbnail((300, 300))
     img.save(app.config['COVERARTS_DIR'] + '/' + coverart_filename)
     return coverart_filename
+
+
+def is_picture(filename):
+    picture_exts = ['.png', '.jpg', '.jpeg']
+    base, ext = os.path.splitext(filename)
+    return ext.lower() in picture_exts
