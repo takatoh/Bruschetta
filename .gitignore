@@ -1,5 +1,6 @@
 env/
 coverarts/
+*.conf
 *.db
 *.pyc
 .python-version
