@@ -132,6 +132,16 @@ def book_upload_coverart(book_id):
         book = Book.query.get(book_id)
         return render_template('book_upload_coverart.html', book=book)
 
+@app.route('/book/delete_coverart/<int:book_id>/')
+def book_delete_coverart(book_id):
+    book = Book.query.get(book_id)
+    coverart = CoverArt.query.get(book.coverart_id)
+    os.remove(app.config['COVERARTS_DIR'] + '/' + coverart.filename)
+    book.coverart_id = None
+    db.session.delete(coverart)
+    db.session.commit()
+    return redirect(url_for('book_detail', book_id=book_id))
+
 @app.route('/book/disposed/')
 def book_list_disposed():
     books = Book.query.filter_by(disposed=True).all()
