@@ -91,7 +91,7 @@ def book_fetch_coverart(book_id):
         book_info = r.json()
         coverart_url = book_info[0]['summary']['cover']
         if not coverart_url:
-            flash('Failed to fetch cover art.')
+            flash('Not found cover art on OpenBD.')
             return redirect(url_for('book_detail', book_id=book_id))
         filename = 'isbn-' + coverart_url.split('/')[-1]
         r = requests.get(coverart_url)
