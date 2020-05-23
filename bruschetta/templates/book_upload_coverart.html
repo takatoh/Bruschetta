@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block body %}
+  <h2>Upload cover art of the book</h2>
+  <form action="" method="post">
+    <dl>
+      <dt>Title:</dt>
+      <dd>{{ book.title }}</dd>
+      <dt>Volume:</dt>
+      <dd>{{ book.volume }}</dd>
+      <td>Author:</td>
+      <dd>{{ book.author }}</dd>
+      <td>Publisher:</td>
+      <dd>{{ book.publisher }}</dd>
+      <dt>ISBN:</dt>
+      <dd>{{ book.isbn }}</dd>
+      <dt>Cover art file:</dt>
+      <dd><input type="file" />
+    </dl>
+    <input type="submit" value="Upload" />
+  </form>
+{% endblock %}
