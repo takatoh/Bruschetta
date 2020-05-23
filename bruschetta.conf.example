@@ -2,3 +2,4 @@ SQLALCHEMY_DATABASE_URI = 'sqlite:///bruschetta.db'
 SECRET_KEY = 'secret key'
 SQLALCHEMY_TRACK_MODIFICATIONS = True
 COVERARTS_DIR = 'coverarts'
+TEMP_DIR = 'tmp'

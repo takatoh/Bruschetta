@@ -115,7 +115,7 @@ def book_upload_coverart(book_id):
         if not is_picture(file.filename):
             flash('Looked like non-picture file.')
             return redirect(url_for('book_detail', book_id=book_id))
-        tmp_filename = 'tmp/' + file.filename
+        tmp_filename = app.config['TEMP_DIR'] + '/' + file.filename
         file.save(tmp_filename)
         coverart_filename = save_coverart(tmp_filename)
         coverart = CoverArt(filename = coverart_filename)
@@ -123,6 +123,7 @@ def book_upload_coverart(book_id):
         db.session.commit()
         book.coverart_id = coverart.id
         db.session.commit()
+        os.remove(tmp_filename)
         return redirect(url_for('book_detail', book_id=book_id))
     else:
         book = Book.query.get(book_id)
