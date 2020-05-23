@@ -105,6 +105,11 @@ def book_fetch_coverart(book_id):
         book = Book.query.get(book_id)
         return render_template('book_fetch_coverart.html', book=book)
 
+@app.route('/book/upload_coverart/<int:book_id>/')
+def book_upload_coverart(book_id):
+    book = Book.query.get(book_id)
+    return render_template('book_upload_coverart.html', book=book)
+
 @app.route('/book/disposed/')
 def book_list_disposed():
     books = Book.query.filter_by(disposed=True).all()
