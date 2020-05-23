@@ -1,5 +1,4 @@
 import re
-from PIL import Image
 import string
 import random
 
