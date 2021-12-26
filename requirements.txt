@@ -1,7 +1,0 @@
-Flask
-Flask-SQLAlchemy
-Flask-Script
-Flask-Migrate
-python-dotenv
-requests
-Pillow
