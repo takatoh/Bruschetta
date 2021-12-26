@@ -1,4 +1,5 @@
 from flask import request, redirect, url_for, render_template, flash, json, jsonify, Response
+from sqlalchemy import or_
 import requests
 import os
 from PIL import Image
@@ -21,7 +22,12 @@ def book_list():
         page = 1
     limit = 25
     offset = limit * (page - 1)
-    books = Book.query.filter_by(disposed=False).order_by(Book.id.desc()).offset(offset).limit(limit).all()
+    search = request.args.get('search')
+    query = Book.query.filter_by(disposed=False).order_by(Book.id.desc())
+    if search:
+        search = '%' + search + '%'
+        query = query.filter(or_(Book.title.like(search), Book.author.like(search)))
+    books = query.offset(offset).limit(limit).all()
     return render_template('books.html', books=books)
 
 @app.route('/book/<int:book_id>/')
