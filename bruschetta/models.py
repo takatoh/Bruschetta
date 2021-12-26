@@ -55,11 +55,10 @@ class Book(db.Model):
 
     def str_created_at(self):
         dt = self.created_at.replace(tzinfo=UTC()).astimezone(JST())
-        return "{0:%Y-%m-%d %H:%M:%S}".format(dt)
+        return f'{dt:%Y-%m-%d %H:%M:%S}'
 
     def __repr__(self):
-        return u'<Book title={id} title={title}>'.format(
-            id=self.id, title=self.title_with_vol())
+        return f'<Book title={self.id} title={self.title_with_vol()}>'
 
 
 class Category(db.Model):
@@ -69,8 +68,7 @@ class Category(db.Model):
     books = db.relationship('Book', backref='category', lazy='dynamic')
 
     def __repr__(self):
-        return u'<Category id={id} name={name}>'.format(
-            id=self.id, name=self.name)
+        return f'<Category id={self.id} name={self.name}>'
 
 
 class Format(db.Model):
