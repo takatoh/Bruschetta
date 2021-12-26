@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "bruschetta"
-version = "0.1.0"
-description = "Book managiment system."
+version = "0.2.0"
+description = "Book collection management system."
 authors = ["takatoh <takatoh.m@gmail.com>"]
 license = "MIT"
 
