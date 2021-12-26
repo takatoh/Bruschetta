@@ -12,6 +12,18 @@ def index():
     books = Book.query.filter_by(disposed=False).order_by(Book.id.desc()).all()
     return render_template('index.html', books=books)
 
+@app.route('/books/')
+def book_list():
+    page = request.args.get('page')
+    if page:
+        page = int(page)
+    else:
+        page = 1
+    limit = 25
+    offset = limit * (page - 1)
+    books = Book.query.filter_by(disposed=False).order_by(Book.id.desc()).offset(offset).limit(limit).all()
+    return render_template('books.html', books=books)
+
 @app.route('/book/<int:book_id>/')
 def book_detail(book_id):
     book = Book.query.get(book_id)
