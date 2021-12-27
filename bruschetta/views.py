@@ -16,10 +16,7 @@ def index():
 @app.route('/books/')
 def book_list():
     page = request.args.get('page')
-    if page:
-        page = int(page)
-    else:
-        page = 1
+    page = int(page) if page else 1
     limit = 25
     offset = limit * (page - 1)
     search = request.args.get('search')
