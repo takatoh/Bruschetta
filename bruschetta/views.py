@@ -20,11 +20,11 @@ def book_list():
     limit = 25
     offset = limit * (page - 1)
     search = request.args.get('search')
-    query = Book.query.filter_by(disposed=False).order_by(Book.id.desc())
+    q = Book.query.filter_by(disposed=False).order_by(Book.id.desc())
     if search:
         search = '%' + search + '%'
-        query = query.filter(or_(Book.title.like(search), Book.author.like(search)))
-    books = query.offset(offset).limit(limit).all()
+        q = q.filter(or_(Book.title.like(search), Book.author.like(search)))
+    books = q.offset(offset).limit(limit).all()
     return render_template('books.html', books=books)
 
 @app.route('/book/<int:book_id>/')
