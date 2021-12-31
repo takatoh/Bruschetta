@@ -11,8 +11,7 @@ from bruschetta.utils import str_to_bool, mk_filename
 
 @app.route('/')
 def index():
-    books = Book.query.filter_by(disposed=False).order_by(Book.id.desc()).all()
-    return render_template('index.html', books=books)
+    return redirect('/books/')
 
 @app.route('/books/')
 def book_list():
