@@ -3,6 +3,7 @@ from sqlalchemy import or_
 import requests
 import os
 from PIL import Image
+import math
 from bruschetta import app, db
 from bruschetta.models import Book, Category, Format, CoverArt
 from bruschetta.utils import str_to_bool, mk_filename
@@ -25,7 +26,8 @@ def book_list():
         search = '%' + search + '%'
         q = q.filter(or_(Book.title.like(search), Book.author.like(search)))
     books = q.offset(offset).limit(limit).all()
-    return render_template('books.html', books=books)
+    page_count = math.ceil(q.count() / 25)
+    return render_template('books.html', books=books, page=page, page_count=page_count)
 
 @app.route('/book/<int:book_id>/')
 def book_detail(book_id):
