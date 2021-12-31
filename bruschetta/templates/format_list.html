@@ -1,15 +1,5 @@
 {% extends "layout.html" %}
 {% block body %}
-  <script type="text/javascript">
-    $(function (){
-      $('#addFormat').hide();
-      $('#addFormatLink').click(function() {
-        $('#addFormatLink').hide();
-        $('#addFormat').show();
-      });
-    });
-  </script>
-
   <h2>Formats</h2>
   <table class="formats">
     <thead>
@@ -34,4 +24,12 @@
     </dl>
   </form>
   </div>
+
+  <script>
+    document.getElementById("addFormat").style.display ="none";
+    document.getElementById("addFormatLink").addEventListener("click", () => {
+      document.getElementById("addFormatLink").style.display ="none";
+      document.getElementById("addFormat").style.display = "block";
+    }, false);
+  </script>
 {% endblock %}
