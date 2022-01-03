@@ -6,14 +6,14 @@
   </head>
   <body>
     <div class="container">
-      <h1><a href="{{ url_for("index") }}" />Bruschetta</a></h1>
+      <h1><a href="{{ url_for('index') }}" />Bruschetta</a></h1>
       <div id="menu">
         <ul>
-          <li><a href="{{ url_for("index") }}" />Books</a></li>
-          <li><a href="{{ url_for("book_add") }}" />Add a book</a></li>
-          <li><a href="{{ url_for("book_list_disposed") }}" />Disposed</a></li>
-          <li><a href="{{ url_for("category_list") }}" />Categories</a></li>
-          <li><a href="{{ url_for("format_list") }}" />Formats</a></li>
+          <li><a href="{{ url_for('index') }}" />Books</a></li>
+          <li><a href="{{ url_for('book_add') }}" />Add a book</a></li>
+          <li><a href="{{ url_for('book_list_disposed') }}" />Disposed</a></li>
+          <li><a href="{{ url_for('category_list') }}" />Categories</a></li>
+          <li><a href="{{ url_for('format_list') }}" />Formats</a></li>
         </ul>
       </div>
       {% for message in get_flashed_messages() %}
