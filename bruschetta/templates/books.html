@@ -3,11 +3,13 @@
   <h2>Books</h2>
   <div>
     {% if page > 1 %}
-    <a href="{{ url_for('book_list', page=page-1) }}">prev</a>
+    <a href="{{ url_for('book_list', page=1) }}">first</a> |
+    <a href="{{ url_for('book_list', page=page-1) }}">prev</a> |
     {% endif %}
     [ {{ page }} / {{ page_count }} ]
     {% if page < page_count %}
-    <a href="{{ url_for('book_list', page=page+1) }}">next</a>
+    | <a href="{{ url_for('book_list', page=page+1) }}">next</a>
+    | <a href="{{ url_for('book_list', page=page_count) }}">last</a>
     {% endif %}
   </div>
   <table class="books">
