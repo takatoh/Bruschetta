@@ -45,22 +45,21 @@
       <dd><input type="submit" value="Add" /></dd>
     </dl>
   </form>
+
   <script>
     const insert = () => {
-      const isbn = $("input#isbn").val();
-      $.ajax({
-        type: "GET",
-        url: "https://api.openbd.jp/v1/get?isbn=" + isbn,
-        dataType: "json"
-      }).done((response) => {
-        const summary = response[0].summary;
-        $("input#title").val(summary.title);
-        $("input#volume").val(summary.volume);
-        $("input#series").val(summary.series);
-        $("input#author").val(summary.author);
-        $("input#publisher").val(summary.publisher);
-      })
-    }
-    $("input#insert").click(insert);
+      const isbn = document.getElementById("isbn").value;
+      fetch(`https://api.openbd.jp/v1/get?isbn=${isbn}`)
+        .then(response => response.json())
+        .then(result => {
+          const summary = result[0].summary;
+          document.getElementById("title").value = summary.title;
+          document.getElementById("volume").value = summary.volume;
+          document.getElementById("series").value = summary.series;
+          document.getElementById("author").value = summary.author;
+          document.getElementById("publisher").value = summary.publisher;
+        });
+    };
+    document.getElementById("insert").addEventListener("click", insert, false);
   </script>
 {% endblock %}

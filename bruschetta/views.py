@@ -1,7 +1,9 @@
 from flask import request, redirect, url_for, render_template, flash, json, jsonify, Response
+from sqlalchemy import or_
 import requests
 import os
 from PIL import Image
+import math
 from bruschetta import app, db
 from bruschetta.models import Book, Category, Format, CoverArt
 from bruschetta.utils import str_to_bool, mk_filename
@@ -9,8 +11,22 @@ from bruschetta.utils import str_to_bool, mk_filename
 
 @app.route('/')
 def index():
-    books = Book.query.filter_by(disposed=False).order_by(Book.id.desc()).all()
-    return render_template('index.html', books=books)
+    return redirect('/books/')
+
+@app.route('/books/')
+def book_list():
+    page = request.args.get('page')
+    page = int(page) if page else 1
+    limit = 25
+    offset = limit * (page - 1)
+    search = request.args.get('search')
+    q = Book.query.filter_by(disposed=False).order_by(Book.id.desc())
+    if search:
+        search = '%' + search + '%'
+        q = q.filter(or_(Book.title.like(search), Book.author.like(search)))
+    books = q.offset(offset).limit(limit).all()
+    page_count = math.ceil(q.count() / 25)
+    return render_template('books.html', books=books, page=page, page_count=page_count)
 
 @app.route('/book/<int:book_id>/')
 def book_detail(book_id):

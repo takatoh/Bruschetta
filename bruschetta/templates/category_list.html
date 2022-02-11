@@ -1,15 +1,5 @@
 {% extends "layout.html" %}
 {% block body %}
-  <script type="text/javascript">
-    $(function (){
-      $('#addCategory').hide();
-      $('#addCategoryLink').click(function() {
-        $('#addCategoryLink').hide();
-        $('#addCategory').show();
-      });
-    });
-  </script>
-
   <h2>Categories</h2>
   <table class="categories">
     <thead>
@@ -37,4 +27,12 @@
     </dl>
   </form>
   </div>
+
+  <script>
+    document.getElementById("addCategory").style.display ="none";
+    document.getElementById("addCategoryLink").addEventListener("click", () => {
+      document.getElementById("addCategoryLink").style.display ="none";
+      document.getElementById("addCategory").style.display = "block";
+    }, false);
+  </script>
 {% endblock %}
