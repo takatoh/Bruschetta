@@ -18,8 +18,6 @@ def mk_filename():
 
 def randstring(n):
     pool = string.ascii_lowercase + string.digits
-    s = ''
     random.seed()
-    for x in range(n):
-        s = s + pool[random.randrange(len(pool))]
+    s = ''.join(random.choices(pool, k=n))
     return s
