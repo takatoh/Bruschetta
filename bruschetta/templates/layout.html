@@ -1,25 +1,76 @@
 <!doctype html>
 <html>
-  <head>
-    <title>Bruschetta</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}" />
-  </head>
+  <title>Bruschetta</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet" type="text/css">
+  <link href="https://cdn.jsdelivr.net/npm/quasar@2.11.8/dist/quasar.prod.css" rel="stylesheet" type="text/css">
+</head>
+
   <body>
-    <div class="container">
-      <h1><a href="{{ url_for('index') }}" />Bruschetta</a></h1>
-      <div id="menu">
-        <ul>
-          <li><a href="{{ url_for('index') }}" />Books</a></li>
-          <li><a href="{{ url_for('book_add') }}" />Add a book</a></li>
-          <li><a href="{{ url_for('book_list_disposed') }}" />Disposed</a></li>
-          <li><a href="{{ url_for('category_list') }}" />Categories</a></li>
-          <li><a href="{{ url_for('format_list') }}" />Formats</a></li>
-        </ul>
-      </div>
-      {% for message in get_flashed_messages() %}
-        <div class="flash">{{ message }}</div>
-      {% endfor %}
-      {% block body %}{% endblock %}
+    <div id="app">
+      <div id="app">
+        <div class="q-pa-none">
+          <q-layout view="hHh LpR fff" container style="min-height: 100vh" class="shadow-2">
+            <q-header class="bg-teal-9 q-px-xl q-py-sm">
+              <q-toolbar class="q-gutter-sm">
+                <q-toolbar-title>Bruschetta</q-toolbar-title>
+              </q-toolbar>
+            </q-header>
+
+            <q-page-container>
+              <q-page class="q-pa-none">
+                <div class="bg-white text-teal q-px-xl q-py-sm" style="border-bottom: solid 1px">
+                  <q-toolbar class="q-gutter-lg">
+                    <q-btn flat label="Books" color="white text-teal" href="{{ url_for('index') }}"></q-btn>
+                    <q-btn flat label="Add a book" color="white text-teal" href="{{ url_for('book_add') }}"></q-btn>
+                    <q-btn flat label="Disposed" color="white text-teal" href="{{ url_for('book_list_disposed') }}"></q-btn>
+                    <q-btn flat label="Categoires" color="white text-teal" href="{{ url_for('category_list') }}"></q-btn>
+                    <q-btn flat label="Formats" color="white text-teal" href="{{ url_for('format_list') }}"></q-btn>
+                    <q-space></q-space>
+                  </q-toolbar>
+                </div>
+
+                {% for message in get_flashed_messages() %}
+                  <div class="flash">{{ message }}</div>
+                {% endfor %}
+
+                {% block body %}{% endblock %}
+
+              </q-page>
+            </q-page-container>
+
+            <q-footer class="bg-teal q-px-xl q-py-sm">
+              <q-toolbar class="q-gutter-sm">
+                <q-space></q-space>
+                <div>Bruschetta<q-badge color="white text-teal">v0.3-alpha</q-badge></div>
+              </q-toolbar>
+            </q-footer>
+          </q-layout>
+        </div>
+
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.prod.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/quasar@2.11.8/dist/quasar.umd.prod.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/quasar@2.11.8/dist/lang/ja.umd.prod.js"></script>
+
+    <script>
+      const { createApp, ref } = Vue
+      const app = createApp({
+        delimiters: [ '<<', '>>'],
+        methods: {
+          cancel() {
+            this.cleanValues()
+          },
+          say(message) {
+            alert(message)
+          }
+        }
+      })
+
+      app.use(Quasar)
+      Quasar.lang.set(Quasar.lang.ja)
+      app.mount('#app')
+    </script>
+
   </body>
 </html>
