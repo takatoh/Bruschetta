@@ -56,8 +56,42 @@
     <script>
       const { createApp, ref } = Vue
       const app = createApp({
+        setup () {
+          return {
+            title: ref(''),
+            volume: ref(''),
+            series: ref(''),
+            seriesVolume: ref(''),
+            author: ref(''),
+            translator: ref(''),
+            publisher: ref(''),
+            category: ref(''),
+            categoryOptions: ['novel', 'comic', 'nonfiction'],
+            format: ref(''),
+            formatOptions: ['hardcover', 'novel'],
+            isbn: ref(''),
+            publishedOn: ref(''),
+            originalTitle: ref(''),
+            note: ref(''),
+            keyword: ref(''),
+            disc: ref(''),
+          }
+        },
         delimiters: [ '<<', '>>'],
         methods: {
+          insertBookInfo () {
+            const isbn = this.isbn
+            fetch(`https://api.openbd.jp/v1/get?isbn=${isbn}`)
+              .then(response => response.json())
+              .then(result => {
+                const summary = result[0].summary
+                this.title = summary.title
+                this.volume = summary.volume
+                this.series = summary.series
+                this.author = summary.author
+                this.publisher = summary.publisher
+            })
+          },
           cancel() {
             this.cleanValues()
           },
