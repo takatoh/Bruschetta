@@ -1,23 +1,37 @@
 {% extends "layout.html" %}
 {% block body %}
   <h2>Adding a new book</h2>
-  <input type="button" value="Insert" id="insert"> Insert book info from openBD with ISBN.
+
+  <div class="q-pa-md" style="width: 600px;">
+    <div>
+      <q-btn label="Insert" color="teal" outline @click="insertBookInfo"></q-btn>
+      Insert book info from openBD with ISBN.
+    </div>
+      <q-form action="/book/add/" method="post" class="q-gutter-md">
+      <q-input v-model="title" label="Title"></q-input>
+      <q-input v-model="volume" label="Volume"></q-input>
+      <q-input v-model="series" label="Series"></q-input>
+      <q-input v-model="seriesVolume" label="Series volume"></q-input>
+      <q-input v-model="author" label="Author"></q-input>
+      <q-input v-model="translator" label="Translator"></q-input>
+      <q-input v-model="publisher" label="Publisher"></q-input>
+      <q-select v-model="category" :options="categoryOptions" label="Category"></q-select>
+      <q-select v-model="format" :options="formatOptions" label="Format"></q-select>
+      <q-input v-model="isbn" label="ISBN"></q-input>
+      <q-input v-model="publishedOn" label="Published on"></q-input>
+      <q-input v-model="originalTitle" label="Original title"></q-input>
+      <q-input v-model="note" label="Note"></q-input>
+      <q-input v-model="keyword" label="Keyword"></q-input>
+      <q-input v-model="disc" label="Disc"></q-input>
+      <div>
+        <q-btn label="Add" type="submit" color="primary"/>
+      </div>
+    </q-form>
+  </div>
+
+<!--
   <form action="" method="post">
     <dl>
-      <dt>Title:</dt>
-      <dd><input type="text" size=30 name="title" id="title" />
-      <dt>Volume:</dt>
-      <dd><input type="text" size=30 name="volume" id="volume" /></dd>
-      <dt>Series:</dt>
-      <dd><input type="text" size=30 name="series" id="series" /></dd>
-      <dt>Series volume:</dt>
-      <dd><input type="text" size=30 name="series_volume" /></dd>
-      <td>Author:</td>
-      <dd><input type="text" size=30 name="author" id="author" /></dd>
-      <td>Translator:</td>
-      <dd><input type="text" size=30 name="translator" /></dd>
-      <td>Publisher:</td>
-      <dd><input type="text" size=30 name="publisher" id="publisher" /></dd>
       <td>Category:</td>
       <dd><select name="category">
         {% for category in categories %}
@@ -31,7 +45,7 @@
         {% endfor %}
       </select></dd>
       <dt>ISBN:</dt>
-      <dd><input type="text" size=30 name="isbn" id="isbn" /></dd>
+      <dd><input type="text" size=30 name="isbn" label="isbn" /></dd>
       <dt>Publihed on:</dt>
       <dd><input type="text" size=30 name="published_on" /></dd>
       <dt>Original title:</dt>
@@ -45,21 +59,5 @@
       <dd><input type="submit" value="Add" /></dd>
     </dl>
   </form>
-
-  <script>
-    const insert = () => {
-      const isbn = document.getElementById("isbn").value;
-      fetch(`https://api.openbd.jp/v1/get?isbn=${isbn}`)
-        .then(response => response.json())
-        .then(result => {
-          const summary = result[0].summary;
-          document.getElementById("title").value = summary.title;
-          document.getElementById("volume").value = summary.volume;
-          document.getElementById("series").value = summary.series;
-          document.getElementById("author").value = summary.author;
-          document.getElementById("publisher").value = summary.publisher;
-        });
-    };
-    document.getElementById("insert").addEventListener("click", insert, false);
-  </script>
+-->
 {% endblock %}
