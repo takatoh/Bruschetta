@@ -8,56 +8,24 @@
       Insert book info from openBD with ISBN.
     </div>
       <q-form action="/book/add/" method="post" class="q-gutter-md">
-      <q-input v-model="title" label="Title"></q-input>
-      <q-input v-model="volume" label="Volume"></q-input>
-      <q-input v-model="series" label="Series"></q-input>
-      <q-input v-model="seriesVolume" label="Series volume"></q-input>
-      <q-input v-model="author" label="Author"></q-input>
-      <q-input v-model="translator" label="Translator"></q-input>
-      <q-input v-model="publisher" label="Publisher"></q-input>
-      <q-select v-model="category" :options="categoryOptions" label="Category"></q-select>
-      <q-select v-model="format" :options="formatOptions" label="Format"></q-select>
-      <q-input v-model="isbn" label="ISBN"></q-input>
-      <q-input v-model="publishedOn" label="Published on"></q-input>
-      <q-input v-model="originalTitle" label="Original title"></q-input>
-      <q-input v-model="note" label="Note"></q-input>
-      <q-input v-model="keyword" label="Keyword"></q-input>
-      <q-input v-model="disc" label="Disc"></q-input>
+      <q-input name="title" v-model="title" label="Title"></q-input>
+      <q-input name="volume" v-model="volume" label="Volume"></q-input>
+      <q-input name="series" v-model="series" label="Series"></q-input>
+      <q-input name="series_volume" v-model="seriesVolume" label="Series volume"></q-input>
+      <q-input name="author" v-model="author" label="Author"></q-input>
+      <q-input name="translator" v-model="translator" label="Translator"></q-input>
+      <q-input name="publisher" v-model="publisher" label="Publisher"></q-input>
+      <q-select name="category" v-model="category" :options="categoryOptions" label="Category"></q-select>
+      <q-select name="format" v-model="format" :options="formatOptions" label="Format"></q-select>
+      <q-input name="isbn" v-model="isbn" label="ISBN"></q-input>
+      <q-input name="published_on" v-model="publishedOn" label="Published on"></q-input>
+      <q-input name="original_title" v-model="originalTitle" label="Original title"></q-input>
+      <q-input name="note" v-model="note" label="Note"></q-input>
+      <q-input name="keyword" v-model="keyword" label="Keyword"></q-input>
+      <q-input name="disk" v-model="disc" label="Disc"></q-input>
       <div>
-        <q-btn label="Add" type="submit" color="primary"/>
+        <q-btn label="Add" type="submit" color="primary"></q-btn>
       </div>
     </q-form>
   </div>
-
-<!--
-  <form action="" method="post">
-    <dl>
-      <td>Category:</td>
-      <dd><select name="category">
-        {% for category in categories %}
-        <option value="{{ category.id }}">{{ category.name }}</option>
-        {% endfor %}
-      </select></dd>
-      <td>Format:</td>
-      <dd><select name="format">
-        {% for format in formats %}
-        <option value="{{ format.id }}">{{ format.name }}</option>
-        {% endfor %}
-      </select></dd>
-      <dt>ISBN:</dt>
-      <dd><input type="text" size=30 name="isbn" label="isbn" /></dd>
-      <dt>Publihed on:</dt>
-      <dd><input type="text" size=30 name="published_on" /></dd>
-      <dt>Original title:</dt>
-      <dd><input type="text" size=30 name="original_title" /></dd>
-      <dt>Note:</dt>
-      <dd><input type="text" size=30 name="note" /></dd>
-      <dt>Keyword:</dt>
-      <dd><input type="text" size=30 name="keyword" /></dd>
-      <dt>Disc:</dt>
-      <dd><input type="text" size=30 name="disk" /></dd>
-      <dd><input type="submit" value="Add" /></dd>
-    </dl>
-  </form>
--->
 {% endblock %}
