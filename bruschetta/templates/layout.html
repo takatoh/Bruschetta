@@ -54,9 +54,20 @@
     <script src="https://cdn.jsdelivr.net/npm/quasar@2.11.8/dist/lang/ja.umd.prod.js"></script>
 
     <script>
-      const { createApp, ref } = Vue
+      const { createApp, ref, onMounted } = Vue
       const app = createApp({
         setup () {
+          const categoryOptions = ref([])
+          const formatOptions = ref([])
+          onMounted(() => {
+            const categories = fetch('/api/categories/').then(res => res.json())
+            const formats = fetch('/api/formats/').then(res => res.json())
+            Promise.all([categories, formats]).then(result => {
+              console.log(result[1]['formats'])
+              categoryOptions.value = result[0]['categories']
+              formatOptions.value = result[1]['formats']
+            })
+          })
           return {
             title: ref(''),
             volume: ref(''),
@@ -66,9 +77,9 @@
             translator: ref(''),
             publisher: ref(''),
             category: ref(''),
-            categoryOptions: ref(['novel', 'comic', 'nonfiction']),
+            categoryOptions: categoryOptions,
             format: ref(''),
-            formatOptions: ref(['hardcover', 'paperback']),
+            formatOptions: formatOptions,
             isbn: ref(''),
             publishedOn: ref(''),
             originalTitle: ref(''),
