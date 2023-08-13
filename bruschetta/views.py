@@ -288,7 +288,7 @@ def api_format_list():
     formats = Format.query.all()
     data = { 'formats' : [] }
     for fmt in formats:
-        data['formats'].append(fmt.name)
+        data['formats'].append({ 'id' : fmt.id, 'name' : fmt.name })
     return jsonify(data)
 
 
