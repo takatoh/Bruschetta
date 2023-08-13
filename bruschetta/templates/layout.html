@@ -70,7 +70,6 @@
           const publisher = ref('')
           const category = ref('')
           const format = ref('')
-          const formatOptions = ref([])
           const isbn = ref('')
           const publishedOn = ref('')
           const originalTitle = ref('')
@@ -85,13 +84,20 @@
             { name: 'name', label: 'Name', align: 'left', field: 'name' },
           ]
           const categoryOptions = ref([])
+          const formats = ref([])
+          const formatColumns = [
+            { name: 'id', label: 'ID', align: 'left', field: row => row['id'], format: val => `${val}` },
+            { name: 'name', label: 'Name', align: 'left', field: 'name' },
+          ]
+          const formatOptions = ref([])
           onMounted(() => {
             const categs = fetch('/api/categories/').then(res => res.json())
-            const formats = fetch('/api/formats/').then(res => res.json())
-            Promise.all([categs, formats]).then(result => {
+            const fmts = fetch('/api/formats/').then(res => res.json())
+            Promise.all([categs, fmts]).then(result => {
               categories.value = result[0]['categories']
               categoryOptions.value = result[0]['categories'].map(categ => categ['name'])
-              formatOptions.value = result[1]['formats']
+              formats.value = result[1]['formats']
+              formatOptions.value = result[0]['formats'].map(fmt => fmt['name'])
             })
             let bookIdElem
             try {
@@ -135,7 +141,6 @@
             publisher,
             category,
             format,
-            formatOptions,
             isbn,
             publishedOn,
             originalTitle,
@@ -146,7 +151,10 @@
             coverArtFile,
             categories,
             categoryColumns,
-            categoryOptions
+            categoryOptions,
+            formats,
+            formatColumns,
+            formatOptions
           }
         },
         delimiters: [ '<<', '>>'],
