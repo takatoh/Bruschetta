@@ -174,12 +174,15 @@ def category_list():
     categories = Category.query.all()
     return render_template('category_list.html', categories=categories)
 
-@app.route('/category/add', methods=['POST'])
+@app.route('/category/add', methods=['GET', 'POST'])
 def category_add():
-    category = Category(name = request.form['name'])
-    db.session.add(category)
-    db.session.commit()
-    return redirect(url_for('category_list'))
+    if request.method == 'POST':
+        category = Category(name = request.form['name'])
+        db.session.add(category)
+        db.session.commit()
+        return redirect(url_for('category_list'))
+    else:
+        return render_template('category_add.html')
 
 @app.route('/formats')
 def format_list():
