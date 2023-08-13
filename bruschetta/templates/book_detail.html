@@ -1,7 +1,8 @@
 {% extends "layout.html" %}
 
 {% block body %}
-  <h2>{{ book.title_with_vol() }}</h2>
+  <h5 class="text-teal-10">{{ book.title_with_vol() }}</h5>
+
   {% if coverart_url %}
   <img src="{{ coverart_url }}" id="coverart">
   {% endif %}

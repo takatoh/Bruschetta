@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block body %}
-  <h2>Upload cover art of the book</h2>
+  <h5 class="text-teal-10">Upload cover art of the book</h5>
 
   <div class="q-pa-md" style="width: 600px;">
     <q-form action="/book/upload_coverart/{{ book.id }}" method="post" enctype="multipart/form-data" class="q-gutter-md">
