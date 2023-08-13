@@ -7,7 +7,7 @@
       <q-btn label="Insert" color="teal" outline @click="insertBookInfo"></q-btn>
       Insert book info from openBD with ISBN.
     </div>
-    <q-form action="/book/add/" method="post" class="q-gutter-md">
+    <q-form action="{{ url_for('book_add') }}" method="post" class="q-gutter-md">
       <q-input name="title" v-model="title" label="Title"></q-input>
       <q-input name="volume" v-model="volume" label="Volume"></q-input>
       <q-input name="series" v-model="series" label="Series"></q-input>
