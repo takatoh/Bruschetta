@@ -1,19 +1,19 @@
 {% extends "layout.html" %}
 {% block body %}
-  <h2>Categories</h2>
-  <table class="categories">
-    <thead>
-      <tr><td class="category_id">ID</td><td class="category_name">Name</td></tr>
-    </thead>
-    <tbody>
-    {% for category in categories %}
-      <tr>
-        <td>{{ category.id }}</td>
-        <td><a href="/book/categorized/{{ category.id }}/">{{ category.name }}</a></td>
-      </tr>
-    {% endfor %}
-    </tbody>
-  </table>
+  <h5 class="text-teal-10">Categories</h5>
+
+  <div class="q-pa-md">
+    <q-table
+      :rows="categories"
+      :columns="categoryColumns"
+      row-key="id"
+    >
+    </q-table>
+  </div>
+
+
+
+
 
   <div id="addCategoryLink"><a href="javascript:void();">(Add)</a></div>
 
