@@ -97,7 +97,7 @@
               categories.value = result[0]['categories']
               categoryOptions.value = result[0]['categories'].map(categ => categ['name'])
               formats.value = result[1]['formats']
-              formatOptions.value = result[0]['formats'].map(fmt => fmt['name'])
+              formatOptions.value = result[1]['formats'].map(fmt => fmt['name'])
             })
             let bookIdElem
             try {
