@@ -77,6 +77,7 @@
           const keyword = ref('')
           const disc = ref('')
           const disposed = ref(false)
+          const coverArtFile = ref('')
           onMounted(() => {
             const categories = fetch('/api/categories/').then(res => res.json())
             const formats = fetch('/api/formats/').then(res => res.json())
@@ -139,7 +140,8 @@
             note,
             keyword,
             disc,
-            disposed
+            disposed,
+            coverArtFile
           }
         },
         delimiters: [ '<<', '>>'],
