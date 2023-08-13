@@ -93,9 +93,7 @@
             } catch(e) {
               bookIdElem = false
             }
-            console.log(bookIdElem)
             if (bookIdElem) {
-              console.log(`/api/book/${bookIdElem.value}/`)
               fetch(`/api/book/${bookIdElem.value}/`)
               .then(res => res.json())
               .then(result => {
