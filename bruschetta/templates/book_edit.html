@@ -1,54 +1,32 @@
 {% extends "layout.html" %}
 {% block body %}
   <h2>Editing book</h2>
-  <form action="" method="post">
-    <dl>
-      <dt>Title:</dt>
-      <dd><input type="text" size=30 name="title" value="{{ book.title }}" />
-      <dt>Volume:</dt>
-      <dd><input type="text" size=30 name="volume" value="{{ book.volume }}" /></dd>
-      <dt>Series:</dt>
-      <dd><input type="text" size=30 name="series" value="{{ book.series }}" /></dd>
-      <dt>Series volume:</dt>
-      <dd><input type="text" size=30 name="series_volume" value="{{ book.series_volume }}" /></dd>
-      <td>Author:</td>
-      <dd><input type="text" size=30 name="author" value="{{ book.author }}" /></dd>
-      <td>Translator:</td>
-      <dd><input type="text" size=30 name="translator" value="{{ book.translator }}" /></dd>
-      <td>Publisher:</td>
-      <dd><input type="text" size=30 name="publisher" value="{{ book.publisher }}" /></dd>
-      <td>Category:</td>
-      <dd><select name="category">
-        {% for category in categories %}
-        <option value="{{ category.id }}"
-          {% if category.id == book.category_id %}selected{% endif %}>
-          {{ category.name }}</option>
-        {% endfor %}
-      </select></dd>
-      <td>Format:</td>
-      <dd><select name="format">
-        {% for format in formats %}
-        <option value="{{ format.id }}"
-          {% if format.id == book.format_id %}selected{% endif %}>
-          {{ format.name }}</option>
-        {% endfor %}
-      </select></dd>
-      <dt>ISBN:</dt>
-      <dd><input type="text" size=30 name="isbn" value="{{ book.isbn }}" /></dd>
-      <dt>Publihed on:</dt>
-      <dd><input type="text" size=30 name="published_on" value="{{ book.published_on }}" /></dd>
-      <dt>Original title:</dt>
-      <dd><input type="text" size=30 name="original_title" value="{{ book.original_title }}" /></dd>
-      <dt>Note:</dt>
-      <dd><input type="text" size=30 name="note" value="{{ book.note }}" /></dd>
-      <dt>Keyword:</dt>
-      <dd><input type="text" size=30 name="keyword" value="{{ book.keyword }}" /></dd>
-      <dt>Disc:</dt>
-      <dd><input type="text" size=30 name="disk" value="{{ book.disk }}" /></dd>
-      <dt>Disposed:</dt>
-      <dd><input type="checkbox" name="disposed" value="1"
-        {%if book.disposed %}checked="checked"{% endif %} /></dd>
-      <dd><input type="submit" value="Update" /></dd>
-    </dl>
-  </form>
+
+  <div class="q-pa-md" style="width: 600px;">
+    <q-form action="/book/edit/{{ book.id }}" method="post" class="q-gutter-md">
+      <input type="hidden" id="bookId" value="{{ book.id }}"></input>
+      <q-input name="book_id" v-model="bookId" label="ID" readonly></q-input>
+      <q-input name="title" v-model="title" label="Title"></q-input>
+      <q-input name="volume" v-model="volume" label="Volume"></q-input>
+      <q-input name="series" v-model="series" label="Series"></q-input>
+      <q-input name="series_volume" v-model="seriesVolume" label="Series volume"></q-input>
+      <q-input name="author" v-model="author" label="Author"></q-input>
+      <q-input name="translator" v-model="translator" label="Translator"></q-input>
+      <q-input name="publisher" v-model="publisher" label="Publisher"></q-input>
+      <q-select name="category" v-model="category" :options="categoryOptions" label="Category"></q-select>
+      <q-select name="format" v-model="format" :options="formatOptions" label="Format"></q-select>
+      <q-input name="isbn" v-model="isbn" label="ISBN"></q-input>
+      <q-input name="published_on" v-model="publishedOn" label="Published on"></q-input>
+      <q-input name="original_title" v-model="originalTitle" label="Original title"></q-input>
+      <q-input name="note" v-model="note" label="Note"></q-input>
+      <q-input name="keyword" v-model="keyword" label="Keyword"></q-input>
+      <q-input name="disk" v-model="disc" label="Disc"></q-input>
+      <div>
+        <q-checkbox name="disposed" v-model="disposed" label="Disposed"></q-checkbox>
+      </div>
+      <div>
+        <q-btn label="Update" type="submit" color="primary"></q-btn>
+      </div>
+    </q-form>
+  </div>
 {% endblock %}
