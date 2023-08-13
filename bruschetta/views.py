@@ -41,6 +41,8 @@ def book_detail(book_id):
 @app.route('/book/add', methods=['GET', 'POST'])
 def book_add():
     if request.method == 'POST':
+        category = Category.query.filter_by(name=request.form['category']).first()
+        fmt = Format.query.filter_by(name=request.form['format']).first()
         book = Book(
             title          = request.form['title'],
             volume         = request.form['volume'],
@@ -49,8 +51,8 @@ def book_add():
             author         = request.form['author'],
             translator     = request.form['translator'],
             publisher      = request.form['publisher'],
-            category_id    = request.form['category'],
-            format_id      = request.form['format'],
+            category_id    = category.id,
+            format_id      = fmt.id,
             isbn           = request.form['isbn'],
             published_on   = request.form['published_on'],
             original_title = request.form['original_title'],
