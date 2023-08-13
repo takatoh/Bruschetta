@@ -31,13 +31,12 @@
           <q-page-container>
             <q-page class="q-pa-none">
               <div class="bg-white q-px-xl q-py-sm">
-              {% for message in get_flashed_messages() %}
+                {% for message in get_flashed_messages() %}
                 <div class="flash">{{ message }}</div>
-              {% endfor %}
+                {% endfor %}
 
-              {% block body %}{% endblock %}
+                {% block body %}{% endblock %}
               </div>
-
             </q-page>
           </q-page-container>
 
