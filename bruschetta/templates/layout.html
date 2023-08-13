@@ -10,25 +10,26 @@
     <div id="app">
       <div class="q-pa-none">
         <q-layout view="hHh LpR fff" container style="min-height: 100vh" class="shadow-2">
-          <q-header class="bg-teal-9 q-px-xl q-py-sm">
-            <q-toolbar class="q-gutter-sm">
-              <q-toolbar-title>Bruschetta</q-toolbar-title>
-            </q-toolbar>
+          <q-header>
+            <div class="bg-teal-9 q-px-xl q-py-sm">
+              <q-toolbar class="q-gutter-sm">
+                <q-toolbar-title>Bruschetta</q-toolbar-title>
+              </q-toolbar>
+            </div>
+            <div class="bg-white text-teal-9 q-px-xl q-py-sm" style="border-bottom: solid 1px">
+              <q-toolbar class="q-gutter-lg">
+                <q-btn flat label="Books" color="teal-9" href="{{ url_for('index') }}"></q-btn>
+                <q-btn flat label="Add" color="teal-9" href="{{ url_for('book_add') }}"></q-btn>
+                <q-btn flat label="Disposed" color="teal-9" href="{{ url_for('book_list_disposed') }}"></q-btn>
+                <q-btn flat label="Categoires" color="teal-9" href="{{ url_for('category_list') }}"></q-btn>
+                <q-btn flat label="Formats" color="teal-9" href="{{ url_for('format_list') }}"></q-btn>
+                <q-space></q-space>
+              </q-toolbar>
+            </div>
           </q-header>
 
           <q-page-container>
             <q-page class="q-pa-none">
-              <div class="bg-white text-teal-9 q-px-xl q-py-sm" style="border-bottom: solid 1px">
-                <q-toolbar class="q-gutter-lg">
-                  <q-btn flat label="Books" color="teal-9" href="{{ url_for('index') }}"></q-btn>
-                  <q-btn flat label="Add" color="teal-9" href="{{ url_for('book_add') }}"></q-btn>
-                  <q-btn flat label="Disposed" color="teal-9" href="{{ url_for('book_list_disposed') }}"></q-btn>
-                  <q-btn flat label="Categoires" color="teal-9" href="{{ url_for('category_list') }}"></q-btn>
-                  <q-btn flat label="Formats" color="teal-9" href="{{ url_for('format_list') }}"></q-btn>
-                  <q-space></q-space>
-                </q-toolbar>
-              </div>
-
               <div class="bg-white q-px-xl q-py-sm">
               {% for message in get_flashed_messages() %}
                 <div class="flash">{{ message }}</div>
