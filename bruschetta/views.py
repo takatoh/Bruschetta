@@ -189,12 +189,15 @@ def format_list():
     formats = Format.query.all()
     return render_template('format_list.html', formats=formats)
 
-@app.route('/format/add', methods=['POST'])
+@app.route('/format/add', methods=['GET', 'POST'])
 def format_add():
-    fmt = Format(name = request.form['name'])
-    db.session.add(fmt)
-    db.session.commit()
-    return redirect(url_for('format_list'))
+    if request.method == 'POST':
+        fmt = Format(name = request.form['name'])
+        db.session.add(fmt)
+        db.session.commit()
+        return redirect(url_for('format_list'))
+    else:
+        return render_template('format_add.html')
 
 @app.route('/coverart/<filename>')
 def coverart(filename):
