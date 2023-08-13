@@ -277,7 +277,7 @@ def api_category_list():
     categories = Category.query.all()
     data = { 'categories' : [] }
     for category in categories:
-        data['categories'].append(category.name)
+        data['categories'].append({ 'id' : category.id, 'name' : category.name })
     return jsonify(data)
 
 @app.route('/api/formats/')
