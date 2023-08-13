@@ -11,9 +11,9 @@ from bruschetta.utils import str_to_bool, mk_filename
 
 @app.route('/')
 def index():
-    return redirect('/books/')
+    return redirect('/books')
 
-@app.route('/books/')
+@app.route('/books')
 def book_list():
     page = request.args.get('page')
     page = int(page) if page else 1
@@ -28,7 +28,7 @@ def book_list():
     page_count = math.ceil(q.count() / 25)
     return render_template('books.html', books=books, page=page, page_count=page_count)
 
-@app.route('/book/<int:book_id>/')
+@app.route('/book/<int:book_id>')
 def book_detail(book_id):
     book = Book.query.get(book_id)
     if book.coverart_id:
@@ -38,7 +38,7 @@ def book_detail(book_id):
         coverart_url = None
     return render_template('book_detail.html', book=book, coverart_url=coverart_url)
 
-@app.route('/book/add/', methods=['GET', 'POST'])
+@app.route('/book/add', methods=['GET', 'POST'])
 def book_add():
     if request.method == 'POST':
         book = Book(
@@ -66,7 +66,7 @@ def book_add():
         formats = Format.query.all()
         return render_template('book_add.html', categories=categories, formats=formats)
 
-@app.route('/book/edit/<int:book_id>/', methods=['GET', 'POST'])
+@app.route('/book/edit/<int:book_id>', methods=['GET', 'POST'])
 def book_edit(book_id):
     if request.method == 'POST':
         book = Book.query.get(book_id)
@@ -98,7 +98,7 @@ def book_edit(book_id):
         formats = Format.query.all()
         return render_template('book_edit.html', book=book, categories=categories, formats=formats)
 
-@app.route('/book/fetch_coverart/<int:book_id>/', methods=['GET', 'POST'])
+@app.route('/book/fetch_coverart/<int:book_id>', methods=['GET', 'POST'])
 def book_fetch_coverart(book_id):
     if request.method == 'POST':
         book = Book.query.get(book_id)
@@ -126,7 +126,7 @@ def book_fetch_coverart(book_id):
         book = Book.query.get(book_id)
         return render_template('book_fetch_coverart.html', book=book)
 
-@app.route('/book/upload_coverart/<int:book_id>/', methods=['GET', 'POST'])
+@app.route('/book/upload_coverart/<int:book_id>', methods=['GET', 'POST'])
 def book_upload_coverart(book_id):
     if request.method == 'POST':
         book = Book.query.get(book_id)
@@ -148,7 +148,7 @@ def book_upload_coverart(book_id):
         book = Book.query.get(book_id)
         return render_template('book_upload_coverart.html', book=book)
 
-@app.route('/book/delete_coverart/<int:book_id>/')
+@app.route('/book/delete_coverart/<int:book_id>')
 def book_delete_coverart(book_id):
     book = Book.query.get(book_id)
     coverart = CoverArt.query.get(book.coverart_id)
@@ -158,35 +158,35 @@ def book_delete_coverart(book_id):
     db.session.commit()
     return redirect(url_for('book_detail', book_id=book_id))
 
-@app.route('/book/disposed/')
+@app.route('/book/disposed')
 def book_list_disposed():
     books = Book.query.filter_by(disposed=True).all()
     return render_template('book_list_disposed.html', books=books)
 
-@app.route('/book/categorized/<int:category_id>/')
+@app.route('/book/categorized/<int:category_id>')
 def book_list_categorized(category_id):
     category = Category.query.get(category_id)
     books = Book.query.filter_by(category_id=category_id, disposed=False).all()
     return render_template('book_categorized.html', category=category, books=books)
 
-@app.route('/categories/')
+@app.route('/categories')
 def category_list():
     categories = Category.query.all()
     return render_template('category_list.html', categories=categories)
 
-@app.route('/category/add/', methods=['POST'])
+@app.route('/category/add', methods=['POST'])
 def category_add():
     category = Category(name = request.form['name'])
     db.session.add(category)
     db.session.commit()
     return redirect(url_for('category_list'))
 
-@app.route('/formats/')
+@app.route('/formats')
 def format_list():
     formats = Format.query.all()
     return render_template('format_list.html', formats=formats)
 
-@app.route('/format/add/', methods=['POST'])
+@app.route('/format/add', methods=['POST'])
 def format_add():
     fmt = Format(name = request.form['name'])
     db.session.add(fmt)
