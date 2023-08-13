@@ -1,35 +1,17 @@
 {% extends "layout.html" %}
 {% block body %}
-  <h2>Formats</h2>
-  <table class="formats">
-    <thead>
-      <tr><td class="format_id">ID</td><td class="format_name">Name</td></tr>
-    </thead>
-    <tbody>
-    {% for fmt in formats %}
-      <tr><td>{{ fmt.id }}</td><td>{{ fmt.name }}</td></tr>
-    {% endfor %}
-    </tbody>
-  </table>
+  <h5 class="text-teal-10">Formats</h5>
 
-  <div id="addFormatLink"><a href="javascript:void();">(Add)</a></div>
-
-  <div id="addFormat">
-  <h2>Add format</h2>
-  <form action="/format/add/" method="post">
-    <dl>
-      <dt>Name:</dt>
-      <dd><input type="text" size=20 name="name" /></dd>
-      <dd><input type="submit" value="Add" /></dd>
-    </dl>
-  </form>
+  <div class="q-pa-md">
+    <q-table
+      :rows="formats"
+      :columns="formatColumns"
+      row-key="id"
+    >
+    </q-table>
   </div>
 
-  <script>
-    document.getElementById("addFormat").style.display ="none";
-    document.getElementById("addFormatLink").addEventListener("click", () => {
-      document.getElementById("addFormatLink").style.display ="none";
-      document.getElementById("addFormat").style.display = "block";
-    }, false);
-  </script>
+  <div>
+    <q-btn label="Add a new format" href="/format/add" color="primary" outline></q-btn>
+  </div>
 {% endblock %}
