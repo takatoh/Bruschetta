@@ -1,21 +1,19 @@
 {% extends "layout.html" %}
 {% block body %}
   <h2>Upload cover art of the book</h2>
-  <form action="" method="post" enctype="multipart/form-data">
-    <dl>
-      <dt>Title:</dt>
-      <dd>{{ book.title }}</dd>
-      <dt>Volume:</dt>
-      <dd>{{ book.volume }}</dd>
-      <td>Author:</td>
-      <dd>{{ book.author }}</dd>
-      <td>Publisher:</td>
-      <dd>{{ book.publisher }}</dd>
-      <dt>ISBN:</dt>
-      <dd>{{ book.isbn }}</dd>
-      <dt>Cover art file:</dt>
-      <dd><input type="file" name="file" />
-    </dl>
-    <input type="submit" value="Upload" />
-  </form>
+
+  <div class="q-pa-md" style="width: 600px;">
+    <q-form action="/book/upload_coverart/{{ book.id }}" method="post" enctype="multipart/form-data" class="q-gutter-md">
+      <input type="hidden" id="bookId" value="{{ book.id }}"></input>
+      <q-input name="title" v-model="title" label="Title" readonly></q-input>
+      <q-input name="volume" v-model="volume" label="Volume" readonly></q-input>
+      <q-input name="author" v-model="author" label="Author" readonly></q-input>
+      <q-input name="publisher" v-model="publisher" label="Publisher" readonly></q-input>
+      <q-input name="isbn" v-model="isbn" label="ISBN" readonly></q-input>
+      <q-file name="file" v-model="coverArtFile" label="Cover art file"></q-file>
+      <div>
+        <q-btn label="Upload" type="submit" color="primary"></q-btn>
+      </div>
+    </q-form>
+  </div>
 {% endblock %}
