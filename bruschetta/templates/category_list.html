@@ -11,28 +11,7 @@
     </q-table>
   </div>
 
-
-
-
-
-  <div id="addCategoryLink"><a href="javascript:void();">(Add)</a></div>
-
-  <div id="addCategory">
-  <h2>Add category</h2>
-  <form action="/category/add/" method="post">
-    <dl>
-      <dt>Name:</dt>
-      <dd><input type="text" size=20 name="name" /></dd>
-      <dd><input type="submit" value="Add" /></dd>
-    </dl>
-  </form>
+  <div>
+    <q-btn label="Add a new category" href="/category/add" color="primary" outline></q-btn>
   </div>
-
-  <script>
-    document.getElementById("addCategory").style.display ="none";
-    document.getElementById("addCategoryLink").addEventListener("click", () => {
-      document.getElementById("addCategoryLink").style.display ="none";
-      document.getElementById("addCategory").style.display = "block";
-    }, false);
-  </script>
 {% endblock %}
