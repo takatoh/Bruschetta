@@ -95,8 +95,10 @@
             Promise.all([categs, fmts]).then(result => {
               categories.value = result[0]['categories']
               categoryOptions.value = result[0]['categories'].map(categ => categ['name'])
+              category.value = categoryOptions.value[0]
               formats.value = result[1]['formats']
               formatOptions.value = result[1]['formats'].map(fmt => fmt['name'])
+              format.value = formatOptions.value[0]
             })
             let bookIdElem
             try {
