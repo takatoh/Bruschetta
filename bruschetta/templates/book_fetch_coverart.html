@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block body %}
-  <h5 class="text-teal-10">Fetching cover art of the book from OpenBD</h5>
+  <h5 class="text-teal-10">Fetch cover art of the book from OpenBD</h5>
 
   <div class="q-pa-md" style="width: 600px;">
     <q-form action="/book/fetch_coverart/{{ book.id }}" method="post" class="q-gutter-md">
