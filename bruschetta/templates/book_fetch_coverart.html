@@ -1,19 +1,18 @@
 {% extends "layout.html" %}
 {% block body %}
   <h2>Fetching cover art of the book from OpenBD</h2>
-  <form action="" method="post">
-    <dl>
-      <dt>Title:</dt>
-      <dd>{{ book.title }}</dd>
-      <dt>Volume:</dt>
-      <dd>{{ book.volume }}</dd>
-      <td>Author:</td>
-      <dd>{{ book.author }}</dd>
-      <td>Publisher:</td>
-      <dd>{{ book.publisher }}</dd>
-      <dt>ISBN:</dt>
-      <dd>{{ book.isbn }}</dd>
-      <dd><input type="submit" value="Fetch" /></dd>
-    </dl>
-  </form>
+
+  <div class="q-pa-md" style="width: 600px;">
+    <q-form action="/book/fetch_coverart/{{ book.id }}" method="post" class="q-gutter-md">
+      <input type="hidden" id="bookId" value="{{ book.id }}"></input>
+      <q-input name="title" v-model="title" label="Title" readonly></q-input>
+      <q-input name="volume" v-model="volume" label="Volume" readonly></q-input>
+      <q-input name="author" v-model="author" label="Author" readonly></q-input>
+      <q-input name="publisher" v-model="publisher" label="Publisher" readonly></q-input>
+      <q-input name="isbn" v-model="isbn" label="ISBN" readonly></q-input>
+      <div>
+        <q-btn label="Fetch" type="submit" color="primary"></q-btn>
+      </div>
+    </q-form>
+  </div>
 {% endblock %}
