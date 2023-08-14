@@ -86,12 +86,14 @@
             { name: 'name', label: 'Name', align: 'left', field: 'name' },
           ]
           const categoryOptions = ref([])
+          const categoryNew = ref('')
           const formats = ref([])
           const formatColumns = [
             { name: 'id', label: 'ID', align: 'left', field: row => row['id'], format: val => `${val}` },
             { name: 'name', label: 'Name', align: 'left', field: 'name' },
           ]
           const formatOptions = ref([])
+          const formatNew = ref('')
           onMounted(() => {
             const categs = fetch('/api/categories/').then(res => res.json())
             const fmts = fetch('/api/formats/').then(res => res.json())
@@ -156,9 +158,11 @@
             categories,
             categoryColumns,
             categoryOptions,
+            categoryNew,
             formats,
             formatColumns,
-            formatOptions
+            formatOptions,
+            formatNew
           }
         },
         delimiters: [ '<<', '>>'],
