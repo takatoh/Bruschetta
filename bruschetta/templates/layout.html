@@ -175,6 +175,9 @@
                 this.author = summary.author
                 this.publisher = summary.publisher
             })
+          },
+          jumpPage (page) {
+            location.href = `/books?page=${page}`
           }
         }
       })
