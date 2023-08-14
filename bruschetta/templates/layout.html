@@ -178,6 +178,9 @@
           },
           jumpPage (page) {
             location.href = `/books?page=${page}`
+          },
+          jumpPageDisposed (page) {
+            location.href = `/books/disposed?page=${page}`
           }
         }
       })

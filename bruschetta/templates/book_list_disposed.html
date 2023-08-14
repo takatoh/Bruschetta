@@ -2,16 +2,15 @@
 {% block body %}
   <h5 class="text-teal-10">Disposed books</h5>
 
-  <div>
-    {% if page > 1 %}
-    <a href="{{ url_for('book_list_disposed', page=1) }}">first</a> |
-    <a href="{{ url_for('book_list_disposed', page=page-1) }}">prev</a> |
-    {% endif %}
-    [ {{ page }} / {{ page_count }} ]
-    {% if page < page_count %}
-    | <a href="{{ url_for('book_list_disposed', page=page+1) }}">next</a>
-    | <a href="{{ url_for('book_list_disposed', page=page_count) }}">last</a>
-    {% endif %}
+  <div class="q-pa-md flex">
+    <q-pagination
+      :model-value="{{ page }}"
+      color="teal"
+      :max="{{ page_count }}"
+      :max-pages="7"
+      @update:model-value="jumpPageDisposed"
+      boundary-numbers
+    ></q-pagination>
   </div>
 
   <div class="q-pa-md col items-start q-gutter-md">
@@ -28,5 +27,16 @@
       </q-card-section>
     </q-card>
     {% endfor %}
+  </div>
+
+  <div class="q-pa-md flex">
+    <q-pagination
+      :model-value="{{ page }}"
+      color="teal"
+      :max="{{ page_count }}"
+      :max-pages="7"
+      @update:model-value="jumpPageDisposed"
+      boundary-numbers
+    ></q-pagination>
   </div>
 {% endblock %}
