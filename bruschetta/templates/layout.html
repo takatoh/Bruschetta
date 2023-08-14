@@ -94,6 +94,7 @@
           ]
           const formatOptions = ref([])
           const formatNew = ref('')
+          const searchText = ref('')
           onMounted(() => {
             const categs = fetch('/api/categories/').then(res => res.json())
             const fmts = fetch('/api/formats/').then(res => res.json())
@@ -162,7 +163,8 @@
             formats,
             formatColumns,
             formatOptions,
-            formatNew
+            formatNew,
+            searchText
           }
         },
         delimiters: [ '<<', '>>'],
