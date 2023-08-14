@@ -164,8 +164,14 @@ def book_delete_coverart(book_id):
 
 @app.route('/book/disposed')
 def book_list_disposed():
-    books = Book.query.filter_by(disposed=True).all()
-    return render_template('book_list_disposed.html', books=books)
+    page = request.args.get('page')
+    page = int(page) if page else 1
+    limit = 25
+    offset = limit * (page - 1)
+    q = Book.query.filter_by(disposed=True).order_by(Book.id.desc())
+    books = q.offset(offset).limit(limit).all()
+    page_count = math.ceil(q.count() / 25)
+    return render_template('book_list_disposed.html', books=books, page=page, page_count=page_count)
 
 @app.route('/book/categorized/<int:category_id>')
 def book_list_categorized(category_id):
