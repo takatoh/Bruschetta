@@ -120,12 +120,18 @@
     </q-list>
   </div>
 
-  <a href="{{ url_for('index') }}">Back</a> |
-  <a href="{{ url_for('book_edit', book_id=book.id) }}">Edit</a>
-  {% if not coverart_url %}
-   | <a href="{{ url_for('book_fetch_coverart', book_id=book.id) }}">Fetch cover art</a>
-   | <a href="{{ url_for('book_upload_coverart', book_id=book.id) }}">Upload cover art</a>
-  {% else %}
-   | <a href="{{ url_for('book_delete_coverart', book_id=book.id) }}">Delete cover art</a>
-  {% endif %}
+  <div class="q-pa-md q-gutter-y-md column items-start">
+    <q-btn-group outline>
+      <q-btn label="Edit" color="teal" outline href="{{ url_for('book_edit', book_id=book.id) }}"></q-btn>
+      {% if not coverart_url %}
+      <q-separator inset></q-separator>
+      <q-btn label="Fetch coverart" color="teal" outline href="{{ url_for('book_fetch_coverart', book_id=book.id) }}"></q-btn>
+      <q-separator inset></q-separator>
+      <q-btn label="Upload coverart" color="teal" outline href="{{ url_for('book_upload_coverart', book_id=book.id) }}"></q-btn>
+      {% else %}
+      <q-separator inset></q-separator>
+      <q-btn label="Delete coverart" color="teal" outline href="{{ url_for('book_delete_coverart', book_id=book.id) }}"></q-btn>
+      {% endif %}
+    </q-btn-group>
+  </div>
 {% endblock %}
