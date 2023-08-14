@@ -2,6 +2,13 @@
 {% block body %}
   <h5 class="text-teal-10">Books</h5>
 
+  <q-input outlined dense v-model="searchText" style="width: 300px;">
+    <template v-slot:append>
+      <q-icon v-if="searchText !== ''" name="close" @click="searchText = ''" class="cursor-pointer"></q-icon>
+      <q-icon name="search"></q-icon>
+    </template>
+  </q-input>
+
   <div class="q-pa-md flex">
     <q-pagination
       :model-value="{{ page }}"
