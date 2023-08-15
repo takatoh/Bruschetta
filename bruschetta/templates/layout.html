@@ -187,6 +187,9 @@
           },
           jumpPageDisposed (page) {
             location.href = `/books/disposed?page=${page}`
+          },
+          onSearchEnter () {
+            location.href = `/books?search=${this.searchText}`
           }
         }
       })
