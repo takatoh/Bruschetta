@@ -2,24 +2,211 @@
 <html>
   <head>
     <title>Bruschetta</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet" type="text/css">
+    <link href="https://cdn.jsdelivr.net/npm/quasar@2.11.8/dist/quasar.prod.css" rel="stylesheet" type="text/css">
   </head>
+
   <body>
-    <div class="container">
-      <h1><a href="{{ url_for('index') }}" />Bruschetta</a></h1>
-      <div id="menu">
-        <ul>
-          <li><a href="{{ url_for('index') }}" />Books</a></li>
-          <li><a href="{{ url_for('book_add') }}" />Add a book</a></li>
-          <li><a href="{{ url_for('book_list_disposed') }}" />Disposed</a></li>
-          <li><a href="{{ url_for('category_list') }}" />Categories</a></li>
-          <li><a href="{{ url_for('format_list') }}" />Formats</a></li>
-        </ul>
+    <div id="app">
+      <div class="q-pa-none">
+        <q-layout view="hHh LpR fff" container style="min-height: 100vh" class="shadow-2">
+          <q-header>
+            <div class="bg-teal-9 q-px-xl q-py-sm">
+              <q-toolbar class="q-gutter-sm">
+                <q-toolbar-title>Bruschetta</q-toolbar-title>
+              </q-toolbar>
+            </div>
+            <div class="bg-white text-teal-9 q-px-xl q-py-sm" style="border-bottom: solid 1px">
+              <q-toolbar class="q-gutter-lg">
+                <q-btn flat label="Books" color="teal-9" href="{{ url_for('index') }}"></q-btn>
+                <q-btn flat label="Add" color="teal-9" href="{{ url_for('book_add') }}"></q-btn>
+                <q-btn flat label="Disposed" color="teal-9" href="{{ url_for('book_list_disposed') }}"></q-btn>
+                <q-btn flat label="Categoires" color="teal-9" href="{{ url_for('category_list') }}"></q-btn>
+                <q-btn flat label="Formats" color="teal-9" href="{{ url_for('format_list') }}"></q-btn>
+                <q-space></q-space>
+              </q-toolbar>
+            </div>
+          </q-header>
+
+          <q-page-container>
+            <q-page class="q-pa-none">
+              <div class="bg-white q-px-xl q-py-sm">
+                {% for message in get_flashed_messages() %}
+                <div class="flash">{{ message }}</div>
+                {% endfor %}
+
+                {% block body %}{% endblock %}
+              </div>
+            </q-page>
+          </q-page-container>
+
+          <q-footer class="bg-teal q-px-xl q-py-sm">
+            <q-toolbar class="q-gutter-sm">
+              <q-space></q-space>
+              <div class="q-gutter-x-sm">
+                Bruschetta
+                <q-badge color="white text-teal">v0.3-alpha</q-badge>
+              </div>
+            </q-toolbar>
+          </q-footer>
+        </q-layout>
       </div>
-      {% for message in get_flashed_messages() %}
-        <div class="flash">{{ message }}</div>
-      {% endfor %}
-      {% block body %}{% endblock %}
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.prod.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/quasar@2.11.8/dist/quasar.umd.prod.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/quasar@2.11.8/dist/lang/ja.umd.prod.js"></script>
+
+    <script>
+      const { createApp, ref, onMounted } = Vue
+
+      const app = createApp({
+        setup () {
+          const bookId = ref(null)
+          const title = ref('')
+          const volume = ref('')
+          const series = ref('')
+          const seriesVolume = ref('')
+          const author = ref('')
+          const translator = ref('')
+          const publisher = ref('')
+          const category = ref('')
+          const format = ref('')
+          const isbn = ref('')
+          const publishedOn = ref('')
+          const originalTitle = ref('')
+          const note = ref('')
+          const keyword = ref('')
+          const disc = ref('')
+          const disposed = ref(false)
+          const coverArtFile = ref('')
+          const categories = ref([])
+          const categoryColumns = [
+            { name: 'id', label: 'ID', align: 'left', field: row => row['id'], format: val => `${val}` },
+            { name: 'name', label: 'Name', align: 'left', field: 'name' },
+          ]
+          const categoryOptions = ref([])
+          const categoryNew = ref('')
+          const formats = ref([])
+          const formatColumns = [
+            { name: 'id', label: 'ID', align: 'left', field: row => row['id'], format: val => `${val}` },
+            { name: 'name', label: 'Name', align: 'left', field: 'name' },
+          ]
+          const formatOptions = ref([])
+          const formatNew = ref('')
+          const searchText = ref('')
+          onMounted(() => {
+            const categs = fetch('/api/categories/').then(res => res.json())
+            const fmts = fetch('/api/formats/').then(res => res.json())
+            Promise.all([categs, fmts]).then(result => {
+              categories.value = result[0]['categories']
+              categoryOptions.value = result[0]['categories'].map(categ => categ['name'])
+              category.value = categoryOptions.value[0]
+              formats.value = result[1]['formats']
+              formatOptions.value = result[1]['formats'].map(fmt => fmt['name'])
+              format.value = formatOptions.value[0]
+            })
+            const q = (new URL(location)).searchParams
+            if (q.get('search')) {
+              searchText.value = decodeURI(q.get('search'))
+            }
+            let bookIdElem
+            try {
+              bookIdElem = document.getElementById('bookId')
+            } catch(e) {
+              bookIdElem = false
+            }
+            if (bookIdElem) {
+              fetch(`/api/book/${bookIdElem.value}/`)
+              .then(res => res.json())
+              .then(result => {
+                const info = result['books'][0]
+                bookId.value = info['id']
+                title.value = info['title']
+                volume.value = info['volume']
+                series.value = info['series']
+                seriesVolume.value = info['series_volume']
+                author.value = info['author']
+                translator.value = info['translator']
+                publisher.value = info['publisher']
+                category.value = info['category']
+                format.value = info['format']
+                isbn.value = info['isbn']
+                publishedOn.value = info['published_on']
+                originalTitle.value = info['original_title']
+                note.value = info['note']
+                keyword.value = info['keyword']
+                disc.value = info['disk']
+                disposed.value = info['disposed']
+              })
+            }
+          })
+          return {
+            bookId,
+            title,
+            volume,
+            series,
+            seriesVolume,
+            author,
+            translator,
+            publisher,
+            category,
+            format,
+            isbn,
+            publishedOn,
+            originalTitle,
+            note,
+            keyword,
+            disc,
+            disposed,
+            coverArtFile,
+            categories,
+            categoryColumns,
+            categoryOptions,
+            categoryNew,
+            formats,
+            formatColumns,
+            formatOptions,
+            formatNew,
+            searchText
+          }
+        },
+        delimiters: [ '<<', '>>'],
+        methods: {
+          insertBookInfo () {
+            const isbn = this.isbn
+            fetch(`https://api.openbd.jp/v1/get?isbn=${isbn}`)
+              .then(response => response.json())
+              .then(result => {
+                const summary = result[0].summary
+                this.title = summary.title
+                this.volume = summary.volume
+                this.series = summary.series
+                this.author = summary.author
+                this.publisher = summary.publisher
+            })
+          },
+          jumpPage (page) {
+            const s = this.searchText
+            if (s.length > 0) {
+              location.href = `/books?search=${s}&page=${page}`
+            } else {
+              location.href = `/books?page=${page}`
+            }
+          },
+          jumpPageDisposed (page) {
+            location.href = `/book/disposed?page=${page}`
+          },
+          onSearchEnter () {
+            location.href = `/books?search=${this.searchText}`
+          }
+        }
+      })
+
+      app.use(Quasar)
+      Quasar.lang.set(Quasar.lang.ja)
+      app.mount('#app')
+    </script>
+
   </body>
 </html>

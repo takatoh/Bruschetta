@@ -1,37 +1,137 @@
 {% extends "layout.html" %}
 
 {% block body %}
-  <h2>{{ book.title_with_vol() }}</h2>
+  <h5 class="text-teal-10">{{ book.title_with_vol() }}</h5>
+
   {% if coverart_url %}
   <img src="{{ coverart_url }}" id="coverart">
   {% endif %}
-  <table class="book_detail">
-    <tr><th>ID:</th><td>{{ book.id }}</td></tr>
-    <tr><th>Title:</th><td>{{ book.title }}</td></tr>
-    <tr><th>Volume:</th><td>{{ book.volume }}</td></tr>
-    <tr><th>Series:</th><td>{{ book.series }}</td></tr>
-    <tr><th>Series volume:</th><td>{{ book.series_volume }}</td></tr>
-    <tr><th>Author:</th><td>{{ book.author }}</td></tr>
-    <tr><th>Translator:</th><td>{{ book.translator }}</td></tr>
-    <tr><th>Publisher:</th><td>{{ book.publisher }}</td></tr>
-    <tr><th>Category:</th><td>{{ book.category.name }}</td></tr>
-    <tr><th>Format:</th><td>{{ book.format.name }}</td></tr>
-    <tr><th>ISBN:</th><td>{{ book.isbn }}</td></tr>
-    <tr><th>Published on:</th><td>{{ book.published_on }}</td></tr>
-    <tr><th>Original title:</th><td>{{ book.original_title }}</td></tr>
-    <tr><th>Note:</th><td>{{ book.note }}</td></tr>
-    <tr><th>Keyword:</th><td>{{ book.keyword }}</td></tr>
-    <tr><th>Disc:</th><td>{{ book.disk }}</td></tr>
-    <tr><th>Disposed:</th><td>{{ book.disposed }}</td></tr>
-    <tr><th>Created at:</th><td>{{ book.str_created_at() }}</td></tr>
-  </table>
 
-  <a href="{{ url_for('index') }}">Back</a> |
-  <a href="{{ url_for('book_edit', book_id=book.id) }}">Edit</a>
-  {% if not coverart_url %}
-   | <a href="{{ url_for('book_fetch_coverart', book_id=book.id) }}">Fetch cover art</a>
-   | <a href="{{ url_for('book_upload_coverart', book_id=book.id) }}">Upload cover art</a>
-  {% else %}
-   | <a href="{{ url_for('book_delete_coverart', book_id=book.id) }}">Delete cover art</a>
-  {% endif %}
+  <div class="q-pa-md" style="min-width: 600px">
+    <q-list>
+      <q-item>
+        <q-item-section>
+          <q-item-label overline>ID</q-item-label>
+          <q-item-label>{{ book.id }}</q-item-label>
+        </q-item-section>
+      </q-item>
+      <q-item>
+        <q-item-section>
+          <q-item-label overline>Title</q-item-label>
+          <q-item-label>{{ book.title }}</q-item-label>
+        </q-item-section>
+      </q-item>
+      <q-item>
+        <q-item-section>
+          <q-item-label overline>Volume</q-item-label>
+          <q-item-label>{{ book.volume }}</q-item-label>
+        </q-item-section>
+      </q-item>
+      <q-item>
+        <q-item-section>
+          <q-item-label overline>Series</q-item-label>
+          <q-item-label>{{ book.series }}</q-item-label>
+        </q-item-section>
+      </q-item>
+      <q-item>
+        <q-item-section>
+          <q-item-label overline>Series volume</q-item-label>
+          <q-item-label>{{ book.series_volume }}</q-item-label>
+        </q-item-section>
+      </q-item>
+      <q-item>
+        <q-item-section>
+          <q-item-label overline>Author</q-item-label>
+          <q-item-label>{{ book.author }}</q-item-label>
+        </q-item-section>
+      </q-item>
+      <q-item>
+        <q-item-section>
+          <q-item-label overline>Translator</q-item-label>
+          <q-item-label>{{ book.translator }}</q-item-label>
+        </q-item-section>
+      </q-item>
+      <q-item>
+        <q-item-section>
+          <q-item-label overline>Publisher</q-item-label>
+          <q-item-label>{{ book.publisher }}</q-item-label>
+        </q-item-section>
+      </q-item>
+      <q-item>
+        <q-item-section>
+          <q-item-label overline>Category</q-item-label>
+          <q-item-label>{{ book.category.name }}</q-item-label>
+        </q-item-section>
+      </q-item>
+      <q-item>
+        <q-item-section>
+          <q-item-label overline>Format</q-item-label>
+          <q-item-label>{{ book.format.name }}</q-item-label>
+        </q-item-section>
+      </q-item>
+      <q-item>
+        <q-item-section>
+          <q-item-label overline>ISBN</q-item-label>
+          <q-item-label>{{ book.isbn }}</q-item-label>
+        </q-item-section>
+      </q-item>
+      <q-item>
+        <q-item-section>
+          <q-item-label overline>Published on</q-item-label>
+          <q-item-label>{{ book.published_on }}</q-item-label>
+        </q-item-section>
+      </q-item>
+      <q-item>
+        <q-item-section>
+          <q-item-label overline>Original title</q-item-label>
+          <q-item-label>{{ book.original_title }}</q-item-label>
+        </q-item-section>
+      </q-item>
+      <q-item>
+        <q-item-section>
+          <q-item-label overline>Note</q-item-label>
+          <q-item-label>{{ book.note }}</q-item-label>
+        </q-item-section>
+      </q-item>
+      <q-item>
+        <q-item-section>
+          <q-item-label overline>Keyword</q-item-label>
+          <q-item-label>{{ book.keyword }}</q-item-label>
+        </q-item-section>
+      </q-item>
+      <q-item>
+        <q-item-section>
+          <q-item-label overline>Disc</q-item-label>
+          <q-item-label>{{ book.disk }}</q-item-label>
+        </q-item-section>
+      </q-item>
+      <q-item>
+        <q-item-section>
+          <q-item-label overline>Disposed</q-item-label>
+          <q-item-label>{{ book.disposed }}</q-item-label>
+        </q-item-section>
+      </q-item>
+      <q-item>
+        <q-item-section>
+          <q-item-label overline>Created at</q-item-label>
+        <q-item-label>{{ book.str_created_at() }}</q-item-label>
+        </q-item-section>
+      </q-item>
+    </q-list>
+  </div>
+
+  <div class="q-pa-md q-gutter-y-md column items-start">
+    <q-btn-group outline>
+      <q-btn label="Edit" color="teal" outline href="{{ url_for('book_edit', book_id=book.id) }}"></q-btn>
+      {% if not coverart_url %}
+      <q-separator inset></q-separator>
+      <q-btn label="Fetch coverart" color="teal" outline href="{{ url_for('book_fetch_coverart', book_id=book.id) }}"></q-btn>
+      <q-separator inset></q-separator>
+      <q-btn label="Upload coverart" color="teal" outline href="{{ url_for('book_upload_coverart', book_id=book.id) }}"></q-btn>
+      {% else %}
+      <q-separator inset></q-separator>
+      <q-btn label="Delete coverart" color="teal" outline href="{{ url_for('book_delete_coverart', book_id=book.id) }}"></q-btn>
+      {% endif %}
+    </q-btn-group>
+  </div>
 {% endblock %}

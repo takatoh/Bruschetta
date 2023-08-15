@@ -1,27 +1,49 @@
 {% extends "layout.html" %}
 {% block body %}
-  <h2>Books</h2>
-  <div>
-    {% if page > 1 %}
-    <a href="{{ url_for('book_list', page=1) }}">first</a> |
-    <a href="{{ url_for('book_list', page=page-1) }}">prev</a> |
-    {% endif %}
-    [ {{ page }} / {{ page_count }} ]
-    {% if page < page_count %}
-    | <a href="{{ url_for('book_list', page=page+1) }}">next</a>
-    | <a href="{{ url_for('book_list', page=page_count) }}">last</a>
-    {% endif %}
+  <h5 class="text-teal-10">Books</h5>
+
+  <q-input outlined dense v-model="searchText" style="width: 300px;">
+    <template v-slot:append>
+      <q-icon v-if="searchText !== ''" name="close" @click="searchText = ''" class="cursor-pointer"></q-icon>
+      <q-icon name="search" @click="onSearchEnter" class="cursor-pointer"></q-icon>
+    </template>
+  </q-input>
+
+  <div class="q-pa-md flex">
+    <q-pagination
+      :model-value="{{ page }}"
+      color="teal"
+      :max="{{ page_count }}"
+      :max-pages="9"
+      @update:model-value="jumpPage"
+      boundary-numbers
+    ></q-pagination>
   </div>
-  <table class="books">
-    <thead>
-      <tr><td>ID</td><td class="title">Title</td><td class="author">Author</td></tr>
-    </thead>
-    <tbody>
+
+  <div class="q-pa-md col items-start q-gutter-md">
     {% for book in books %}
-      <tr><td>{{ book.id }}</td>
-        <td><a href="{{ url_for('book_detail', book_id=book.id) }}"/>{{ book.title_with_vol() }}</a></td>
-        <td>{{ book.author }}</td></tr>
+    <q-card flat bordered class="q-pa-sm" style="width: 600px;">
+      <q-card-section class="q-pa-none col-2">
+        {{ book.id }}
+      </q-card-section>
+      <q-card-section class="q-pa-none col-5">
+        <a href="{{ url_for('book_detail', book_id=book.id) }}"/>{{ book.title_with_vol() }}</a>
+      </q-card-section>
+      <q-card-section class="q-pa-none col-5">
+        {{ book.author }}
+      </q-card-section>
+    </q-card>
     {% endfor %}
-    </tbody>
-  </table>
+  </div>
+
+  <div class="q-pa-md flex">
+    <q-pagination
+      :model-value="{{ page }}"
+      color="teal"
+      :max="{{ page_count }}"
+      :max-pages="9"
+      @update:model-value="jumpPage"
+      boundary-numbers
+    ></q-pagination>
+  </div>
 {% endblock %}
