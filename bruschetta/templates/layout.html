@@ -106,14 +106,9 @@
               formatOptions.value = result[1]['formats'].map(fmt => fmt['name'])
               format.value = formatOptions.value[0]
             })
-            const q = location.search
-            if (q.length > 1) {
-              q.substring(1).split('&').forEach(p => {
-                const pair = p.split('=')
-                if (pair[0] == 'search') {
-                  searchText.value = decodeURI(pair[1])
-                }
-              })
+            const q = (new URL(location)).searchParams
+            if (q.get('search')) {
+              searchText.value = decodeURI(q.get('search'))
             }
             let bookIdElem
             try {
