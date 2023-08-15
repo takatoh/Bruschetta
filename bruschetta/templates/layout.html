@@ -106,6 +106,15 @@
               formatOptions.value = result[1]['formats'].map(fmt => fmt['name'])
               format.value = formatOptions.value[0]
             })
+            const q = location.search
+            if (q.length > 1) {
+              q.substring(1).split('&').forEach(p => {
+                const pair = p.split('=')
+                if (pair[0] == 'search') {
+                  searchText.value = decodeURI(pair[1])
+                }
+              })
+            }
             let bookIdElem
             try {
               bookIdElem = document.getElementById('bookId')
@@ -183,7 +192,12 @@
             })
           },
           jumpPage (page) {
-            location.href = `/books?page=${page}`
+            const s = this.searchText
+            if (s.length > 0) {
+              location.href = `/books?search=${s}&page=${page}`
+            } else {
+              location.href = `/books?page=${page}`
+            }
           },
           jumpPageDisposed (page) {
             location.href = `/books/disposed?page=${page}`
