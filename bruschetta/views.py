@@ -228,9 +228,7 @@ def api_books():
     if not include_disposed:
         dataset = dataset.filter_by(disposed=False)
     books = dataset.offset(offset).limit(limit).all()
-    data = { 'books': [] }
-    for book in books:
-        data['books'].append(book.to_dictionary())
+    data = { 'books': [ b.to_dictionary() for b in books ] }
     return jsonify(data)
 
 @app.route('/api/book/<int:book_id>/')
@@ -283,25 +281,19 @@ def api_search():
         if author:
             dataset = dataset.filter(Book.author.like('%' + author + '%'))
     books = dataset.all()
-    data = { 'books' : [] }
-    for book in books:
-        data['books'].append(book.to_dictionary())
+    data = { 'books' : [ b.to_dictionary() for b in books ] }
     return jsonify(data)
 
 @app.route('/api/categories/')
 def api_category_list():
     categories = Category.query.all()
-    data = { 'categories' : [] }
-    for category in categories:
-        data['categories'].append({ 'id' : category.id, 'name' : category.name })
+    data = { 'categories' : [ { 'id' : c.id, 'name' : c.name } for c in categories ] }
     return jsonify(data)
 
 @app.route('/api/formats/')
 def api_format_list():
     formats = Format.query.all()
-    data = { 'formats' : [] }
-    for fmt in formats:
-        data['formats'].append({ 'id' : fmt.id, 'name' : fmt.name })
+    data = { 'formats' : [ { 'id' : f.id, 'name' : f.name } for f in formats ] }
     return jsonify(data)
 
 
