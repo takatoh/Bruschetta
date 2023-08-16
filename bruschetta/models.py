@@ -70,6 +70,12 @@ class Category(db.Model):
     def __repr__(self):
         return f'<Category id={self.id} name={self.name}>'
 
+    def to_dictionary(self):
+        return {
+            'id':   self.id,
+            'name': self.name
+        }
+
 
 class Format(db.Model):
     __tablename__ = 'formats'
@@ -80,6 +86,12 @@ class Format(db.Model):
     def __repr__(self):
         return u'<Format id={id} name={name}>'.format(
             id=self.id, name=self.name)
+
+    def to_dictionary(self):
+        return {
+            'id':   self.id,
+            'name': self.name
+        }
 
 
 class CoverArt(db.Model):
