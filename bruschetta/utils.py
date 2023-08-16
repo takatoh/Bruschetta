@@ -1,6 +1,7 @@
 import re
 import string
 import random
+import os
 
 
 def str_to_bool(s):
@@ -21,3 +22,9 @@ def randstring(n):
     random.seed()
     s = ''.join(random.choices(pool, k=n))
     return s
+
+
+def is_picture(filename):
+    picture_exts = ['.png', '.jpg', '.jpeg']
+    base, ext = os.path.splitext(filename)
+    return ext.lower() in picture_exts

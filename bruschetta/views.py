@@ -6,7 +6,7 @@ from PIL import Image
 import math
 from bruschetta import app, db
 from bruschetta.models import Book, Category, Format, CoverArt
-from bruschetta.utils import str_to_bool, mk_filename
+from bruschetta.utils import str_to_bool, mk_filename, is_picture
 
 
 @app.route('/')
@@ -316,9 +316,3 @@ def save_coverart(tmp_filename):
     img = img.convert('RGB')
     img.save(app.config['COVERARTS_DIR'] + '/' + coverart_filename)
     return coverart_filename
-
-
-def is_picture(filename):
-    picture_exts = ['.png', '.jpg', '.jpeg']
-    base, ext = os.path.splitext(filename)
-    return ext.lower() in picture_exts
