@@ -8,6 +8,8 @@ from bruschetta import app, db
 from bruschetta.models import Book, Category, Format, CoverArt
 from bruschetta.utils import str_to_bool, mk_filename, is_picture
 
+BOOKS_PER_PAGE = 25
+
 
 @app.route('/')
 def index():
@@ -17,7 +19,7 @@ def index():
 def book_list():
     page = request.args.get('page')
     page = int(page) if page else 1
-    limit = 25
+    limit = BOOKS_PER_PAGE
     offset = limit * (page - 1)
     search = request.args.get('search')
     q = Book.query.filter_by(disposed=False).order_by(Book.id.desc())
@@ -25,7 +27,7 @@ def book_list():
         search = '%' + search + '%'
         q = q.filter(or_(Book.title.like(search), Book.author.like(search)))
     books = q.offset(offset).limit(limit).all()
-    page_count = math.ceil(q.count() / 25)
+    page_count = math.ceil(q.count() / BOOKS_PER_PAGE)
     return render_template('books.html', books=books, page=page, page_count=page_count)
 
 @app.route('/book/<int:book_id>')
@@ -166,11 +168,11 @@ def book_delete_coverart(book_id):
 def book_list_disposed():
     page = request.args.get('page')
     page = int(page) if page else 1
-    limit = 25
+    limit = BOOKS_PER_PAGE
     offset = limit * (page - 1)
     q = Book.query.filter_by(disposed=True).order_by(Book.id.desc())
     books = q.offset(offset).limit(limit).all()
-    page_count = math.ceil(q.count() / 25)
+    page_count = math.ceil(q.count() / BOOKS_PER_PAGE)
     return render_template('book_list_disposed.html', books=books, page=page, page_count=page_count)
 
 @app.route('/book/categorized/<int:category_id>')
