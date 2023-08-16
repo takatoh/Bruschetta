@@ -97,6 +97,9 @@ class CoverArt(db.Model):
     id       = db.Column(db.Integer, primary_key=True)
     filename = db.Column(db.String)
 
+    def __repr__(self):
+        return f'<CoverArt id={self.id} filename={self.filename}>'
+
 
 def init():
     db.create_all()
