@@ -3,6 +3,8 @@ import string
 import random
 import os
 
+PICTURES_EXTS = ['.png', '.jpg', '.jpeg']
+
 
 def str_to_bool(s):
     p = re.compile(r'(true|yes|on)\Z', re.IGNORECASE)
@@ -25,6 +27,5 @@ def randstring(n):
 
 
 def is_picture(filename):
-    picture_exts = ['.png', '.jpg', '.jpeg']
     base, ext = os.path.splitext(filename)
-    return ext.lower() in picture_exts
+    return ext.lower() in PICTURES_EXTS
