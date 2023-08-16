@@ -27,10 +27,9 @@ class Book(db.Model):
 
     def title_with_vol(self):
         if self.volume:
-            twv = self.title + ' [' + self.volume + ']'
+            return f'{self.title} [{self.volume}]'
         else:
-            twv = self.title
-        return twv
+            return self.title
 
     def to_dictionary(self):
         return {
