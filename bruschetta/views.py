@@ -287,13 +287,13 @@ def api_search():
 @app.route('/api/categories/')
 def api_category_list():
     categories = Category.query.all()
-    data = { 'categories' : [ { 'id' : c.id, 'name' : c.name } for c in categories ] }
+    data = { 'categories' : [ c.to_dictionary() for c in categories ] }
     return jsonify(data)
 
 @app.route('/api/formats/')
 def api_format_list():
     formats = Format.query.all()
-    data = { 'formats' : [ { 'id' : f.id, 'name' : f.name } for f in formats ] }
+    data = { 'formats' : [ f.to_dictionary() for f in formats ] }
     return jsonify(data)
 
 
