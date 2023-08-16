@@ -118,7 +118,7 @@ def book_fetch_coverart(book_id):
             return redirect(url_for('book_detail', book_id=book_id))
         filename = 'isbn-' + coverart_url.split('/')[-1]
         r = requests.get(coverart_url)
-        with open(app.config['COVERARTS_DIR'] + '/' + filename, 'wb') as f:
+        with open(os.path.join(app.config['COVERARTS_DIR'], filename), 'wb') as f:
             f.write(r.content)
         coverart = CoverArt(filename = filename)
         db.session.add(coverart)
@@ -138,7 +138,7 @@ def book_upload_coverart(book_id):
         if not is_picture(file.filename):
             flash('Looked like non-picture file.')
             return redirect(url_for('book_detail', book_id=book_id))
-        tmp_filename = app.config['TEMP_DIR'] + '/' + file.filename
+        tmp_filename = os.path.join(app.config['TEMP_DIR'], file.filename)
         file.save(tmp_filename)
         coverart_filename = save_coverart(tmp_filename)
         coverart = CoverArt(filename = coverart_filename)
@@ -156,7 +156,7 @@ def book_upload_coverart(book_id):
 def book_delete_coverart(book_id):
     book = Book.query.get(book_id)
     coverart = CoverArt.query.get(book.coverart_id)
-    os.remove(app.config['COVERARTS_DIR'] + '/' + coverart.filename)
+    os.remove(os.path.join(app.config['COVERARTS_DIR'], coverart.filename))
     book.coverart_id = None
     db.session.delete(coverart)
     db.session.commit()
@@ -211,7 +211,7 @@ def format_add():
 
 @app.route('/coverart/<filename>')
 def coverart(filename):
-    path = app.config['COVERARTS_DIR'] + '/' + filename
+    path = os.path.join(app.config['COVERARTS_DIR'], filename)
     with open(path, 'rb') as f:
         content = f.read()
     return Response(content, mimetype='image/jpeg')
@@ -309,10 +309,10 @@ def api_format_list():
 
 def save_coverart(tmp_filename):
     coverart_filename = mk_filename()
-    while os.path.isfile(app.config['COVERARTS_DIR'] + '/' + coverart_filename):
+    while os.path.isfile(os.path.join(app.config['COVERARTS_DIR'], coverart_filename)):
             coverart_filename = mk_filename()
     img = Image.open(tmp_filename)
     img.thumbnail((300, 300))
     img = img.convert('RGB')
-    img.save(app.config['COVERARTS_DIR'] + '/' + coverart_filename)
+    img.save(os.path.join(app.config['COVERARTS_DIR'], coverart_filename))
     return coverart_filename
