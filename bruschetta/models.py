@@ -83,8 +83,7 @@ class Format(db.Model):
     books = db.relationship('Book', backref='format', lazy='dynamic')
 
     def __repr__(self):
-        return u'<Format id={id} name={name}>'.format(
-            id=self.id, name=self.name)
+        return f'<Format id={self.id} name={self.name}>'
 
     def to_dictionary(self):
         return {
