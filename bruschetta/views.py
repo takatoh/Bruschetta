@@ -266,7 +266,7 @@ def api_book_add():
         book.disposed = True
     db.session.add(book)
     db.session.commit()
-    return jsonify({ "status": "OK", "books": [book.to_dictionary()]})
+    return jsonify({ 'status' : 'OK', 'books' : [ book.to_dictionary() ] })
 
 @app.route('/api/search/')
 def api_search():
