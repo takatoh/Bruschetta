@@ -25,6 +25,9 @@ class Book(db.Model):
     disposed       = db.Column(db.Boolean, default=False)
     created_at     = db.Column(db.DateTime, default=datetime.utcnow)
 
+    def __repr__(self):
+        return f'<Book title={self.id} title={self.title_with_vol()}>'
+
     def title_with_vol(self):
         if self.volume:
             return f'{self.title} [{self.volume}]'
@@ -55,9 +58,6 @@ class Book(db.Model):
     def str_created_at(self):
         dt = self.created_at.replace(tzinfo=UTC()).astimezone(JST())
         return f'{dt:%Y-%m-%d %H:%M:%S}'
-
-    def __repr__(self):
-        return f'<Book title={self.id} title={self.title_with_vol()}>'
 
 
 class Category(db.Model):
