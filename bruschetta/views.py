@@ -302,7 +302,7 @@ def api_format_list():
 def save_coverart(tmp_filename):
     coverart_filename = mk_filename()
     while os.path.isfile(os.path.join(app.config['COVERARTS_DIR'], coverart_filename)):
-            coverart_filename = mk_filename()
+        coverart_filename = mk_filename()
     img = Image.open(tmp_filename)
     img.thumbnail((300, 300))
     img = img.convert('RGB')
