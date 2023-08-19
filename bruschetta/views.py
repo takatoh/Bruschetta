@@ -27,7 +27,7 @@ def book_list():
         search = '%' + search + '%'
         q = q.filter(or_(Book.title.like(search), Book.author.like(search)))
     books = q.offset(offset).limit(limit).all()
-    page_count = math.ceil(q.count() / BOOKS_PER_PAGE)
+    page_count = math.ceil(q.count() / limit)
     return render_template('books.html', books=books, page=page, page_count=page_count, version=__version__)
 
 @app.route('/book/<int:book_id>')
@@ -172,7 +172,7 @@ def book_list_disposed():
     offset = limit * (page - 1)
     q = Book.query.filter_by(disposed=True).order_by(Book.id.desc())
     books = q.offset(offset).limit(limit).all()
-    page_count = math.ceil(q.count() / BOOKS_PER_PAGE)
+    page_count = math.ceil(q.count() / limit)
     return render_template('book_list_disposed.html', books=books, page=page, page_count=page_count, version=__version__)
 
 @app.route('/book/categorized/<int:category_id>')
