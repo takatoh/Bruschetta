@@ -221,7 +221,7 @@ def coverart(filename):
 
 # Web API
 
-@app.route('/api/books/')
+@app.route('/api/books')
 def api_books():
     offset = request.args.get('offset', default=0, type=int)
     limit = request.args.get('limit', default=100, type=int)
@@ -233,7 +233,7 @@ def api_books():
     data = { 'books': [ b.to_dictionary() for b in books ] }
     return jsonify(data)
 
-@app.route('/api/book/<int:book_id>/')
+@app.route('/api/book/<int:book_id>')
 def api_book(book_id):
     book = Book.query.get(book_id)
     data = { 'books': [] }
@@ -241,7 +241,7 @@ def api_book(book_id):
         data['books'].append(book.to_dictionary())
     return jsonify(data)
 
-@app.route('/api/book/add/', methods=['POST'])
+@app.route('/api/book/add', methods=['POST'])
 def api_book_add():
     category = Category.query.filter_by(name=request.json['category']).first()
     fmt = Format.query.filter_by(name=request.json['format']).first()
@@ -268,7 +268,7 @@ def api_book_add():
     db.session.commit()
     return jsonify({ 'status' : 'OK', 'books' : [ book.to_dictionary() ] })
 
-@app.route('/api/search/')
+@app.route('/api/search')
 def api_search():
     title = request.args.get('title')
     author = request.args.get('author')
@@ -286,13 +286,13 @@ def api_search():
     data = { 'books' : [ b.to_dictionary() for b in books ] }
     return jsonify(data)
 
-@app.route('/api/categories/')
+@app.route('/api/categories')
 def api_category_list():
     categories = Category.query.all()
     data = { 'categories' : [ c.to_dictionary() for c in categories ] }
     return jsonify(data)
 
-@app.route('/api/formats/')
+@app.route('/api/formats')
 def api_format_list():
     formats = Format.query.all()
     data = { 'formats' : [ f.to_dictionary() for f in formats ] }
