@@ -4,7 +4,7 @@ import requests
 import os
 from PIL import Image
 import math
-from bruschetta import app, db
+from bruschetta import app, db, __version__
 from bruschetta.models import Book, Category, Format, CoverArt
 from bruschetta.utils import str_to_bool, mk_filename, is_picture
 
@@ -28,7 +28,7 @@ def book_list():
         q = q.filter(or_(Book.title.like(search), Book.author.like(search)))
     books = q.offset(offset).limit(limit).all()
     page_count = math.ceil(q.count() / BOOKS_PER_PAGE)
-    return render_template('books.html', books=books, page=page, page_count=page_count)
+    return render_template('books.html', books=books, page=page, page_count=page_count, version=__version__)
 
 @app.route('/book/<int:book_id>')
 def book_detail(book_id):
@@ -38,7 +38,7 @@ def book_detail(book_id):
         coverart_url = '/coverart/' + coverart
     else:
         coverart_url = None
-    return render_template('book_detail.html', book=book, coverart_url=coverart_url)
+    return render_template('book_detail.html', book=book, coverart_url=coverart_url, version=__version__)
 
 @app.route('/book/add', methods=['GET', 'POST'])
 def book_add():
@@ -68,7 +68,7 @@ def book_add():
     else:
         categories = Category.query.all()
         formats = Format.query.all()
-        return render_template('book_add.html', categories=categories, formats=formats)
+        return render_template('book_add.html', categories=categories, formats=formats, version=__version__)
 
 @app.route('/book/edit/<int:book_id>', methods=['GET', 'POST'])
 def book_edit(book_id):
@@ -102,7 +102,7 @@ def book_edit(book_id):
         book = Book.query.get(book_id)
         categories = Category.query.all()
         formats = Format.query.all()
-        return render_template('book_edit.html', book=book, categories=categories, formats=formats)
+        return render_template('book_edit.html', book=book, categories=categories, formats=formats, version=__version__)
 
 @app.route('/book/fetch_coverart/<int:book_id>', methods=['GET', 'POST'])
 def book_fetch_coverart(book_id):
@@ -130,7 +130,7 @@ def book_fetch_coverart(book_id):
         return redirect(url_for('book_detail', book_id=book_id))
     else:
         book = Book.query.get(book_id)
-        return render_template('book_fetch_coverart.html', book=book)
+        return render_template('book_fetch_coverart.html', book=book, version=__version__)
 
 @app.route('/book/upload_coverart/<int:book_id>', methods=['GET', 'POST'])
 def book_upload_coverart(book_id):
@@ -152,7 +152,7 @@ def book_upload_coverart(book_id):
         return redirect(url_for('book_detail', book_id=book_id))
     else:
         book = Book.query.get(book_id)
-        return render_template('book_upload_coverart.html', book=book)
+        return render_template('book_upload_coverart.html', book=book, version=__version__)
 
 @app.route('/book/delete_coverart/<int:book_id>')
 def book_delete_coverart(book_id):
@@ -173,18 +173,18 @@ def book_list_disposed():
     q = Book.query.filter_by(disposed=True).order_by(Book.id.desc())
     books = q.offset(offset).limit(limit).all()
     page_count = math.ceil(q.count() / BOOKS_PER_PAGE)
-    return render_template('book_list_disposed.html', books=books, page=page, page_count=page_count)
+    return render_template('book_list_disposed.html', books=books, page=page, page_count=page_count, version=__version__)
 
 @app.route('/book/categorized/<int:category_id>')
 def book_list_categorized(category_id):
     category = Category.query.get(category_id)
     books = Book.query.filter_by(category_id=category_id, disposed=False).all()
-    return render_template('book_categorized.html', category=category, books=books)
+    return render_template('book_categorized.html', category=category, books=books, version=__version__)
 
 @app.route('/categories')
 def category_list():
     categories = Category.query.all()
-    return render_template('category_list.html', categories=categories)
+    return render_template('category_list.html', categories=categories, version=__version__)
 
 @app.route('/category/add', methods=['GET', 'POST'])
 def category_add():
@@ -194,12 +194,12 @@ def category_add():
         db.session.commit()
         return redirect(url_for('category_list'))
     else:
-        return render_template('category_add.html')
+        return render_template('category_add.html', version=__version__)
 
 @app.route('/formats')
 def format_list():
     formats = Format.query.all()
-    return render_template('format_list.html', formats=formats)
+    return render_template('format_list.html', formats=formats, version=__version__)
 
 @app.route('/format/add', methods=['GET', 'POST'])
 def format_add():
@@ -209,7 +209,7 @@ def format_add():
         db.session.commit()
         return redirect(url_for('format_list'))
     else:
-        return render_template('format_add.html')
+        return render_template('format_add.html', version=__version__)
 
 @app.route('/coverart/<filename>')
 def coverart(filename):
