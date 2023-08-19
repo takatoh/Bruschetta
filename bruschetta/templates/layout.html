@@ -96,8 +96,8 @@
           const formatNew = ref('')
           const searchText = ref('')
           onMounted(() => {
-            const categs = fetch('/api/categories/').then(res => res.json())
-            const fmts = fetch('/api/formats/').then(res => res.json())
+            const categs = fetch('/api/categories').then(res => res.json())
+            const fmts = fetch('/api/formats').then(res => res.json())
             Promise.all([categs, fmts]).then(result => {
               categories.value = result[0]['categories']
               categoryOptions.value = result[0]['categories'].map(categ => categ['name'])
@@ -117,7 +117,7 @@
               bookIdElem = false
             }
             if (bookIdElem) {
-              fetch(`/api/book/${bookIdElem.value}/`)
+              fetch(`/api/book/${bookIdElem.value}`)
               .then(res => res.json())
               .then(result => {
                 const info = result['books'][0]
