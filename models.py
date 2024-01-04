@@ -1,6 +1,6 @@
-from bruschetta import db, app
+from app import db, app
 from datetime import datetime
-from bruschetta.timezone import UTC, JST
+from timezone import UTC, JST
 
 
 class Book(db.Model):

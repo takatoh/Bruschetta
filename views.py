@@ -4,9 +4,9 @@ import requests
 import os
 from PIL import Image
 import math
-from bruschetta import app, db, __version__
-from bruschetta.models import Book, Category, Format, CoverArt
-from bruschetta.utils import str_to_bool, mk_filename, is_picture
+from app import app, db, __version__
+from models import Book, Category, Format, CoverArt
+from utils import str_to_bool, mk_filename, is_picture
 
 BOOKS_PER_PAGE = 25
 

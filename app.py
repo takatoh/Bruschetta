@@ -6,10 +6,10 @@ __version__ = 'v0.4-alpha'
 
 
 app = Flask(__name__)
-app.config.from_pyfile('../bruschetta.conf')
+app.config.from_pyfile('./bruschetta.conf')
 
 db = SQLAlchemy(app)
 
 migrate = Migrate(app, db)
 
-import bruschetta.views
+import views
