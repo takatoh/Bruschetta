@@ -10,6 +10,8 @@ app.config.from_pyfile('./bruschetta.conf')
 
 db = SQLAlchemy(app)
 
+import models
+
 migrate = Migrate(app, db)
 
 import views
