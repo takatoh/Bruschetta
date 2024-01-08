@@ -22,7 +22,7 @@ class Book(db.Model):
     keyword        = db.Column(db.String)
     disk           = db.Column(db.String)
     coverart_id    = db.Column(db.Integer, db.ForeignKey('coverarts.id'))
-#    bookshelf_id   = db.Column(db.Integer, db.ForeignKey('bookshelves.id'))
+    bookshelf_id   = db.Column(db.Integer, db.ForeignKey('bookshelves.id'))
     disposed       = db.Column(db.Boolean, default=False)
     created_at     = db.Column(db.DateTime, default=datetime.utcnow)
 
@@ -103,22 +103,22 @@ class CoverArt(db.Model):
         return f'<CoverArt id={self.id} filename={self.filename}>'
 
 
-#class BookShelf(db.Model):
-#    __tablename__ = 'bookshelves'
-#    id           = db.Column(db.Integer, primary_key=True)
-#    name         = db.Column(db.String)
-#    description  = db.Column(db.String)
-#    books        = db.relationship('Book', backref='bookshelf', lazy='dynamic')
+class BookShelf(db.Model):
+    __tablename__ = 'bookshelves'
+    id           = db.Column(db.Integer, primary_key=True)
+    name         = db.Column(db.String)
+    description  = db.Column(db.String)
+    books        = db.relationship('Book', backref='bookshelf', lazy='dynamic')
 
-#    def __repr__(self):
-#        return f'<BookShelf id={self.id} name={self.name}>'
+    def __repr__(self):
+        return f'<BookShelf id={self.id} name={self.name}>'
 
-#    def to_dictionary(self):
-#        return {
-#            'id':          self.id,
-#            'name':        self.name,
-#            'description': self.description
-#        }
+    def to_dictionary(self):
+        return {
+            'id':          self.id,
+            'name':        self.name,
+            'description': self.description
+        }
 
 
 def init():
