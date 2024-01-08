@@ -5,8 +5,7 @@ import os
 from PIL import Image
 import math
 from app import app, db, __version__
-from models import Book, Category, Format
-#from models import Book, Category, Format, CoverArt
+from models import Book, Category, Format, CoverArt
 from utils import str_to_bool, mk_filename, is_picture
 
 BOOKS_PER_PAGE = 25

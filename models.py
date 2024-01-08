@@ -21,7 +21,7 @@ class Book(db.Model):
     note           = db.Column(db.String)
     keyword        = db.Column(db.String)
     disk           = db.Column(db.String)
-#    coverart_id    = db.Column(db.Integer, db.ForeignKey('coverarts.id'))
+    coverart_id    = db.Column(db.Integer, db.ForeignKey('coverarts.id'))
 #    bookshelf_id   = db.Column(db.Integer, db.ForeignKey('bookshelves.id'))
     disposed       = db.Column(db.Boolean, default=False)
     created_at     = db.Column(db.DateTime, default=datetime.utcnow)
@@ -93,13 +93,14 @@ class Format(db.Model):
         }
 
 
-#class CoverArt(db.Model):
-#    __tablename__ = 'coverarts'
-#    id       = db.Column(db.Integer, primary_key=True)
-#    filename = db.Column(db.String)
+class CoverArt(db.Model):
+    __tablename__ = 'coverarts'
+    id       = db.Column(db.Integer, primary_key=True)
+    filename = db.Column(db.String)
+    book = db.relationship('Book', backref='coverart', lazy='dynamic')
 
-#    def __repr__(self):
-#        return f'<CoverArt id={self.id} filename={self.filename}>'
+    def __repr__(self):
+        return f'<CoverArt id={self.id} filename={self.filename}>'
 
 
 #class BookShelf(db.Model):
