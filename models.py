@@ -97,6 +97,7 @@ class CoverArt(db.Model):
     __tablename__ = 'coverarts'
     id       = db.Column(db.Integer, primary_key=True)
     filename = db.Column(db.String)
+    book = db.relationship('Book', backref='coverart', lazy='dynamic')
 
     def __repr__(self):
         return f'<CoverArt id={self.id} filename={self.filename}>'
