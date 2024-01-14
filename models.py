@@ -53,6 +53,7 @@ class Book(db.Model):
             'note':           self.note,
             'keyword':        self.keyword,
             'disk':           self.disk,
+            'bookshelf':      self.bookshelf.name,
             'disposed':       self.disposed
         }
 
