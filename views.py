@@ -313,6 +313,12 @@ def api_format_list():
     data = { 'formats' : [ f.to_dictionary() for f in formats ] }
     return jsonify(data)
 
+@app.route('/api/bookshelves')
+def api_bookshelf_list():
+    bookshelves = BookShelf.query.all()
+    data = { 'bookshelves' : [ b.to_dictionary() for b in bookshelves ] }
+    return jsonify(data)
+
 
 # Functions
 
