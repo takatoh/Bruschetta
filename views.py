@@ -216,6 +216,16 @@ def bookshelf_list():
     bookshelves = BookShelf.query.all()
     return render_template('bookshelf_list.html', bookshelves=bookshelves, version=__version__)
 
+@app.route('/bookshelf/add', methods=['GET', 'POST'])
+def bookshelf_add():
+    if request.method == 'POST':
+        bookshelf = BookShelf(name=request.form['name'], description=request.form['description'])
+        db.session.add(bookshelf)
+        db.session.commit()
+        return redirect(url_for('bookshelf_list'))
+    else:
+        return render_template('bookshelf_add.html', version=__version__)
+
 @app.route('/coverart/<filename>')
 def coverart(filename):
     path = os.path.join(app.config['COVERARTS_DIR'], filename)
