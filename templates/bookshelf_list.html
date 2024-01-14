@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+{% block body %}
+  <h5 class="text-teal-10">Formats</h5>
+
+  <div class="q-pa-md">
+    <q-table
+      :rows="bookshelves"
+      :columns="bookshelfColumns"
+      row-key="id"
+      :rows-per-page-options=[0]
+      borderd
+      dense
+    >
+    </q-table>
+  </div>
+
+  <div>
+    <q-btn label="Add a new bookshelf" href="/bookshelf/add" color="teal" outline></q-btn>
+  </div>
+{% endblock %}
