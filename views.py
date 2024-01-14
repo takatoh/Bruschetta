@@ -5,7 +5,7 @@ import os
 from PIL import Image
 import math
 from app import app, db, __version__
-from models import Book, Category, Format, CoverArt
+from models import Book, Category, Format, CoverArt, BookShelf
 from utils import str_to_bool, mk_filename, is_picture
 
 BOOKS_PER_PAGE = 25
@@ -210,6 +210,11 @@ def format_add():
         return redirect(url_for('format_list'))
     else:
         return render_template('format_add.html', version=__version__)
+
+@app.route('/bookshelves')
+def bookshelf_list():
+    bookshelves = BookShelf.query.all()
+    return render_template('bookshelf_list.html', bookshelves=bookshelves, version=__version__)
 
 @app.route('/coverart/<filename>')
 def coverart(filename):
