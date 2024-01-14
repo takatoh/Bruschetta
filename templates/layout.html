@@ -79,6 +79,7 @@
           const note = ref('')
           const keyword = ref('')
           const disc = ref('')
+          const bookshelf = ref('')
           const disposed = ref(false)
           const coverArtFile = ref('')
           const categories = ref([])
@@ -151,6 +152,7 @@
                 note.value = info['note']
                 keyword.value = info['keyword']
                 disc.value = info['disk']
+                bookshelf.value = info['bookshelf']
                 disposed.value = info['disposed']
               })
             }
@@ -172,6 +174,7 @@
             note,
             keyword,
             disc,
+            bookshelf,
             disposed,
             coverArtFile,
             categories,
@@ -184,6 +187,7 @@
             formatNew,
             bookshelves,
             bookshelfColumns,
+            bookshelfOptions,
             bookshelfNewName,
             bookshelfNewDescription,
             searchText
