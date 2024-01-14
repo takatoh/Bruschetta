@@ -23,6 +23,7 @@
                 <q-btn flat label="Disposed" color="teal-9" href="{{ url_for('book_list_disposed') }}"></q-btn>
                 <q-btn flat label="Categoires" color="teal-9" href="{{ url_for('category_list') }}"></q-btn>
                 <q-btn flat label="Formats" color="teal-9" href="{{ url_for('format_list') }}"></q-btn>
+                <q-btn flat label="Bookshelves" color="teal-9" href="{{ url_for('bookshelf_list') }}"></q-btn>
                 <q-space></q-space>
               </q-toolbar>
             </div>
@@ -94,6 +95,12 @@
           ]
           const formatOptions = ref([])
           const formatNew = ref('')
+          const bookshelves = ref([])
+          const bookshelfColumns = [
+            { name: 'id', label: 'ID', align: 'left', field: row => row['id'], format: val => `${val}` },
+            { name: 'name', label: 'Name', align: 'left', field: 'name' },
+            { name: 'description', label: 'Description', align: 'left', field: 'description' },
+          ]
           const searchText = ref('')
           onMounted(() => {
             const categs = fetch('/api/categories').then(res => res.json())
