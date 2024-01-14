@@ -27,7 +27,7 @@ class Book(db.Model):
     created_at     = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __repr__(self):
-        return f'<Book title={self.id} title={self.title_with_vol()}>'
+        return f'<Book id={self.id} title={self.title_with_vol()}>'
 
     def title_with_vol(self):
         if self.volume:
