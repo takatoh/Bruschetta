@@ -340,6 +340,14 @@ def api_bookshelf_list():
     data = { 'bookshelves' : [ b.to_dictionary() for b in bookshelves ] }
     return jsonify(data)
 
+@app.route('/api/bookshelf/<int:bookshelf_id>')
+def api_bookshelf(bookshelf_id):
+    bookshelf = BookShelf.query.get(bookshelf_id)
+    data = { 'bookshelves': [] }
+    if not bookshelf is None:
+        data['bookshelves'].append(bookshelf.to_dictionary())
+    return jsonify(data)
+
 
 # Functions
 
