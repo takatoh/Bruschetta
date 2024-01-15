@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+
+{% block body %}
+  <h5 class="text-teal-10">Bookshelf detail</h5>
+
+  <div class="q-pa-md" style="min-width: 600px">
+    <q-list>
+      <q-item>
+        <q-item-section>
+          <q-item-label overline>ID</q-item-label>
+          <q-item-label>{{ bookshelf.id }}</q-item-label>
+        </q-item-section>
+      </q-item>
+      <q-item>
+        <q-item-section>
+          <q-item-label overline>Name</q-item-label>
+          <q-item-label>{{ bookshelf.name }}</q-item-label>
+        </q-item-section>
+      </q-item>
+      <q-item>
+        <q-item-section>
+          <q-item-label overline>Description</q-item-label>
+          <q-item-label>{{ bookshelf.description }}</q-item-label>
+        </q-item-section>
+      </q-item>
+    </q-list>
+  </div>
+
+  <div class="q-pa-md q-gutter-y-md column items-start">
+    <q-btn-group outline>
+      <q-btn label="Edit" color="teal" outline href="{{ url_for('bookshelf_edit', bookshelf_id=bookshelf.id) }}"></q-btn>
+    </q-btn-group>
+  </div>
+{% endblock %}
