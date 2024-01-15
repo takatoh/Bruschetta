@@ -105,6 +105,9 @@
           const bookshelfOptions = ref([])
           const bookshelfNewName = ref('')
           const bookshelfNewDescription = ref('')
+          const bookshelfId = ref(null)
+          const bookshelfName = ref('')
+          const bookshelfDescription = ref('')
           const searchText = ref('')
           onMounted(() => {
             const categs = fetch('/api/categories').then(res => res.json())
@@ -156,6 +159,22 @@
                 disposed.value = info['disposed']
               })
             }
+            let bookshelfIdElem
+            try {
+              bookshelfIdElem = document.getElementById('bookshelfId')
+            } catch(e) {
+              bookshelfIdElem = false
+            }
+            if (bookshelfIdElem) {
+              fetch(`/api/bookshelf/${bookshelfIdElem.value}`)
+              .then(res => res.json())
+              .then(result => {
+                const info = result['bookshelves'][0]
+                bookshelfId.value = info['id']
+                bookshelfName.value = info['name']
+                bookshelfDescription.value = info['description']
+              })
+            }
           })
           return {
             bookId,
@@ -190,6 +209,9 @@
             bookshelfOptions,
             bookshelfNewName,
             bookshelfNewDescription,
+            bookshelfId,
+            bookshelfName,
+            bookshelfDescription,
             searchText
           }
         },
