@@ -229,6 +229,24 @@ def bookshelf_add():
     else:
         return render_template('bookshelf_add.html', version=__version__)
 
+@app.route('/bookshelf/<int:bookshelf_id>')
+def bookshelf_detail(bookshelf_id):
+    bookshelf = BookShelf.query.get(bookshelf_id)
+    return render_template('bookshelf_detail.html', bookshelf=bookshelf, version=__version__)
+
+@app.route('/bookshelf/edit/<int:bookshelf_id>', methods=['GET', 'POST'])
+def bookshelf_edit(bookshelf_id):
+    if request.method == 'POST':
+        bookshelf = BookShelf.query.get(bookshelf_id)
+        bookshelf.name        = request.form['name']
+        bookshelf.description = request.form['description']
+        db.session.commit()
+        flash('The bookshelf was successfully updated.')
+        return redirect(url_for('bookshelf_detail', bookshelf_id=bookshelf_id))
+    else:
+        bookshelf = BookShelf.query.get(bookshelf_id)
+        return render_template('bookshelf_edit.html', bookshelf=bookshelf, version=__version__)
+
 @app.route('/coverart/<filename>')
 def coverart(filename):
     path = os.path.join(app.config['COVERARTS_DIR'], filename)
