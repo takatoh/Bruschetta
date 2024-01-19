@@ -232,7 +232,8 @@ def bookshelf_add():
 @app.route('/bookshelf/<int:bookshelf_id>')
 def bookshelf_detail(bookshelf_id):
     bookshelf = BookShelf.query.get(bookshelf_id)
-    return render_template('bookshelf_detail.html', bookshelf=bookshelf, version=__version__)
+    books = Book.query.filter_by(bookshelf_id=bookshelf_id).order_by(Book.id.desc()).all()
+    return render_template('bookshelf_detail.html', bookshelf=bookshelf, books=books, version=__version__)
 
 @app.route('/bookshelf/edit/<int:bookshelf_id>', methods=['GET', 'POST'])
 def bookshelf_edit(bookshelf_id):

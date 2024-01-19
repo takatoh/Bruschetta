@@ -31,4 +31,25 @@
       <q-btn label="Edit" color="teal" outline href="{{ url_for('bookshelf_edit', bookshelf_id=bookshelf.id) }}"></q-btn>
     </q-btn-group>
   </div>
-{% endblock %}
+
+  <h5 class="text-teal-10">Books</h5>
+
+  <div class="q-pa-md col items-start q-gutter-md">
+    {% for book in books %}
+    <q-card flat bordered class="q-pa-sm" style="width: 600px;">
+      <q-card-section class="q-pa-none col-2">
+        {{ book.id }}
+      </q-card-section>
+      <q-card-section class="q-pa-none col-5">
+        <a href="{{ url_for('book_detail', book_id=book.id) }}"/>
+          {{ book.title_with_vol() }}
+        </a>
+      </q-card-section>
+      <q-card-section class="q-pa-none col-5">
+        {{ book.author }}
+      </q-card-section>
+    </q-card>
+    {% endfor %}
+  </div>
+
+  {% endblock %}
