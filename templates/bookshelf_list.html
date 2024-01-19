@@ -11,6 +11,13 @@
       borderd
       dense
     >
+      <template v-slot:body-cell-name="cellProps">
+        <q-td :props="cellProps">
+          <div>
+            <a :href="'/bookshelf/' + cellProps.row.id" v-text="cellProps.value"></a>
+          </div>
+        </q-td>
+      </template>
     </q-table>
   </div>
 
