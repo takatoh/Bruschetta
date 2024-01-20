@@ -121,7 +121,9 @@
               formatOptions.value = result[1]['formats'].map(fmt => fmt['name'])
               format.value = formatOptions.value[0]
               bookshelves.value = result[2]['bookshelves']
-              bookshelfOptions.value = result[2]['bookshelves'].map(bs => bs['name'])
+              bsOpts = result[2]['bookshelves'].map(bs => bs['name'])
+              bsOpts.unshift('')
+              bookshelfOptions.value = bsOpts
               bookshelf.value = bookshelfOptions.value[0]
             })
             const q = (new URL(location)).searchParams
