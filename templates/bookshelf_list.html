@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block body %}
+  <h5 class="text-teal-10">Bookshelves</h5>
+
+  <div class="q-pa-md">
+    <q-table
+      :rows="bookshelves"
+      :columns="bookshelfColumns"
+      row-key="id"
+      :rows-per-page-options=[0]
+      borderd
+      dense
+    >
+      <template v-slot:body-cell-name="cellProps">
+        <q-td :props="cellProps">
+          <div>
+            <a :href="'/bookshelf/' + cellProps.row.id" v-text="cellProps.value"></a>
+          </div>
+        </q-td>
+      </template>
+    </q-table>
+  </div>
+
+  <div>
+    <q-btn label="Add a new bookshelf" href="{{ url_for('bookshelf_add') }}" color="teal" outline></q-btn>
+  </div>
+{% endblock %}

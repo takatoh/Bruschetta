@@ -6,11 +6,10 @@ authors = ["takatoh <takatoh.m@gmail.com>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "^3.9"
-Flask = "^2.0.2"
-Flask-SQLAlchemy = "^3.0.2"
-Flask-Script = "^2.0.6"
-Flask-Migrate = "^3.1.0"
+python = "^3.10"
+Flask = "^3.0.0"
+Flask-SQLAlchemy = "^3.1.0"
+Flask-Migrate = "^4.0.0"
 python-dotenv = "^0.19.2"
 requests = "^2.26.0"
 Pillow = "^10.0.1"

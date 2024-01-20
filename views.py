@@ -4,9 +4,9 @@ import requests
 import os
 from PIL import Image
 import math
-from bruschetta import app, db, __version__
-from bruschetta.models import Book, Category, Format, CoverArt
-from bruschetta.utils import str_to_bool, mk_filename, is_picture
+from app import app, db, __version__
+from models import Book, Category, Format, CoverArt, BookShelf
+from utils import str_to_bool, mk_filename, is_picture
 
 BOOKS_PER_PAGE = 25
 
@@ -75,6 +75,11 @@ def book_edit(book_id):
     if request.method == 'POST':
         category = Category.query.filter_by(name=request.form['category']).first()
         fmt = Format.query.filter_by(name=request.form['format']).first()
+        print(request.form['bookshelf'])
+        if request.form['bookshelf']:
+            bookshelf_id = BookShelf.query.filter_by(name=request.form['bookshelf']).first().id
+        else:
+            bookshelf_id = None
         book = Book.query.get(book_id)
         book.title          = request.form['title']
         book.volume         = request.form['volume']
@@ -91,6 +96,7 @@ def book_edit(book_id):
         book.note           = request.form['note']
         book.keyword        = request.form['keyword']
         book.disk           = request.form['disk']
+        book.bookshelf_id   = bookshelf_id
         if len(request.form.getlist('disposed')) == 1:
             book.disposed = True
         else:
@@ -102,7 +108,8 @@ def book_edit(book_id):
         book = Book.query.get(book_id)
         categories = Category.query.all()
         formats = Format.query.all()
-        return render_template('book_edit.html', book=book, categories=categories, formats=formats, version=__version__)
+        bookshelves = BookShelf.query.all()
+        return render_template('book_edit.html', book=book, categories=categories, formats=formats, bookshelves=bookshelves, version=__version__)
 
 @app.route('/book/fetch_coverart/<int:book_id>', methods=['GET', 'POST'])
 def book_fetch_coverart(book_id):
@@ -211,6 +218,40 @@ def format_add():
     else:
         return render_template('format_add.html', version=__version__)
 
+@app.route('/bookshelves')
+def bookshelf_list():
+    bookshelves = BookShelf.query.all()
+    return render_template('bookshelf_list.html', bookshelves=bookshelves, version=__version__)
+
+@app.route('/bookshelf/add', methods=['GET', 'POST'])
+def bookshelf_add():
+    if request.method == 'POST':
+        bookshelf = BookShelf(name=request.form['name'], description=request.form['description'])
+        db.session.add(bookshelf)
+        db.session.commit()
+        return redirect(url_for('bookshelf_list'))
+    else:
+        return render_template('bookshelf_add.html', version=__version__)
+
+@app.route('/bookshelf/<int:bookshelf_id>')
+def bookshelf_detail(bookshelf_id):
+    bookshelf = BookShelf.query.get(bookshelf_id)
+    books = Book.query.filter_by(bookshelf_id=bookshelf_id).order_by(Book.id.desc()).all()
+    return render_template('bookshelf_detail.html', bookshelf=bookshelf, books=books, version=__version__)
+
+@app.route('/bookshelf/edit/<int:bookshelf_id>', methods=['GET', 'POST'])
+def bookshelf_edit(bookshelf_id):
+    if request.method == 'POST':
+        bookshelf = BookShelf.query.get(bookshelf_id)
+        bookshelf.name        = request.form['name']
+        bookshelf.description = request.form['description']
+        db.session.commit()
+        flash('The bookshelf was successfully updated.')
+        return redirect(url_for('bookshelf_detail', bookshelf_id=bookshelf_id))
+    else:
+        bookshelf = BookShelf.query.get(bookshelf_id)
+        return render_template('bookshelf_edit.html', bookshelf=bookshelf, version=__version__)
+
 @app.route('/coverart/<filename>')
 def coverart(filename):
     path = os.path.join(app.config['COVERARTS_DIR'], filename)
@@ -296,6 +337,20 @@ def api_category_list():
 def api_format_list():
     formats = Format.query.all()
     data = { 'formats' : [ f.to_dictionary() for f in formats ] }
+    return jsonify(data)
+
+@app.route('/api/bookshelves')
+def api_bookshelf_list():
+    bookshelves = BookShelf.query.all()
+    data = { 'bookshelves' : [ b.to_dictionary() for b in bookshelves ] }
+    return jsonify(data)
+
+@app.route('/api/bookshelf/<int:bookshelf_id>')
+def api_bookshelf(bookshelf_id):
+    bookshelf = BookShelf.query.get(bookshelf_id)
+    data = { 'bookshelves': [] }
+    if not bookshelf is None:
+        data['bookshelves'].append(bookshelf.to_dictionary())
     return jsonify(data)
 
 

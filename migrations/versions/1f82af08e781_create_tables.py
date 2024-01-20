@@ -1,8 +1,8 @@
-"""Create tables
+"""create tables
 
-Revision ID: 0bff8cd02ef3
+Revision ID: 1f82af08e781
 Revises: 
-Create Date: 2020-05-19 18:17:46.360520
+Create Date: 2024-01-08 14:55:26.833261
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '0bff8cd02ef3'
+revision = '1f82af08e781'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -21,12 +21,12 @@ def upgrade():
     op.create_table('categories',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(), nullable=True),
-    sa.PrimaryKeyConstraint('id')
+    sa.PrimaryKeyConstraint('id', name=op.f('pk_categories'))
     )
     op.create_table('formats',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(), nullable=True),
-    sa.PrimaryKeyConstraint('id')
+    sa.PrimaryKeyConstraint('id', name=op.f('pk_formats'))
     )
     op.create_table('books',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -47,9 +47,9 @@ def upgrade():
     sa.Column('disk', sa.String(), nullable=True),
     sa.Column('disposed', sa.Boolean(), nullable=True),
     sa.Column('created_at', sa.DateTime(), nullable=True),
-    sa.ForeignKeyConstraint(['category_id'], ['categories.id'], ),
-    sa.ForeignKeyConstraint(['format_id'], ['formats.id'], ),
-    sa.PrimaryKeyConstraint('id')
+    sa.ForeignKeyConstraint(['category_id'], ['categories.id'], name=op.f('fk_books_category_id_categories')),
+    sa.ForeignKeyConstraint(['format_id'], ['formats.id'], name=op.f('fk_books_format_id_formats')),
+    sa.PrimaryKeyConstraint('id', name=op.f('pk_books'))
     )
     # ### end Alembic commands ###
 

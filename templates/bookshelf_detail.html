@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+
+{% block body %}
+  <h5 class="text-teal-10">Bookshelf detail</h5>
+
+  <div class="q-pa-md" style="min-width: 600px">
+    <q-list>
+      <q-item>
+        <q-item-section>
+          <q-item-label overline>ID</q-item-label>
+          <q-item-label>{{ bookshelf.id }}</q-item-label>
+        </q-item-section>
+      </q-item>
+      <q-item>
+        <q-item-section>
+          <q-item-label overline>Name</q-item-label>
+          <q-item-label>{{ bookshelf.name }}</q-item-label>
+        </q-item-section>
+      </q-item>
+      <q-item>
+        <q-item-section>
+          <q-item-label overline>Description</q-item-label>
+          <q-item-label>{{ bookshelf.description }}</q-item-label>
+        </q-item-section>
+      </q-item>
+    </q-list>
+  </div>
+
+  <div class="q-pa-md q-gutter-y-md column items-start">
+    <q-btn-group outline>
+      <q-btn label="Edit" color="teal" outline href="{{ url_for('bookshelf_edit', bookshelf_id=bookshelf.id) }}"></q-btn>
+    </q-btn-group>
+  </div>
+
+  <h5 class="text-teal-10">Books in this bookshelf</h5>
+
+  <div class="q-pa-md col items-start q-gutter-md">
+    {% for book in books %}
+    <q-card flat bordered class="q-pa-sm" style="width: 600px;">
+      <q-card-section class="q-pa-none col-2">
+        {{ book.id }}
+      </q-card-section>
+      <q-card-section class="q-pa-none col-5">
+        <a href="{{ url_for('book_detail', book_id=book.id) }}"/>
+          {{ book.title_with_vol() }}
+        </a>
+      </q-card-section>
+      <q-card-section class="q-pa-none col-5">
+        {{ book.author }}
+      </q-card-section>
+    </q-card>
+    {% endfor %}
+  </div>
+
+  {% endblock %}

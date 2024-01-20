@@ -23,6 +23,7 @@
                 <q-btn flat label="Disposed" color="teal-9" href="{{ url_for('book_list_disposed') }}"></q-btn>
                 <q-btn flat label="Categoires" color="teal-9" href="{{ url_for('category_list') }}"></q-btn>
                 <q-btn flat label="Formats" color="teal-9" href="{{ url_for('format_list') }}"></q-btn>
+                <q-btn flat label="Bookshelves" color="teal-9" href="{{ url_for('bookshelf_list') }}"></q-btn>
                 <q-space></q-space>
               </q-toolbar>
             </div>
@@ -78,6 +79,7 @@
           const note = ref('')
           const keyword = ref('')
           const disc = ref('')
+          const bookshelf = ref('')
           const disposed = ref(false)
           const coverArtFile = ref('')
           const categories = ref([])
@@ -94,17 +96,35 @@
           ]
           const formatOptions = ref([])
           const formatNew = ref('')
+          const bookshelves = ref([])
+          const bookshelfColumns = [
+            { name: 'id', label: 'ID', align: 'left', field: row => row['id'], format: val => `${val}` },
+            { name: 'name', label: 'Name', align: 'left', field: 'name' },
+            { name: 'description', label: 'Description', align: 'left', field: 'description' },
+          ]
+          const bookshelfOptions = ref([])
+          const bookshelfNewName = ref('')
+          const bookshelfNewDescription = ref('')
+          const bookshelfId = ref(null)
+          const bookshelfName = ref('')
+          const bookshelfDescription = ref('')
           const searchText = ref('')
           onMounted(() => {
             const categs = fetch('/api/categories').then(res => res.json())
             const fmts = fetch('/api/formats').then(res => res.json())
-            Promise.all([categs, fmts]).then(result => {
+            const bshelvs = fetch('/api/bookshelves').then(res => res.json())
+            Promise.all([categs, fmts, bshelvs]).then(result => {
               categories.value = result[0]['categories']
               categoryOptions.value = result[0]['categories'].map(categ => categ['name'])
               category.value = categoryOptions.value[0]
               formats.value = result[1]['formats']
               formatOptions.value = result[1]['formats'].map(fmt => fmt['name'])
               format.value = formatOptions.value[0]
+              bookshelves.value = result[2]['bookshelves']
+              bsOpts = result[2]['bookshelves'].map(bs => bs['name'])
+              bsOpts.unshift('')
+              bookshelfOptions.value = bsOpts
+              bookshelf.value = bookshelfOptions.value[0]
             })
             const q = (new URL(location)).searchParams
             if (q.get('search')) {
@@ -137,7 +157,24 @@
                 note.value = info['note']
                 keyword.value = info['keyword']
                 disc.value = info['disk']
+                bookshelf.value = info['bookshelf']
                 disposed.value = info['disposed']
+              })
+            }
+            let bookshelfIdElem
+            try {
+              bookshelfIdElem = document.getElementById('bookshelfId')
+            } catch(e) {
+              bookshelfIdElem = false
+            }
+            if (bookshelfIdElem) {
+              fetch(`/api/bookshelf/${bookshelfIdElem.value}`)
+              .then(res => res.json())
+              .then(result => {
+                const info = result['bookshelves'][0]
+                bookshelfId.value = info['id']
+                bookshelfName.value = info['name']
+                bookshelfDescription.value = info['description']
               })
             }
           })
@@ -158,6 +195,7 @@
             note,
             keyword,
             disc,
+            bookshelf,
             disposed,
             coverArtFile,
             categories,
@@ -168,6 +206,14 @@
             formatColumns,
             formatOptions,
             formatNew,
+            bookshelves,
+            bookshelfColumns,
+            bookshelfOptions,
+            bookshelfNewName,
+            bookshelfNewDescription,
+            bookshelfId,
+            bookshelfName,
+            bookshelfDescription,
             searchText
           }
         },

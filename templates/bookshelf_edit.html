@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block body %}
+  <h5 class="text-teal-10">Edit bookshelf informations</h5>
+
+  <div class="q-pa-md" style="width: 600px;">
+    <q-form action="/bookshelf/edit/{{ bookshelf.id }}" method="post" class="q-gutter-md">
+      <input type="hidden" id="bookshelfId" value="{{ bookshelf.id }}"></input>
+      <q-input name="bookshelf_id" v-model="bookshelfId" label="ID" readonly></q-input>
+      <q-input name="name" v-model="bookshelfName" label="Name"></q-input>
+      <q-input name="description" v-model="bookshelfDescription" label="Description"></q-input>
+      <div>
+        <q-btn label="Update" type="submit" color="primary"></q-btn>
+      </div>
+    </q-form>
+  </div>
+{% endblock %}

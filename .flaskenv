@@ -1,1 +1,1 @@
-FLASK_APP=bruschetta/__init__.py
+FLASK_APP=app.py
