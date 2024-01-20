@@ -75,7 +75,11 @@ def book_edit(book_id):
     if request.method == 'POST':
         category = Category.query.filter_by(name=request.form['category']).first()
         fmt = Format.query.filter_by(name=request.form['format']).first()
-        bookshelf = BookShelf.query.filter_by(name=request.form['bookshelf']).first()
+        print(request.form['bookshelf'])
+        if request.form['bookshelf']:
+            bookshelf_id = BookShelf.query.filter_by(name=request.form['bookshelf']).first().id
+        else:
+            bookshelf_id = None
         book = Book.query.get(book_id)
         book.title          = request.form['title']
         book.volume         = request.form['volume']
@@ -92,7 +96,7 @@ def book_edit(book_id):
         book.note           = request.form['note']
         book.keyword        = request.form['keyword']
         book.disk           = request.form['disk']
-        book.bookshelf_id   = bookshelf.id
+        book.bookshelf_id   = bookshelf_id
         if len(request.form.getlist('disposed')) == 1:
             book.disposed = True
         else:

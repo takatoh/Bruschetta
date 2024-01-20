@@ -36,6 +36,7 @@ class Book(db.Model):
             return self.title
 
     def to_dictionary(self):
+        bookshelf = self.bookshelf.name if self.bookshelf else ''
         return {
             'id':             self.id,
             'title':          self.title,
@@ -53,7 +54,7 @@ class Book(db.Model):
             'note':           self.note,
             'keyword':        self.keyword,
             'disk':           self.disk,
-            'bookshelf':      self.bookshelf.name,
+            'bookshelf':      bookshelf,
             'disposed':       self.disposed
         }
 
