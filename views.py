@@ -45,6 +45,10 @@ def book_add():
     if request.method == 'POST':
         category = Category.query.filter_by(name=request.form['category']).first()
         fmt = Format.query.filter_by(name=request.form['format']).first()
+        if request.form['bookshelf']:
+            bookshelf_id = BookShelf.query.filter_by(name=request.form['bookshelf']).first().id
+        else:
+            bookshelf_id = None
         book = Book(
             title          = request.form['title'],
             volume         = request.form['volume'],
@@ -60,7 +64,8 @@ def book_add():
             original_title = request.form['original_title'],
             note           = request.form['note'],
             keyword        = request.form['keyword'],
-            disk           = request.form['disk'])
+            disk           = request.form['disk'],
+            bookshelf_id   = bookshelf_id)
         db.session.add(book)
         db.session.commit()
         flash('New book was successfully added.')
