@@ -4,7 +4,6 @@ from flask import (
     url_for,
     render_template,
     flash,
-    json,
     jsonify,
     Response,
 )
@@ -386,7 +385,7 @@ def api_books():
 def api_book(book_id):
     book = Book.query.get(book_id)
     data = {"books": []}
-    if not book is None:
+    if book is not None:
         data["books"].append(book.to_dictionary())
     return jsonify(data)
 
@@ -465,7 +464,7 @@ def api_bookshelf_list():
 def api_bookshelf(bookshelf_id):
     bookshelf = BookShelf.query.get(bookshelf_id)
     data = {"bookshelves": []}
-    if not bookshelf is None:
+    if bookshelf is not None:
         data["bookshelves"].append(bookshelf.to_dictionary())
     return jsonify(data)
 
