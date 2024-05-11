@@ -24,3 +24,4 @@ import models
 migrate = Migrate(app, db)
 
 import views
+import api
