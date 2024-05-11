@@ -3,11 +3,11 @@ import string
 import random
 import os
 
-PICTURES_EXTS = ['.png', '.jpg', '.jpeg']
+PICTURES_EXTS = [".png", ".jpg", ".jpeg"]
 
 
 def str_to_bool(s):
-    p = re.compile(r'(true|yes|on)\Z', re.IGNORECASE)
+    p = re.compile(r"(true|yes|on)\Z", re.IGNORECASE)
     if p.match(s):
         return True
     else:
@@ -15,14 +15,14 @@ def str_to_bool(s):
 
 
 def mk_filename():
-    filename = randstring(12) + '.jpg'
+    filename = randstring(12) + ".jpg"
     return filename
 
 
 def randstring(n):
     pool = string.ascii_lowercase + string.digits
     random.seed()
-    s = ''.join(random.choices(pool, k=n))
+    s = "".join(random.choices(pool, k=n))
     return s
 
 
