@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta, tzinfo
+from datetime import timedelta, tzinfo
 
 
 class UTC(tzinfo):
