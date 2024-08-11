@@ -104,6 +104,7 @@ def book_edit(book_id):
         book.bookshelf_id   = bookshelf_id
         if len(request.form.getlist('disposed')) == 1:
             book.disposed = True
+            book.bookshelf_id = None
         else:
             book.disposed = False
         db.session.commit()
