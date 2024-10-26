@@ -15,7 +15,7 @@ from utils import str_to_bool, mk_filename
 bp = Blueprint("api", __name__)
 
 
-@bp.route("/api/books")
+@bp.route("/books")
 def api_books():
     offset = request.args.get("offset", default=0, type=int)
     limit = request.args.get("limit", default=100, type=int)
@@ -30,7 +30,7 @@ def api_books():
     return jsonify(data)
 
 
-@bp.route("/api/book/<int:book_id>")
+@bp.route("/book/<int:book_id>")
 def api_book(book_id):
     book = Book.query.get(book_id)
     data = {"books": []}
@@ -39,7 +39,7 @@ def api_book(book_id):
     return jsonify(data)
 
 
-@bp.route("/api/book/add", methods=["POST"])
+@bp.route("/book/add", methods=["POST"])
 def api_book_add():
     category = Category.query.filter_by(name=request.json["category"]).first()
     fmt = Format.query.filter_by(name=request.json["format"]).first()
@@ -67,7 +67,7 @@ def api_book_add():
     return jsonify({"status": "OK", "books": [book.to_dictionary()]})
 
 
-@bp.route("/api/search")
+@bp.route("/search")
 def api_search():
     title = request.args.get("title")
     author = request.args.get("author")
@@ -88,28 +88,28 @@ def api_search():
     return jsonify(data)
 
 
-@bp.route("/api/categories")
+@bp.route("/categories")
 def api_category_list():
     categories = Category.query.all()
     data = {"categories": [c.to_dictionary() for c in categories]}
     return jsonify(data)
 
 
-@bp.route("/api/formats")
+@bp.route("/formats")
 def api_format_list():
     formats = Format.query.all()
     data = {"formats": [f.to_dictionary() for f in formats]}
     return jsonify(data)
 
 
-@bp.route("/api/bookshelves")
+@bp.route("/bookshelves")
 def api_bookshelf_list():
     bookshelves = BookShelf.query.all()
     data = {"bookshelves": [b.to_dictionary() for b in bookshelves]}
     return jsonify(data)
 
 
-@bp.route("/api/bookshelf/<int:bookshelf_id>")
+@bp.route("/bookshelf/<int:bookshelf_id>")
 def api_bookshelf(bookshelf_id):
     bookshelf = BookShelf.query.get(bookshelf_id)
     data = {"bookshelves": []}
