@@ -25,3 +25,5 @@ migrate = Migrate(app, db)
 
 import views
 import api
+
+app.register_blueprint(api.bp)
