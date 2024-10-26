@@ -24,6 +24,9 @@ import models
 migrate = Migrate(app, db)
 
 import views
+
+app.register_blueprint(views.bp)
+
 import api
 
 app.register_blueprint(api.bp)
