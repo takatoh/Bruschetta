@@ -10,8 +10,6 @@ from flask import (
 from sqlalchemy import or_
 import requests
 import os
-
-# from PIL import Image
 import math
 from app import app, db, __version__
 from models import Book, Category, Format, CoverArt, BookShelf
@@ -368,19 +366,3 @@ def coverart(filename):
     with open(path, "rb") as f:
         content = f.read()
     return Response(content, mimetype="image/jpeg")
-
-
-# Functions
-
-
-# def save_coverart(tmp_filename):
-#    coverart_filename = mk_filename()
-#    while os.path.isfile(
-#        os.path.join(app.config["COVERARTS_DIR"], coverart_filename)
-#    ):
-#        coverart_filename = mk_filename()
-#    img = Image.open(tmp_filename)
-#    img.thumbnail((300, 300))
-#    img = img.convert("RGB")
-#    img.save(os.path.join(app.config["COVERARTS_DIR"], coverart_filename))
-#    return coverart_filename
