@@ -19,8 +19,6 @@ convention = {
 metadata = MetaData(naming_convention=convention)
 db = SQLAlchemy(app, metadata=metadata)
 
-import models
-
 migrate = Migrate(app, db)
 
 import views
