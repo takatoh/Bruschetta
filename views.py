@@ -1,4 +1,5 @@
 from flask import (
+    Blueprint,
     request,
     redirect,
     url_for,
@@ -17,13 +18,15 @@ from utils import mk_filename, is_picture
 
 BOOKS_PER_PAGE = 25
 
+bp = Blueprint("views", __name__)
 
-@app.route("/")
+
+@bp.route("/")
 def index():
     return redirect("/books")
 
 
-@app.route("/books")
+@bp.route("/books")
 def book_list():
     page = request.args.get("page")
     page = int(page) if page else 1
@@ -45,7 +48,7 @@ def book_list():
     )
 
 
-@app.route("/book/<int:book_id>")
+@bp.route("/book/<int:book_id>")
 def book_detail(book_id):
     book = Book.query.get(book_id)
     if book.coverart_id:
@@ -61,7 +64,7 @@ def book_detail(book_id):
     )
 
 
-@app.route("/book/add", methods=["GET", "POST"])
+@bp.route("/book/add", methods=["GET", "POST"])
 def book_add():
     if request.method == "POST":
         category = Category.query.filter_by(
@@ -97,7 +100,7 @@ def book_add():
         db.session.add(book)
         db.session.commit()
         flash("New book was successfully added.")
-        return redirect(url_for("index"))
+        return redirect(url_for("views.index"))
     else:
         categories = Category.query.all()
         formats = Format.query.all()
@@ -109,7 +112,7 @@ def book_add():
         )
 
 
-@app.route("/book/edit/<int:book_id>", methods=["GET", "POST"])
+@bp.route("/book/edit/<int:book_id>", methods=["GET", "POST"])
 def book_edit(book_id):
     if request.method == "POST":
         category = Category.query.filter_by(
@@ -148,7 +151,7 @@ def book_edit(book_id):
             book.disposed = False
         db.session.commit()
         flash("The book was successfully updated.")
-        return redirect(url_for("book_detail", book_id=book_id))
+        return redirect(url_for("views.book_detail", book_id=book_id))
     else:
         book = Book.query.get(book_id)
         categories = Category.query.all()
@@ -164,7 +167,7 @@ def book_edit(book_id):
         )
 
 
-@app.route("/book/fetch_coverart/<int:book_id>", methods=["GET", "POST"])
+@bp.route("/book/fetch_coverart/<int:book_id>", methods=["GET", "POST"])
 def book_fetch_coverart(book_id):
     if request.method == "POST":
         book = Book.query.get(book_id)
@@ -173,11 +176,11 @@ def book_fetch_coverart(book_id):
         book_info = r.json()
         if not book_info[0]:
             flash("Failed to get book infomations from OpenBD.")
-            return redirect(url_for("book_detail", book_id=book_id))
+            return redirect(url_for("views.book_detail", book_id=book_id))
         coverart_url = book_info[0]["summary"]["cover"]
         if not coverart_url:
             flash("Not found cover art on OpenBD.")
-            return redirect(url_for("book_detail", book_id=book_id))
+            return redirect(url_for("views.book_detail", book_id=book_id))
         filename = "isbn-" + coverart_url.split("/")[-1]
         r = requests.get(coverart_url)
         with open(
@@ -189,7 +192,7 @@ def book_fetch_coverart(book_id):
         db.session.commit()
         book.coverart_id = coverart.id
         db.session.commit()
-        return redirect(url_for("book_detail", book_id=book_id))
+        return redirect(url_for("views.book_detail", book_id=book_id))
     else:
         book = Book.query.get(book_id)
         return render_template(
@@ -197,14 +200,14 @@ def book_fetch_coverart(book_id):
         )
 
 
-@app.route("/book/upload_coverart/<int:book_id>", methods=["GET", "POST"])
+@bp.route("/book/upload_coverart/<int:book_id>", methods=["GET", "POST"])
 def book_upload_coverart(book_id):
     if request.method == "POST":
         book = Book.query.get(book_id)
         file = request.files["file"]
         if not is_picture(file.filename):
             flash("Looked like non-picture file.")
-            return redirect(url_for("book_detail", book_id=book_id))
+            return redirect(url_for("views.book_detail", book_id=book_id))
         tmp_filename = os.path.join(app.config["TEMP_DIR"], file.filename)
         file.save(tmp_filename)
         coverart_filename = save_coverart(tmp_filename)
@@ -214,7 +217,7 @@ def book_upload_coverart(book_id):
         book.coverart_id = coverart.id
         db.session.commit()
         os.remove(tmp_filename)
-        return redirect(url_for("book_detail", book_id=book_id))
+        return redirect(url_for("views.book_detail", book_id=book_id))
     else:
         book = Book.query.get(book_id)
         return render_template(
@@ -222,7 +225,7 @@ def book_upload_coverart(book_id):
         )
 
 
-@app.route("/book/delete_coverart/<int:book_id>")
+@bp.route("/book/delete_coverart/<int:book_id>")
 def book_delete_coverart(book_id):
     book = Book.query.get(book_id)
     coverart = CoverArt.query.get(book.coverart_id)
@@ -230,10 +233,10 @@ def book_delete_coverart(book_id):
     book.coverart_id = None
     db.session.delete(coverart)
     db.session.commit()
-    return redirect(url_for("book_detail", book_id=book_id))
+    return redirect(url_for("views.book_detail", book_id=book_id))
 
 
-@app.route("/book/disposed")
+@bp.route("/book/disposed")
 def book_list_disposed():
     page = request.args.get("page")
     page = int(page) if page else 1
@@ -251,7 +254,7 @@ def book_list_disposed():
     )
 
 
-@app.route("/book/categorized/<int:category_id>")
+@bp.route("/book/categorized/<int:category_id>")
 def book_list_categorized(category_id):
     category = Category.query.get(category_id)
     books = Book.query.filter_by(category_id=category_id, disposed=False).all()
@@ -263,7 +266,7 @@ def book_list_categorized(category_id):
     )
 
 
-@app.route("/categories")
+@bp.route("/categories")
 def category_list():
     categories = Category.query.all()
     return render_template(
@@ -271,18 +274,18 @@ def category_list():
     )
 
 
-@app.route("/category/add", methods=["GET", "POST"])
+@bp.route("/category/add", methods=["GET", "POST"])
 def category_add():
     if request.method == "POST":
         category = Category(name=request.form["name"])
         db.session.add(category)
         db.session.commit()
-        return redirect(url_for("category_list"))
+        return redirect(url_for("views.category_list"))
     else:
         return render_template("category_add.html", version=__version__)
 
 
-@app.route("/formats")
+@bp.route("/formats")
 def format_list():
     formats = Format.query.all()
     return render_template(
@@ -290,18 +293,18 @@ def format_list():
     )
 
 
-@app.route("/format/add", methods=["GET", "POST"])
+@bp.route("/format/add", methods=["GET", "POST"])
 def format_add():
     if request.method == "POST":
         fmt = Format(name=request.form["name"])
         db.session.add(fmt)
         db.session.commit()
-        return redirect(url_for("format_list"))
+        return redirect(url_for("views.format_list"))
     else:
         return render_template("format_add.html", version=__version__)
 
 
-@app.route("/bookshelves")
+@bp.route("/bookshelves")
 def bookshelf_list():
     bookshelves = BookShelf.query.all()
     return render_template(
@@ -309,7 +312,7 @@ def bookshelf_list():
     )
 
 
-@app.route("/bookshelf/add", methods=["GET", "POST"])
+@bp.route("/bookshelf/add", methods=["GET", "POST"])
 def bookshelf_add():
     if request.method == "POST":
         bookshelf = BookShelf(
@@ -317,12 +320,12 @@ def bookshelf_add():
         )
         db.session.add(bookshelf)
         db.session.commit()
-        return redirect(url_for("bookshelf_list"))
+        return redirect(url_for("views.bookshelf_list"))
     else:
         return render_template("bookshelf_add.html", version=__version__)
 
 
-@app.route("/bookshelf/<int:bookshelf_id>")
+@bp.route("/bookshelf/<int:bookshelf_id>")
 def bookshelf_detail(bookshelf_id):
     bookshelf = BookShelf.query.get(bookshelf_id)
     books = (
@@ -338,7 +341,7 @@ def bookshelf_detail(bookshelf_id):
     )
 
 
-@app.route("/bookshelf/edit/<int:bookshelf_id>", methods=["GET", "POST"])
+@bp.route("/bookshelf/edit/<int:bookshelf_id>", methods=["GET", "POST"])
 def bookshelf_edit(bookshelf_id):
     if request.method == "POST":
         bookshelf = BookShelf.query.get(bookshelf_id)
@@ -346,7 +349,9 @@ def bookshelf_edit(bookshelf_id):
         bookshelf.description = request.form["description"]
         db.session.commit()
         flash("The bookshelf was successfully updated.")
-        return redirect(url_for("bookshelf_detail", bookshelf_id=bookshelf_id))
+        return redirect(
+            url_for("views.bookshelf_detail", bookshelf_id=bookshelf_id)
+        )
     else:
         bookshelf = BookShelf.query.get(bookshelf_id)
         return render_template(
@@ -354,7 +359,7 @@ def bookshelf_edit(bookshelf_id):
         )
 
 
-@app.route("/coverart/<filename>")
+@bp.route("/coverart/<filename>")
 def coverart(filename):
     path = os.path.join(app.config["COVERARTS_DIR"], filename)
     with open(path, "rb") as f:
