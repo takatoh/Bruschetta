@@ -10,11 +10,12 @@ from flask import (
 from sqlalchemy import or_
 import requests
 import os
-from PIL import Image
+
+# from PIL import Image
 import math
 from app import app, db, __version__
 from models import Book, Category, Format, CoverArt, BookShelf
-from utils import mk_filename, is_picture
+from utils import save_coverart, is_picture
 
 BOOKS_PER_PAGE = 25
 
@@ -210,7 +211,9 @@ def book_upload_coverart(book_id):
             return redirect(url_for("views.book_detail", book_id=book_id))
         tmp_filename = os.path.join(app.config["TEMP_DIR"], file.filename)
         file.save(tmp_filename)
-        coverart_filename = save_coverart(tmp_filename)
+        coverart_filename = save_coverart(
+            tmp_filename, app.config["COVERARTS_DIR"]
+        )
         coverart = CoverArt(filename=coverart_filename)
         db.session.add(coverart)
         db.session.commit()
@@ -370,14 +373,14 @@ def coverart(filename):
 # Functions
 
 
-def save_coverart(tmp_filename):
-    coverart_filename = mk_filename()
-    while os.path.isfile(
-        os.path.join(app.config["COVERARTS_DIR"], coverart_filename)
-    ):
-        coverart_filename = mk_filename()
-    img = Image.open(tmp_filename)
-    img.thumbnail((300, 300))
-    img = img.convert("RGB")
-    img.save(os.path.join(app.config["COVERARTS_DIR"], coverart_filename))
-    return coverart_filename
+# def save_coverart(tmp_filename):
+#    coverart_filename = mk_filename()
+#    while os.path.isfile(
+#        os.path.join(app.config["COVERARTS_DIR"], coverart_filename)
+#    ):
+#        coverart_filename = mk_filename()
+#    img = Image.open(tmp_filename)
+#    img.thumbnail((300, 300))
+#    img = img.convert("RGB")
+#    img.save(os.path.join(app.config["COVERARTS_DIR"], coverart_filename))
+#    return coverart_filename
