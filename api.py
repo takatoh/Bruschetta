@@ -3,11 +3,9 @@ from flask import (
     request,
     jsonify,
 )
-import os
-from PIL import Image
-from app import app, db
+from app import db
 from models import Book, Category, Format, BookShelf
-from utils import str_to_bool, mk_filename
+from utils import str_to_bool
 
 
 # Web API
@@ -116,19 +114,3 @@ def api_bookshelf(bookshelf_id):
     if bookshelf is not None:
         data["bookshelves"].append(bookshelf.to_dictionary())
     return jsonify(data)
-
-
-# Functions
-
-
-def save_coverart(tmp_filename):
-    coverart_filename = mk_filename()
-    while os.path.isfile(
-        os.path.join(app.config["COVERARTS_DIR"], coverart_filename)
-    ):
-        coverart_filename = mk_filename()
-    img = Image.open(tmp_filename)
-    img.thumbnail((300, 300))
-    img = img.convert("RGB")
-    img.save(os.path.join(app.config["COVERARTS_DIR"], coverart_filename))
-    return coverart_filename
