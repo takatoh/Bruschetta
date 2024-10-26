@@ -16,7 +16,7 @@ bp = Blueprint("api", __name__)
 
 
 @bp.route("/books")
-def api_books():
+def books():
     offset = request.args.get("offset", default=0, type=int)
     limit = request.args.get("limit", default=100, type=int)
     include_disposed = str_to_bool(
@@ -31,7 +31,7 @@ def api_books():
 
 
 @bp.route("/book/<int:book_id>")
-def api_book(book_id):
+def book(book_id):
     book = Book.query.get(book_id)
     data = {"books": []}
     if book is not None:
@@ -40,7 +40,7 @@ def api_book(book_id):
 
 
 @bp.route("/book/add", methods=["POST"])
-def api_book_add():
+def book_add():
     category = Category.query.filter_by(name=request.json["category"]).first()
     fmt = Format.query.filter_by(name=request.json["format"]).first()
     book = Book(
@@ -68,7 +68,7 @@ def api_book_add():
 
 
 @bp.route("/search")
-def api_search():
+def search():
     title = request.args.get("title")
     author = request.args.get("author")
     both = request.args.get("both")
@@ -89,28 +89,28 @@ def api_search():
 
 
 @bp.route("/categories")
-def api_category_list():
+def category_list():
     categories = Category.query.all()
     data = {"categories": [c.to_dictionary() for c in categories]}
     return jsonify(data)
 
 
 @bp.route("/formats")
-def api_format_list():
+def format_list():
     formats = Format.query.all()
     data = {"formats": [f.to_dictionary() for f in formats]}
     return jsonify(data)
 
 
 @bp.route("/bookshelves")
-def api_bookshelf_list():
+def bookshelf_list():
     bookshelves = BookShelf.query.all()
     data = {"bookshelves": [b.to_dictionary() for b in bookshelves]}
     return jsonify(data)
 
 
 @bp.route("/bookshelf/<int:bookshelf_id>")
-def api_bookshelf(bookshelf_id):
+def bookshelf(bookshelf_id):
     bookshelf = BookShelf.query.get(bookshelf_id)
     data = {"bookshelves": []}
     if bookshelf is not None:
