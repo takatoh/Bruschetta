@@ -289,7 +289,7 @@ def category_add():
 def format_list():
     formats = Format.query.all()
     return render_template(
-        "format_list.html", formats=formats, version=__version__
+        "format/list.html", formats=formats, version=__version__
     )
 
 
@@ -301,7 +301,7 @@ def format_add():
         db.session.commit()
         return redirect(url_for("views.format_list"))
     else:
-        return render_template("format_add.html", version=__version__)
+        return render_template("format/add.html", version=__version__)
 
 
 @bp.route("/bookshelves")
