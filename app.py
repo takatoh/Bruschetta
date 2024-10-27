@@ -30,3 +30,7 @@ app.register_blueprint(views.bp)
 import api
 
 app.register_blueprint(api.bp, url_prefix="/api")
+
+import coverarts
+
+app.register_blueprint(coverarts.bp)
