@@ -5,7 +5,6 @@ from flask import (
     url_for,
     render_template,
     flash,
-    Response,
 )
 from sqlalchemy import or_
 import requests
