@@ -38,7 +38,7 @@ def book_list():
     books = q.offset(offset).limit(limit).all()
     page_count = math.ceil(q.count() / limit)
     return render_template(
-        "books.html",
+        "book/index.html",
         books=books,
         page=page,
         page_count=page_count,
@@ -55,7 +55,7 @@ def book_detail(book_id):
     else:
         coverart_url = None
     return render_template(
-        "book_detail.html",
+        "book/detail.html",
         book=book,
         coverart_url=coverart_url,
         version=__version__,
@@ -103,7 +103,7 @@ def book_add():
         categories = Category.query.all()
         formats = Format.query.all()
         return render_template(
-            "book_add.html",
+            "book/add.html",
             categories=categories,
             formats=formats,
             version=__version__,
@@ -156,7 +156,7 @@ def book_edit(book_id):
         formats = Format.query.all()
         bookshelves = BookShelf.query.all()
         return render_template(
-            "book_edit.html",
+            "book/edit.html",
             book=book,
             categories=categories,
             formats=formats,
@@ -194,7 +194,7 @@ def book_fetch_coverart(book_id):
     else:
         book = Book.query.get(book_id)
         return render_template(
-            "book_fetch_coverart.html", book=book, version=__version__
+            "book/fetch_coverart.html", book=book, version=__version__
         )
 
 
@@ -221,7 +221,7 @@ def book_upload_coverart(book_id):
     else:
         book = Book.query.get(book_id)
         return render_template(
-            "book_upload_coverart.html", book=book, version=__version__
+            "book/upload_coverart.html", book=book, version=__version__
         )
 
 
@@ -246,7 +246,7 @@ def book_list_disposed():
     books = q.offset(offset).limit(limit).all()
     page_count = math.ceil(q.count() / limit)
     return render_template(
-        "book_list_disposed.html",
+        "book/list_disposed.html",
         books=books,
         page=page,
         page_count=page_count,
@@ -259,7 +259,7 @@ def book_list_categorized(category_id):
     category = Category.query.get(category_id)
     books = Book.query.filter_by(category_id=category_id, disposed=False).all()
     return render_template(
-        "book_categorized.html",
+        "book/list_categorized.html",
         category=category,
         books=books,
         version=__version__,
