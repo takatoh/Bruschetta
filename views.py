@@ -359,14 +359,6 @@ def bookshelf_edit(bookshelf_id):
         )
 
 
-@bp.route("/coverart/<filename>")
-def coverart(filename):
-    path = os.path.join(app.config["COVERARTS_DIR"], filename)
-    with open(path, "rb") as f:
-        content = f.read()
-    return Response(content, mimetype="image/jpeg")
-
-
 # Functions
 
 
