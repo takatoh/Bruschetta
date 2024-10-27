@@ -308,7 +308,7 @@ def format_add():
 def bookshelf_list():
     bookshelves = BookShelf.query.all()
     return render_template(
-        "bookshelf_list.html", bookshelves=bookshelves, version=__version__
+        "bookshelf/list.html", bookshelves=bookshelves, version=__version__
     )
 
 
@@ -322,7 +322,7 @@ def bookshelf_add():
         db.session.commit()
         return redirect(url_for("views.bookshelf_list"))
     else:
-        return render_template("bookshelf_add.html", version=__version__)
+        return render_template("bookshelf/add.html", version=__version__)
 
 
 @bp.route("/bookshelf/<int:bookshelf_id>")
@@ -334,7 +334,7 @@ def bookshelf_detail(bookshelf_id):
         .all()
     )
     return render_template(
-        "bookshelf_detail.html",
+        "bookshelf/detail.html",
         bookshelf=bookshelf,
         books=books,
         version=__version__,
@@ -355,5 +355,5 @@ def bookshelf_edit(bookshelf_id):
     else:
         bookshelf = BookShelf.query.get(bookshelf_id)
         return render_template(
-            "bookshelf_edit.html", bookshelf=bookshelf, version=__version__
+            "bookshelf/edit.html", bookshelf=bookshelf, version=__version__
         )
