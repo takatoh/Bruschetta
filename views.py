@@ -270,7 +270,7 @@ def book_list_categorized(category_id):
 def category_list():
     categories = Category.query.all()
     return render_template(
-        "category_list.html", categories=categories, version=__version__
+        "category/list.html", categories=categories, version=__version__
     )
 
 
@@ -282,7 +282,7 @@ def category_add():
         db.session.commit()
         return redirect(url_for("views.category_list"))
     else:
-        return render_template("category_add.html", version=__version__)
+        return render_template("category/add.html", version=__version__)
 
 
 @bp.route("/formats")
