@@ -358,11 +358,3 @@ def bookshelf_edit(bookshelf_id):
         return render_template(
             "bookshelf_edit.html", bookshelf=bookshelf, version=__version__
         )
-
-
-@bp.route("/coverart/<filename>")
-def coverart(filename):
-    path = os.path.join(app.config["COVERARTS_DIR"], filename)
-    with open(path, "rb") as f:
-        content = f.read()
-    return Response(content, mimetype="image/jpeg")
