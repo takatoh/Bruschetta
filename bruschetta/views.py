@@ -10,9 +10,9 @@ from sqlalchemy import or_
 import requests
 import os
 import math
-from app import app, db, __version__
-from models import Book, Category, Format, CoverArt, BookShelf
-from utils import save_coverart, is_picture
+from . import app, db, __version__
+from .models import Book, Category, Format, CoverArt, BookShelf
+from .utils import save_coverart, is_picture
 
 BOOKS_PER_PAGE = 25
 

@@ -1,7 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
 from datetime import datetime
-from timezone import UTC, JST
+from .timezone import UTC, JST
 
 
 convention = {

@@ -3,9 +3,9 @@ from flask import (
     request,
     jsonify,
 )
-from app import db
-from models import Book, Category, Format, BookShelf
-from utils import str_to_bool
+from . import db
+from .models import Book, Category, Format, BookShelf
+from .utils import str_to_bool
 
 
 # Web API
