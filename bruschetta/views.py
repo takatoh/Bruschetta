@@ -5,13 +5,14 @@ from flask import (
     url_for,
     render_template,
     flash,
+    current_app,
 )
 from sqlalchemy import or_
 import requests
 import os
 import math
-from . import app, db, __version__
-from .models import Book, Category, Format, CoverArt, BookShelf
+from . import __version__
+from .models import db, Book, Category, Format, CoverArt, BookShelf
 from .utils import save_coverart, is_picture
 
 BOOKS_PER_PAGE = 25
@@ -182,7 +183,8 @@ def book_fetch_coverart(book_id):
         filename = "isbn-" + coverart_url.split("/")[-1]
         r = requests.get(coverart_url)
         with open(
-            os.path.join(app.config["COVERARTS_DIR"], filename), "wb"
+            os.path.join(current_app.config["COVERARTS_DIR"], filename),
+            "wb",
         ) as f:
             f.write(r.content)
         coverart = CoverArt(filename=filename)
@@ -206,10 +208,12 @@ def book_upload_coverart(book_id):
         if not is_picture(file.filename):
             flash("Looked like non-picture file.")
             return redirect(url_for("views.book_detail", book_id=book_id))
-        tmp_filename = os.path.join(app.config["TEMP_DIR"], file.filename)
+        tmp_filename = os.path.join(
+            current_app.config["TEMP_DIR"], file.filename
+        )
         file.save(tmp_filename)
         coverart_filename = save_coverart(
-            tmp_filename, app.config["COVERARTS_DIR"]
+            tmp_filename, current_app.config["COVERARTS_DIR"]
         )
         coverart = CoverArt(filename=coverart_filename)
         db.session.add(coverart)
@@ -229,7 +233,9 @@ def book_upload_coverart(book_id):
 def book_delete_coverart(book_id):
     book = Book.query.get(book_id)
     coverart = CoverArt.query.get(book.coverart_id)
-    os.remove(os.path.join(app.config["COVERARTS_DIR"], coverart.filename))
+    os.remove(
+        os.path.join(current_app.config["COVERARTS_DIR"], coverart.filename)
+    )
     book.coverart_id = None
     db.session.delete(coverart)
     db.session.commit()

@@ -1,10 +1,11 @@
-from flask import Blueprint
-from . import app
+from flask import Blueprint, current_app
+
+# from . import app
 
 
 bp = Blueprint(
     "coverart",
     __name__,
     static_url_path="/coverart",
-    static_folder=app.config["COVERARTS_DIR"],
+    static_folder=current_app.config["COVERARTS_DIR"],
 )
