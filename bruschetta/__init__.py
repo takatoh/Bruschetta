@@ -23,6 +23,8 @@ def create_app(config_filename="./bruschetta.conf"):
 
     from . import coverarts
 
-    app.register_blueprint(coverarts.bp)
+    app.register_blueprint(
+        coverarts.create_blueprint(app.config["COVERARTS_DIR"])
+    )
 
     return app
