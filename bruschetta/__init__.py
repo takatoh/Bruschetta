@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_migrate import Migrate
-from .models import db
+from .models import init_app, db
 
 __version__ = "v0.4.2"
 
@@ -9,6 +9,7 @@ def create_app(config_filename="./bruschetta.conf"):
     app = Flask(__name__)
     app.config.from_pyfile(config_filename)
 
+    init_app(app)
     db.init_app(app)
 
     migrate = Migrate(app, db)

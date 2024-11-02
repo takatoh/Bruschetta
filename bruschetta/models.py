@@ -1,5 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
+import click
 from datetime import datetime
 from .timezone import UTC, JST
 
@@ -131,3 +132,14 @@ class BookShelf(db.Model):
 
 def init():
     db.create_all()
+
+
+@click.command("init-db")
+def init_db_command():
+    """Clear the existing data and create new tables."""
+    init()
+    click.echo("Initialized the database.")
+
+
+def init_app(app):
+    app.cli.add_command(init_db_command)
