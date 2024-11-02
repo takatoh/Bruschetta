@@ -182,10 +182,12 @@ def book_fetch_coverart(book_id):
             return redirect(url_for("views.book_detail", book_id=book_id))
         filename = "isbn-" + coverart_url.split("/")[-1]
         r = requests.get(coverart_url)
-        with open(
-            os.path.join(current_app.config["COVERARTS_DIR"], filename),
-            "wb",
-        ) as f:
+        coverart_filename = os.path.join(
+            current_app.root_path,
+            current_app.config["COVERARTS_DIR"],
+            filename,
+        )
+        with open(coverart_filename, "wb") as f:
             f.write(r.content)
         coverart = CoverArt(filename=filename)
         db.session.add(coverart)
@@ -212,9 +214,10 @@ def book_upload_coverart(book_id):
             current_app.config["TEMP_DIR"], file.filename
         )
         file.save(tmp_filename)
-        coverart_filename = save_coverart(
-            tmp_filename, current_app.config["COVERARTS_DIR"]
+        coverart_dir = os.path.join(
+            current_app.root_path, current_app.config["COVERARTS_DIR"]
         )
+        coverart_filename = save_coverart(tmp_filename, coverart_dir)
         coverart = CoverArt(filename=coverart_filename)
         db.session.add(coverart)
         db.session.commit()
@@ -234,7 +237,11 @@ def book_delete_coverart(book_id):
     book = Book.query.get(book_id)
     coverart = CoverArt.query.get(book.coverart_id)
     os.remove(
-        os.path.join(current_app.config["COVERARTS_DIR"], coverart.filename)
+        os.path.join(
+            current_app.root_path,
+            current_app.config["COVERARTS_DIR"],
+            coverart.filename,
+        )
     )
     book.coverart_id = None
     db.session.delete(coverart)
