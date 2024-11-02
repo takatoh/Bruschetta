@@ -5,21 +5,24 @@ from .models import db
 __version__ = "v0.4.2"
 
 
-app = Flask(__name__)
-app.config.from_pyfile("./bruschetta.conf")
+def create_app(config_filename="./bruschetta.conf"):
+    app = Flask(__name__)
+    app.config.from_pyfile(config_filename)
 
-db.init_app(app)
+    db.init_app(app)
 
-migrate = Migrate(app, db)
+    migrate = Migrate(app, db)
 
-from . import views
+    from . import views
 
-app.register_blueprint(views.bp)
+    app.register_blueprint(views.bp)
 
-from . import api
+    from . import api
 
-app.register_blueprint(api.bp, url_prefix="/api")
+    app.register_blueprint(api.bp, url_prefix="/api")
 
-from . import coverarts
+    from . import coverarts
 
-app.register_blueprint(coverarts.bp)
+    app.register_blueprint(coverarts.bp)
+
+    return app
