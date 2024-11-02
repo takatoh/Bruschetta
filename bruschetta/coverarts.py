@@ -1,7 +1,5 @@
 from flask import Blueprint, current_app
 
-# from . import app
-
 
 bp = Blueprint(
     "coverart",
