@@ -28,7 +28,7 @@
 
   <div class="q-pa-md q-gutter-y-md column items-start">
     <q-btn-group outline>
-      <q-btn label="Edit" color="teal" outline href="{{ url_for('bookshelf_edit', bookshelf_id=bookshelf.id) }}"></q-btn>
+      <q-btn label="Edit" color="teal" outline href="{{ url_for('views.bookshelf_edit', bookshelf_id=bookshelf.id) }}"></q-btn>
     </q-btn-group>
   </div>
 
@@ -41,7 +41,7 @@
         {{ book.id }}
       </q-card-section>
       <q-card-section class="q-pa-none col-5">
-        <a href="{{ url_for('book_detail', book_id=book.id) }}"/>
+        <a href="{{ url_for('views.book_detail', book_id=book.id) }}"/>
           {{ book.title_with_vol() }}
         </a>
       </q-card-section>

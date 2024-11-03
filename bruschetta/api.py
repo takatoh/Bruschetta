@@ -1,19 +1,20 @@
 from flask import (
+    Blueprint,
     request,
     jsonify,
 )
-import os
-from PIL import Image
-from app import app, db
-from models import Book, Category, Format, BookShelf
-from utils import str_to_bool, mk_filename
+from . import db
+from .models import Book, Category, Format, BookShelf
+from .utils import str_to_bool
 
 
 # Web API
 
+bp = Blueprint("api", __name__)
 
-@app.route("/api/books")
-def api_books():
+
+@bp.route("/books")
+def books():
     offset = request.args.get("offset", default=0, type=int)
     limit = request.args.get("limit", default=100, type=int)
     include_disposed = str_to_bool(
@@ -27,8 +28,8 @@ def api_books():
     return jsonify(data)
 
 
-@app.route("/api/book/<int:book_id>")
-def api_book(book_id):
+@bp.route("/book/<int:book_id>")
+def book(book_id):
     book = Book.query.get(book_id)
     data = {"books": []}
     if book is not None:
@@ -36,8 +37,8 @@ def api_book(book_id):
     return jsonify(data)
 
 
-@app.route("/api/book/add", methods=["POST"])
-def api_book_add():
+@bp.route("/book/add", methods=["POST"])
+def book_add():
     category = Category.query.filter_by(name=request.json["category"]).first()
     fmt = Format.query.filter_by(name=request.json["format"]).first()
     book = Book(
@@ -64,8 +65,8 @@ def api_book_add():
     return jsonify({"status": "OK", "books": [book.to_dictionary()]})
 
 
-@app.route("/api/search")
-def api_search():
+@bp.route("/search")
+def search():
     title = request.args.get("title")
     author = request.args.get("author")
     both = request.args.get("both")
@@ -85,47 +86,31 @@ def api_search():
     return jsonify(data)
 
 
-@app.route("/api/categories")
-def api_category_list():
+@bp.route("/categories")
+def category_list():
     categories = Category.query.all()
     data = {"categories": [c.to_dictionary() for c in categories]}
     return jsonify(data)
 
 
-@app.route("/api/formats")
-def api_format_list():
+@bp.route("/formats")
+def format_list():
     formats = Format.query.all()
     data = {"formats": [f.to_dictionary() for f in formats]}
     return jsonify(data)
 
 
-@app.route("/api/bookshelves")
-def api_bookshelf_list():
+@bp.route("/bookshelves")
+def bookshelf_list():
     bookshelves = BookShelf.query.all()
     data = {"bookshelves": [b.to_dictionary() for b in bookshelves]}
     return jsonify(data)
 
 
-@app.route("/api/bookshelf/<int:bookshelf_id>")
-def api_bookshelf(bookshelf_id):
+@bp.route("/bookshelf/<int:bookshelf_id>")
+def bookshelf(bookshelf_id):
     bookshelf = BookShelf.query.get(bookshelf_id)
     data = {"bookshelves": []}
     if bookshelf is not None:
         data["bookshelves"].append(bookshelf.to_dictionary())
     return jsonify(data)
-
-
-# Functions
-
-
-def save_coverart(tmp_filename):
-    coverart_filename = mk_filename()
-    while os.path.isfile(
-        os.path.join(app.config["COVERARTS_DIR"], coverart_filename)
-    ):
-        coverart_filename = mk_filename()
-    img = Image.open(tmp_filename)
-    img.thumbnail((300, 300))
-    img = img.convert("RGB")
-    img.save(os.path.join(app.config["COVERARTS_DIR"], coverart_filename))
-    return coverart_filename

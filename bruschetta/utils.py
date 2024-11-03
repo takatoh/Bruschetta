@@ -2,6 +2,7 @@ import re
 import string
 import random
 import os
+from PIL import Image
 
 PICTURES_EXTS = [".png", ".jpg", ".jpeg"]
 
@@ -29,3 +30,14 @@ def randstring(n):
 def is_picture(filename):
     base, ext = os.path.splitext(filename)
     return ext.lower() in PICTURES_EXTS
+
+
+def save_coverart(tmp_filename, coverart_dir):
+    coverart_filename = mk_filename()
+    while os.path.isfile(os.path.join(coverart_dir, coverart_filename)):
+        coverart_filename = mk_filename()
+    img = Image.open(tmp_filename)
+    img.thumbnail((300, 300))
+    img = img.convert("RGB")
+    img.save(os.path.join(coverart_dir, coverart_filename))
+    return coverart_filename
