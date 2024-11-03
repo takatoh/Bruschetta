@@ -1,7 +1,9 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
+from flask_migrate import Migrate
+import click
 from datetime import datetime
-from timezone import UTC, JST
+from .timezone import UTC, JST
 
 
 convention = {
@@ -131,3 +133,15 @@ class BookShelf(db.Model):
 
 def init():
     db.create_all()
+
+
+@click.command("init-db")
+def init_db_command():
+    """Clear the existing data and create new tables."""
+    init()
+    click.echo("Initialized the database.")
+
+
+def init_app(app):
+    _ = Migrate(app, db)
+    app.cli.add_command(init_db_command)
