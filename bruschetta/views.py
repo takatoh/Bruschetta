@@ -183,7 +183,7 @@ def book_fetch_coverart(book_id):
         filename = "isbn-" + coverart_url.split("/")[-1]
         r = requests.get(coverart_url)
         coverart_filename = os.path.join(
-            current_app.root_path,
+            current_app.instance_path,
             current_app.config["COVERARTS_DIR"],
             filename,
         )
@@ -215,7 +215,7 @@ def book_upload_coverart(book_id):
         )
         file.save(tmp_filename)
         coverart_dir = os.path.join(
-            current_app.root_path, current_app.config["COVERARTS_DIR"]
+            current_app.instance_path, current_app.config["COVERARTS_DIR"]
         )
         coverart_filename = save_coverart(tmp_filename, coverart_dir)
         coverart = CoverArt(filename=coverart_filename)
@@ -238,7 +238,7 @@ def book_delete_coverart(book_id):
     coverart = CoverArt.query.get(book.coverart_id)
     os.remove(
         os.path.join(
-            current_app.root_path,
+            current_app.instance_path,
             current_app.config["COVERARTS_DIR"],
             coverart.filename,
         )
