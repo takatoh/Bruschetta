@@ -1,5 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
+from flask_migrate import Migrate
 import click
 from datetime import datetime
 from .timezone import UTC, JST
@@ -142,4 +143,5 @@ def init_db_command():
 
 
 def init_app(app):
+    _ = Migrate(app, db)
     app.cli.add_command(init_db_command)

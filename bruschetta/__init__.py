@@ -1,5 +1,4 @@
 from flask import Flask
-from flask_migrate import Migrate
 from .models import init_app, db
 
 __version__ = "v0.4.2"
@@ -11,8 +10,6 @@ def create_app(config_filename="./bruschetta.conf"):
 
     init_app(app)
     db.init_app(app)
-
-    migrate = Migrate(app, db)
 
     from . import views
 
