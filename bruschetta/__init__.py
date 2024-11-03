@@ -1,4 +1,5 @@
 from flask import Flask
+import os
 from .models import init_app, db
 
 __version__ = "v0.4.2"
@@ -21,8 +22,9 @@ def create_app(config_filename="./bruschetta.conf"):
 
     from . import coverarts
 
-    app.register_blueprint(
-        coverarts.create_blueprint(app.config["COVERARTS_DIR"])
+    coverarts_dir = os.path.join(
+        app.instance_path, app.config["COVERARTS_DIR"]
     )
+    app.register_blueprint(coverarts.create_blueprint(coverarts_dir))
 
     return app
