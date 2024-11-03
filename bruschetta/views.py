@@ -211,7 +211,9 @@ def book_upload_coverart(book_id):
             flash("Looked like non-picture file.")
             return redirect(url_for("views.book_detail", book_id=book_id))
         tmp_filename = os.path.join(
-            current_app.config["TEMP_DIR"], file.filename
+            current_app.instance_path,
+            current_app.config["TEMP_DIR"],
+            file.filename,
         )
         file.save(tmp_filename)
         coverart_dir = os.path.join(
