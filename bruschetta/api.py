@@ -3,8 +3,7 @@ from flask import (
     request,
     jsonify,
 )
-from . import db
-from .models import Book, Category, Format, BookShelf
+from .models import db, Book, Category, Format, BookShelf
 from .utils import str_to_bool
 
 
