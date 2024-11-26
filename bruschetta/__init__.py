@@ -18,19 +18,18 @@ def create_app(config_filename="./bruschetta.conf"):
     init_app(app)
     db.init_app(app)
 
+    # fmt: off
     from . import views
-
     app.register_blueprint(views.bp)
 
     from . import api
-
     app.register_blueprint(api.bp, url_prefix="/api")
 
     from . import coverarts
-
     coverarts_dir = os.path.join(
         app.instance_path, app.config["COVERARTS_DIR"]
     )
     app.register_blueprint(coverarts.create_blueprint(coverarts_dir))
+    # fmt: on
 
     return app
