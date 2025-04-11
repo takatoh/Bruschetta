@@ -3,6 +3,7 @@ FROM python:3.12-bookworm
 RUN apt-get update && apt-get upgrade -y \
   && pip install --upgrade pip \
   && pip install poetry \
+  && poetry config virtualenvs.in-project true \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
