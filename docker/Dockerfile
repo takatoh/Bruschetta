@@ -1,0 +1,12 @@
+FROM python:3.12-bookworm
+
+RUN apt-get update && apt-get upgrade -y \
+  && pip install --upgrade pip \
+  && pip install poetry \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+ENV PYTHONPATH=/app
+ENV LANG=ja_JP.UTF-8
