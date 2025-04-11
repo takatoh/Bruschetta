@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+
+  bruschetta:
+    image: "bruschetta:${TAG-latest}"
+    build:
+      context: ./docker
+      dockerfile: Dockerfile
+    ports:
+      - 5000:5000
+    volumes:
+      - .:/app:cached
+    tty: true
+    restart: unless-stopped
