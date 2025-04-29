@@ -93,9 +93,6 @@ def update_book(book_id):
     book.keyword = request.json["keyword"]
     book.disk = request.json["disk"]
     book.bookshelf_id = bookshelf_id
-    if len(request.form.getlist("disposed")) == 1:
-        book.disposed = True
-    else:
-        book.disposed = False
+    book.disposed = request.json["disposed"]
     db.session.commit()
     return jsonify({"status": "OK", "books": [book.to_dictionary()]})
