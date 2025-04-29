@@ -131,8 +131,6 @@
       <q-btn label="Edit" color="teal" outline href="{{ url_for('book_edit', book_id=book.id) }}"></q-btn>
       {% if not coverart_url %}
       <q-separator inset></q-separator>
-      <q-btn label="Fetch coverart" color="teal" outline href="{{ url_for('book_fetch_coverart', book_id=book.id) }}"></q-btn>
-      <q-separator inset></q-separator>
       <q-btn label="Upload coverart" color="teal" outline href="{{ url_for('book_upload_coverart', book_id=book.id) }}"></q-btn>
       {% else %}
       <q-separator inset></q-separator>
