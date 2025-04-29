@@ -144,3 +144,11 @@ def list_categories():
     categories = Category.query.all()
     data = [c.to_dictionary() for c in categories]
     return jsonify({"status": "OK", "categories": data})
+
+
+@bp.route("/categories", methods=["POST"])
+def add_category():
+    category = Category(name=request.json["name"])
+    db.session.add(category)
+    db.session.commit()
+    return jsonify({"status": "OK", "categories": [category.to_dictionary()]})
