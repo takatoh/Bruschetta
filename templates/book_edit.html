@@ -29,5 +29,11 @@
         <q-btn label="Update" type="submit" color="primary"></q-btn>
       </div>
     </q-form>
+    <div>
+      <q-form action="/book/dispose/{{ book.id }}" method="get" class="q-gutter-md">
+        <input type="hidden" id="bookId" value="{{ book.id }}"></input>
+        <q-btn label="Dispose" type="submit" color="red"></q-btn>
+      </q-form>
+    </div>
   </div>
 {% endblock %}
