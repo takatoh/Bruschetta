@@ -123,6 +123,14 @@ def search_books():
     return jsonify({"status": "OK", "books": data})
 
 
+@bp.route("/books/categorized/<int:category_id>")
+def list_books_categorized(category_id):
+    category = Category.query.get(category_id)
+    books = Book.query.filter_by(category_id=category_id, disposed=False).all()
+    data = [b.to_dictionary() for b in books]
+    return jsonify({"status": "OK", "category": category.name, "books": data})
+
+
 @bp.route("/coverarts/<int:book_id>", methods=["POST"])
 def upload_coverart(book_id):
     book = Book.query.get(book_id)
