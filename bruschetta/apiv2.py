@@ -1,10 +1,7 @@
-from flask import (
-    Blueprint,
-    request,
-    jsonify,
-)
-from .models import db, Book, Category, Format, BookShelf
-from .utils import str_to_bool
+from flask import Blueprint, request, jsonify, current_app
+import os
+from .models import db, Book, Category, Format, BookShelf, CoverArt
+from .utils import str_to_bool, save_coverart, is_picture
 
 
 # Web API v2
@@ -95,4 +92,31 @@ def update_book(book_id):
     book.bookshelf_id = bookshelf_id
     book.disposed = request.json["disposed"]
     db.session.commit()
+    return jsonify({"status": "OK", "books": [book.to_dictionary()]})
+
+
+@bp.route("/coverarts/<int:book_id>", methods=["POST"])
+def upload_coverart(book_id):
+    book = Book.query.get(book_id)
+    file = request.files["file"]
+    if not is_picture(file.filename):
+        return jsonify(
+            {"status": "ERROR", "cause": "Looks like a not picture"}
+        )
+    tmp_filename = os.path.join(
+        current_app.instance_path,
+        current_app.config["TEMP_DIR"],
+        file.filename,
+    )
+    file.save(tmp_filename)
+    coverart_dir = os.path.join(
+        current_app.instance_path, current_app.config["COVERARTS_DIR"]
+    )
+    coverart_filename = save_coverart(tmp_filename, coverart_dir)
+    coverart = CoverArt(filename=coverart_filename)
+    db.session.add(coverart)
+    db.session.commit()
+    book.coverart_id = coverart.id
+    db.session.commit()
+    os.remove(tmp_filename)
     return jsonify({"status": "OK", "books": [book.to_dictionary()]})
