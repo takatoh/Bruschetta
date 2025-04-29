@@ -94,7 +94,7 @@ def update_book(book_id):
     return jsonify({"status": "OK", "books": [book.to_dictionary()]})
 
 
-@bp.route("/books/<int:book_id>", methods=["PUT"])
+@bp.route("/books/<int:book_id>", methods=["DELETE"])
 def delete_book(book_id):
     book = Book.query.get(book_id)
     book.disposed = True
