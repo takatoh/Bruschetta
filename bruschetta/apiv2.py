@@ -10,7 +10,7 @@ bp = Blueprint("apiv2", __name__)
 
 
 @bp.route("/books")
-def books():
+def list_books():
     offset = request.args.get("offset", default=0, type=int)
     limit = request.args.get("limit", default=100, type=int)
     include_disposed = str_to_bool(
