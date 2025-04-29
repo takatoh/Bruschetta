@@ -23,16 +23,16 @@ def books():
     if not include_disposed:
         dataset = dataset.filter_by(disposed=False)
     books = dataset.offset(offset).limit(limit).all()
-    data = {"books": [b.to_dictionary() for b in books]}
+    data = [b.to_dictionary() for b in books]
     return jsonify({"status": "OK", "books": data})
 
 
 @bp.route("/books/<int:book_id>")
 def show_book(book_id):
     book = Book.query.get(book_id)
-    data = {"books": []}
+    data = []
     if book is not None:
-        data["books"].append(book.to_dictionary())
+        data.append(book.to_dictionary())
     return jsonify({"status": "OK", "books": data})
 
 
