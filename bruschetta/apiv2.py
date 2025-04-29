@@ -120,3 +120,20 @@ def upload_coverart(book_id):
     db.session.commit()
     os.remove(tmp_filename)
     return jsonify({"status": "OK", "books": [book.to_dictionary()]})
+
+
+@bp.route("/coverarts/<int:book_id>", methods=["DELETE"])
+def delete_coverart(book_id):
+    book = Book.query.get(book_id)
+    coverart = CoverArt.query.get(book.coverart_id)
+    os.remove(
+        os.path.join(
+            current_app.instance_path,
+            current_app.config["COVERARTS_DIR"],
+            coverart.filename,
+        )
+    )
+    book.coverart_id = None
+    db.session.delete(coverart)
+    db.session.commit()
+    return jsonify({"status": "OK", "books": [book.to_dictionary()]})
