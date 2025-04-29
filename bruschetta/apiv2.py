@@ -167,3 +167,19 @@ def add_format():
     db.session.add(fmt)
     db.session.commit()
     return jsonify({"status": "OK", "formats": [fmt.to_dictionary()]})
+
+
+@bp.route("/bookshelves")
+def list_bookshelves():
+    bookshelves = BookShelf.query.all()
+    data = [b.to_dictionary() for b in bookshelves]
+    return jsonify({"status": "OK", "bookshelves": data})
+
+
+@bp.route("/bookshelves/<int:bookshelf_id>")
+def show_bookshelf(bookshelf_id):
+    bookshelf = BookShelf.query.get(bookshelf_id)
+    data = []
+    if bookshelf is not None:
+        data.append(bookshelf.to_dictionary())
+    return jsonify({"status": "OK", "bookshelves": data})
