@@ -195,3 +195,14 @@ def add_bookshelf():
     return jsonify(
         {"status": "OK", "bookshelves": [bookshelf.to_dictionary()]}
     )
+
+
+@bp.route("/bookshelves/<int:bookshelf_id>", methods=["PUT"])
+def update_bookshelf(bookshelf_id):
+    bookshelf = BookShelf.query.get(bookshelf_id)
+    bookshelf.name = request.json["name"]
+    bookshelf.description = request.json["description"]
+    db.session.commit()
+    return jsonify(
+        {"status": "OK", "bookshelves": [bookshelf.to_dictionary()]}
+    )
