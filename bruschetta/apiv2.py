@@ -131,6 +131,16 @@ def list_books_categorized(category_id):
     return jsonify({"status": "OK", "category": category.name, "books": data})
 
 
+@bp.route("/books/disposed")
+def list_books_disposed():
+    offset = request.args.get("offset", default=0, type=int)
+    limit = request.args.get("limit", default=100, type=int)
+    dataset = Book.query.filter_by(disposed=True).order_by(Book.id.asc())
+    books = dataset.offset(offset).limit(limit).all()
+    data = [b.to_dictionary() for b in books]
+    return jsonify({"status": "OK", "books": data})
+
+
 @bp.route("/coverarts/<int:book_id>", methods=["POST"])
 def upload_coverart(book_id):
     book = Book.query.get(book_id)
