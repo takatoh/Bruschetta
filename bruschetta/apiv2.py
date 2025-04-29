@@ -102,6 +102,27 @@ def delete_book(book_id):
     return jsonify({"status": "OK", "books": [book.to_dictionary()]})
 
 
+@bp.route("/books/search")
+def search_books():
+    title = request.args.get("title")
+    author = request.args.get("author")
+    both = request.args.get("both")
+    dataset = Book.query.order_by(Book.id.asc()).filter_by(disposed=False)
+    if both:
+        both = "%" + both + "%"
+        dataset = dataset.filter(
+            Book.title.like(both) | Book.author.like(both)
+        )
+    else:
+        if title:
+            dataset = dataset.filter(Book.title.like("%" + title + "%"))
+        if author:
+            dataset = dataset.filter(Book.author.like("%" + author + "%"))
+    books = dataset.all()
+    data = [b.to_dictionary() for b in books]
+    return jsonify({"status": "OK", "books": data})
+
+
 @bp.route("/coverarts/<int:book_id>", methods=["POST"])
 def upload_coverart(book_id):
     book = Book.query.get(book_id)
