@@ -54,8 +54,7 @@ def add_book():
         keyword=request.json["keyword"],
         disk=request.json["disk"],
     )
-    if request.json["disposed"] == "1":
-        book.disposed = True
+    book.disposed = request.json["disposed"]
     db.session.add(book)
     db.session.commit()
     return jsonify({"status": "OK", "books": [book.to_dictionary()]})
@@ -91,6 +90,14 @@ def update_book(book_id):
     book.disk = request.json["disk"]
     book.bookshelf_id = bookshelf_id
     book.disposed = request.json["disposed"]
+    db.session.commit()
+    return jsonify({"status": "OK", "books": [book.to_dictionary()]})
+
+
+@bp.route("/books/<int:book_id>", methods=["PUT"])
+def delete_book(book_id):
+    book = Book.query.get(book_id)
+    book.disposed = True
     db.session.commit()
     return jsonify({"status": "OK", "books": [book.to_dictionary()]})
 
