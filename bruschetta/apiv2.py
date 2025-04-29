@@ -159,3 +159,11 @@ def list_formats():
     formats = Format.query.all()
     data = [f.to_dictionary() for f in formats]
     return jsonify({"status": "OK", "formats": data})
+
+
+@bp.route("/formats", methods=["POST"])
+def add_format():
+    fmt = Format(name=request.json["name"])
+    db.session.add(fmt)
+    db.session.commit()
+    return jsonify({"status": "OK", "formats": [fmt.to_dictionary()]})
