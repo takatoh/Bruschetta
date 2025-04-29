@@ -117,6 +117,19 @@ def book_edit(book_id):
         bookshelves = BookShelf.query.all()
         return render_template('book_edit.html', book=book, categories=categories, formats=formats, bookshelves=bookshelves, version=__version__)
 
+@app.route('/book/dispose/<int:book_id>')
+def book_dispose(book_id):
+    book = Book.query.get(book_id)
+    book.dispose = True
+    db.session.commit()
+    if book.coverart_id:
+        coverart = CoverArt.query.get(book.coverart_id).filename
+        coverart_url = '/coverart/' + coverart
+    else:
+        coverart_url = None
+    flash('The book has disposed successfully.')
+    return render_template('book_detail.html', book=book, coverart_url=coverart_url, version=__version__)
+
 @app.route('/book/fetch_coverart/<int:book_id>', methods=['GET', 'POST'])
 def book_fetch_coverart(book_id):
     if request.method == 'POST':
