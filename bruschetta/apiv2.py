@@ -137,3 +137,10 @@ def delete_coverart(book_id):
     db.session.delete(coverart)
     db.session.commit()
     return jsonify({"status": "OK", "books": [book.to_dictionary()]})
+
+
+@bp.route("/categories")
+def list_categories():
+    categories = Category.query.all()
+    data = [c.to_dictionary() for c in categories]
+    return jsonify({"status": "OK", "categories": data})
