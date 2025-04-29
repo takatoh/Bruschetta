@@ -120,7 +120,7 @@ def book_edit(book_id):
 @app.route('/book/dispose/<int:book_id>')
 def book_dispose(book_id):
     book = Book.query.get(book_id)
-    book.dispose = True
+    book.disposed = True
     db.session.commit()
     if book.coverart_id:
         coverart = CoverArt.query.get(book.coverart_id).filename
