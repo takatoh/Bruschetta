@@ -152,3 +152,10 @@ def add_category():
     db.session.add(category)
     db.session.commit()
     return jsonify({"status": "OK", "categories": [category.to_dictionary()]})
+
+
+@bp.route("/formats")
+def list_formats():
+    formats = Format.query.all()
+    data = [f.to_dictionary() for f in formats]
+    return jsonify({"status": "OK", "formats": data})
