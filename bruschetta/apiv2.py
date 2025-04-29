@@ -183,3 +183,15 @@ def show_bookshelf(bookshelf_id):
     if bookshelf is not None:
         data.append(bookshelf.to_dictionary())
     return jsonify({"status": "OK", "bookshelves": data})
+
+
+@bp.route("/bookshelves", methods=["POST"])
+def add_bookshelf():
+    bookshelf = BookShelf(
+        name=request.json["name"], description=request.json["description"]
+    )
+    db.session.add(bookshelf)
+    db.session.commit()
+    return jsonify(
+        {"status": "OK", "bookshelves": [bookshelf.to_dictionary()]}
+    )
