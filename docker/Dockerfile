@@ -11,3 +11,5 @@ WORKDIR /app
 
 ENV PYTHONPATH=/app
 ENV LANG=ja_JP.UTF-8
+
+CMD ["./start.sh"]
