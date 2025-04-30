@@ -2,7 +2,7 @@ from flask import Flask
 import os
 from .models import init_app, db
 
-__version__ = "v0.4.2"
+__version__ = "v0.5-alpha"
 
 BRUSCHETTA_INSTANCE_DIR = os.getenv("BRUSCHETTA_INSTANCE_DIR")
 
