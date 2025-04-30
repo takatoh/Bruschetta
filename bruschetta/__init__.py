@@ -25,6 +25,9 @@ def create_app(config_filename="./bruschetta.conf"):
     from . import api
     app.register_blueprint(api.bp, url_prefix="/api")
 
+    from . import apiv2
+    app.register_blueprint(apiv2.bp, url_prefix="/api/v2")
+
     from . import coverarts
     coverarts_dir = os.path.join(
         app.instance_path, app.config["COVERARTS_DIR"]
