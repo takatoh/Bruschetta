@@ -3,30 +3,33 @@
   <h5 class="text-teal-10">Edit book informations</h5>
 
   <div class="q-pa-md" style="width: 600px;">
-    <q-form action="/book/edit/{{ book.id }}" method="post" class="q-gutter-md">
-      <input type="hidden" id="bookId" value="{{ book.id }}"></input>
-      <q-input name="book_id" v-model="bookId" label="ID" readonly></q-input>
-      <q-input name="title" v-model="title" label="Title"></q-input>
-      <q-input name="volume" v-model="volume" label="Volume"></q-input>
-      <q-input name="series" v-model="series" label="Series"></q-input>
-      <q-input name="series_volume" v-model="seriesVolume" label="Series volume"></q-input>
-      <q-input name="author" v-model="author" label="Author"></q-input>
-      <q-input name="translator" v-model="translator" label="Translator"></q-input>
-      <q-input name="publisher" v-model="publisher" label="Publisher"></q-input>
-      <q-select name="category" v-model="category" :options="categoryOptions" label="Category"></q-select>
-      <q-select name="format" v-model="format" :options="formatOptions" label="Format"></q-select>
-      <q-input name="isbn" v-model="isbn" label="ISBN"></q-input>
-      <q-input name="published_on" v-model="publishedOn" label="Published on"></q-input>
-      <q-input name="original_title" v-model="originalTitle" label="Original title"></q-input>
-      <q-input name="note" v-model="note" label="Note"></q-input>
-      <q-input name="keyword" v-model="keyword" label="Keyword"></q-input>
-      <q-input name="disk" v-model="disc" label="Disc"></q-input>
-      <q-select name="bookshelf" v-model="bookshelf" :options="bookshelfOptions" label="Bookshelf"></q-select>
-      <div>
-        <q-btn label="Update" type="submit" color="primary"></q-btn>
-      </div>
-    </q-form>
     <div>
+      <q-form action="/book/edit/{{ book.id }}" method="post" class="q-gutter-md">
+        <input type="hidden" id="bookId" value="{{ book.id }}"></input>
+        <q-input name="book_id" v-model="bookId" label="ID" readonly></q-input>
+        <q-input name="title" v-model="title" label="Title"></q-input>
+        <q-input name="volume" v-model="volume" label="Volume"></q-input>
+        <q-input name="series" v-model="series" label="Series"></q-input>
+        <q-input name="series_volume" v-model="seriesVolume" label="Series volume"></q-input>
+        <q-input name="author" v-model="author" label="Author"></q-input>
+        <q-input name="translator" v-model="translator" label="Translator"></q-input>
+        <q-input name="publisher" v-model="publisher" label="Publisher"></q-input>
+        <q-select name="category" v-model="category" :options="categoryOptions" label="Category"></q-select>
+        <q-select name="format" v-model="format" :options="formatOptions" label="Format"></q-select>
+        <q-input name="isbn" v-model="isbn" label="ISBN"></q-input>
+        <q-input name="published_on" v-model="publishedOn" label="Published on"></q-input>
+        <q-input name="original_title" v-model="originalTitle" label="Original title"></q-input>
+        <q-input name="note" v-model="note" label="Note"></q-input>
+        <q-input name="keyword" v-model="keyword" label="Keyword"></q-input>
+        <q-input name="disk" v-model="disc" label="Disc"></q-input>
+        <q-select name="bookshelf" v-model="bookshelf" :options="bookshelfOptions" label="Bookshelf"></q-select>
+        <div>
+          <q-btn label="Update" type="submit" color="primary"></q-btn>
+        </div>
+      </q-form>
+    </div>
+    <div>
+      <h5>Danger zone</h5>
       <q-form action="/book/dispose/{{ book.id }}" method="get" class="q-gutter-md">
         <input type="hidden" id="bookId" value="{{ book.id }}"></input>
         <q-btn label="Dispose" type="submit" color="red"></q-btn>
