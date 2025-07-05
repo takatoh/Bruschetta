@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from sqlalchemy import MetaData
 
-__version__ = 'v0.4.4'
+__version__ = 'v0.4.5'
 
 
 app = Flask(__name__)
