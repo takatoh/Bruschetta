@@ -1,11 +1,22 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
-      <q-toolbar>
-        <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
-
-        <q-toolbar-title> Bruschetta </q-toolbar-title>
-      </q-toolbar>
+      <div>
+        <q-toolbar>
+          <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
+          <q-toolbar-title> Bruschetta </q-toolbar-title>
+        </q-toolbar>
+      </div>
+      <div>
+        <q-toolbar class="q-gutter-lg">
+          <q-btn flat label="Books" href="/"></q-btn>
+          <q-btn flat label="Add" href="/"></q-btn>
+          <q-btn flat label="Disposed" href="/"></q-btn>
+          <q-btn flat label="Categories" href="/categories"></q-btn>
+          <q-btn flat label="Formats" href="/"></q-btn>
+          <q-btn flat label="Bookshelves" href="/"></q-btn>
+        </q-toolbar>
+      </div>
     </q-header>
 
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
