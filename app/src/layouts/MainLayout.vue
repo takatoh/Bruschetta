@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="hHh lpR fFf">
     <q-header elevated>
       <div>
         <q-toolbar>
@@ -8,14 +8,14 @@
         </q-toolbar>
       </div>
       <div>
-        <q-toolbar class="q-gutter-lg">
-          <q-btn flat label="Books" href="/"></q-btn>
-          <q-btn flat label="Add" href="/"></q-btn>
-          <q-btn flat label="Disposed" href="/"></q-btn>
-          <q-btn flat label="Categories" href="/categories"></q-btn>
-          <q-btn flat label="Formats" href="/"></q-btn>
-          <q-btn flat label="Bookshelves" href="/"></q-btn>
-        </q-toolbar>
+        <q-tabs class="q-gutter-lg">
+          <q-route-tab flat label="Books" to="/"></q-route-tab>
+          <q-route-tab flat label="Add" to="/"></q-route-tab>
+          <q-route-tab flat label="Categories" to="/categories"></q-route-tab>
+          <q-route-tab flat label="Formats" to="/"></q-route-tab>
+          <q-route-tab flat label="Bookshelves" to="/"></q-route-tab>
+          <q-route-tab flat label="Disposed" to="/"></q-route-tab>
+        </q-tabs>
       </div>
     </q-header>
 
@@ -30,6 +30,12 @@
     <q-page-container>
       <router-view />
     </q-page-container>
+
+    <q-footer boredered class="text-white">
+      <q-toolbar>
+        <div>Bruschetta</div>
+      </q-toolbar>
+    </q-footer>
   </q-layout>
 </template>
 
