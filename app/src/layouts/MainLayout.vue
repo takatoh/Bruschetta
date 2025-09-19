@@ -1,6 +1,6 @@
 <template>
   <q-layout view="hHh lpR fFf">
-    <q-header bordered="teal">
+    <q-header bordered>
       <div class="bg-teal-9 q-px-xl q-py-sm">
         <q-toolbar>
           <q-toolbar-title class="text-center"> Bruschetta </q-toolbar-title>
