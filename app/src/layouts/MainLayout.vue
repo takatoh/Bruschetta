@@ -1,13 +1,13 @@
 <template>
   <q-layout view="hHh lpR fFf">
-    <q-header elevated>
-      <div>
+    <q-header bordered="teal">
+      <div class="bg-teal-9 q-px-xl q-py-sm">
         <q-toolbar>
-          <q-toolbar-title> Bruschetta </q-toolbar-title>
+          <q-toolbar-title class="text-center"> Bruschetta </q-toolbar-title>
         </q-toolbar>
       </div>
       <div>
-        <q-tabs class="q-gutter-lg">
+        <q-tabs class="bg-white text-teal-9 q-px-xl q-py-sm">
           <q-route-tab flat label="Books" to="/"></q-route-tab>
           <q-route-tab flat label="Add" to="/"></q-route-tab>
           <q-route-tab flat label="Categories" to="/categories"></q-route-tab>
@@ -22,9 +22,12 @@
       <router-view />
     </q-page-container>
 
-    <q-footer boredered class="text-white">
+    <q-footer bordered class="bg-teal text-white q-px-xl q-py-sm text-center">
       <q-toolbar>
-        <div>Bruschetta</div>
+        <q-space></q-space>
+        <text-subtitle2 class="q-px-sm">Bruschetta</text-subtitle2>
+        <q-badge class="bg-white text-teal q-px-sm">deveop</q-badge>
+        <q-space></q-space>
       </q-toolbar>
     </q-footer>
   </q-layout>
