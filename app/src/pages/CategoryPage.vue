@@ -14,7 +14,7 @@
       ></q-table>
 
       <div>
-        <q-btn label="Add a new category" color="tead" outline></q-btn>
+        <q-btn label="Add a new category" color="teal" outline></q-btn>
       </div>
     </div>
   </q-page>

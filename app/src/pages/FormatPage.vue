@@ -14,7 +14,7 @@
       ></q-table>
 
       <div>
-        <q-btn label="Add a new format" color="tead" outline></q-btn>
+        <q-btn label="Add a new format" color="teal" outline></q-btn>
       </div>
     </div>
   </q-page>
