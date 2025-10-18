@@ -1,6 +1,21 @@
 <template>
   <q-page padding>
     <h5 class="text-teal-10">Books</h5>
+
+    <div class="q-pa-sm">
+      <q-input outlined dense v-model="searchText" style="width: 300px">
+        <template v-slot:append>
+          <q-icon
+            v-if="searchText !== ''"
+            name="close"
+            @click="searchText = ''"
+            class="cursor-pointer"
+          ></q-icon>
+          <q-icon name="search" @click="onSearchEnter" class="cursor-pointer"></q-icon>
+        </template>
+      </q-input>
+    </div>
+
     <div class="q-pa-sm col items-start">
       <q-list class="q-gutter-md">
         <book-listing-item
