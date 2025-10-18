@@ -24,7 +24,7 @@
       <q-toolbar>
         <q-space></q-space>
         <text-subtitle2 class="q-px-sm">Bruschetta</text-subtitle2>
-        <q-badge class="bg-white text-teal q-px-sm">deveop</q-badge>
+        <q-badge class="bg-white text-teal q-px-sm">develop</q-badge>
         <q-space></q-space>
       </q-toolbar>
     </q-footer>
