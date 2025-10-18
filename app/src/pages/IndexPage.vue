@@ -1,7 +1,8 @@
 <template>
-  <q-page class="flex flex-center">
-    <div class="q-pa-md col items-start q-gutter-md">
-      <q-list>
+  <q-page class="q-pa-md q-gutter-sm">
+    <h4>Books</h4>
+    <div class="q-pa-sm col items-start">
+      <q-list class="q-gutter-md">
         <book-listing-item
           v-for="book in books"
           :key="book.id"
