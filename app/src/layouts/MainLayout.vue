@@ -11,7 +11,7 @@
           <q-route-tab flat label="Books" to="/"></q-route-tab>
           <q-route-tab flat label="Add" to="/"></q-route-tab>
           <q-route-tab flat label="Categories" to="/categories"></q-route-tab>
-          <q-route-tab flat label="Formats" to="/"></q-route-tab>
+          <q-route-tab flat label="Formats" to="/formats"></q-route-tab>
           <q-route-tab flat label="Bookshelves" to="/"></q-route-tab>
           <q-route-tab flat label="Disposed" to="/"></q-route-tab>
         </q-tabs>
