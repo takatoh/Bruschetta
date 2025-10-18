@@ -13,7 +13,6 @@
           <q-route-tab flat label="Categories" to="/categories"></q-route-tab>
           <q-route-tab flat label="Formats" to="/formats"></q-route-tab>
           <q-route-tab flat label="Bookshelves" to="/bookshelves"></q-route-tab>
-          <q-route-tab flat label="Disposed" to="/"></q-route-tab>
         </q-tabs>
       </div>
     </q-header>
