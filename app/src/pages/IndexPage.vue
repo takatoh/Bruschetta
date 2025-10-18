@@ -1,17 +1,21 @@
 <template>
   <q-page class="flex flex-center">
     <div class="q-pa-md col items-start q-gutter-md">
-      <q-card flat bordered class="q-pa-sm" style="width: 600px">
-        <q-card-section class="q-pa-none col-2">
-          {{ books[1].id }}
-        </q-card-section>
-        <q-card-section class="q-pa-none col-5">
-          {{ books[1].title }}
-        </q-card-section>
-        <q-card-section class="q-pa-none col-5">
-          {{ books[1].author }}
-        </q-card-section>
-      </q-card>
+      <q-list>
+        <template v-for="(book, index) in books" :key="index">
+          <q-card flat bordered class="q-pa-sm" style="width: 600px">
+            <q-card-section class="q-pa-none col-2">
+              {{ book.id }}
+            </q-card-section>
+            <q-card-section class="q-pa-none col-5">
+              {{ book.title }}
+            </q-card-section>
+            <q-card-section class="q-pa-none col-5">
+              {{ book.author }}
+            </q-card-section>
+          </q-card>
+        </template>
+      </q-list>
     </div>
   </q-page>
 </template>
