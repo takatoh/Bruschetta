@@ -17,7 +17,6 @@
         <q-btn label="Add a new format" color="tead" outline></q-btn>
       </div>
     </div>
-    "
   </q-page>
 </template>
 
