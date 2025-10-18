@@ -1,6 +1,6 @@
 <template>
   <q-page class="q-pa-md q-gutter-sm">
-    <h4>Books</h4>
+    <h5 class="text-teal-10">Books</h5>
     <div class="q-pa-sm col items-start">
       <q-list class="q-gutter-md">
         <book-listing-item
