@@ -1,6 +1,6 @@
 <template>
   <q-page padding>
-    <h5 class="text-teal-10">{{ book.title }}</h5>
+    <h5 class="text-teal-10">{{ titleWithVolume }}</h5>
 
     <div class="q-pa-md" style="min-width: 600px">
       <q-list>
@@ -118,7 +118,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
 const props = defineProps({
   bookId: {
@@ -130,7 +130,7 @@ const props = defineProps({
 const book = ref({
   id: 1,
   title: 'The One',
-  volume: '',
+  volume: '1',
   series: '',
   seriesVolume: '',
   author: 'Andy',
@@ -152,5 +152,13 @@ const book = ref({
     name: '',
   },
   createdAt: '',
+})
+
+const titleWithVolume = computed(() => {
+  if (book.value.volume.length > 0) {
+    return book.value.title + ' [' + book.value.volume + ']'
+  } else {
+    return book.value.title
+  }
 })
 </script>
