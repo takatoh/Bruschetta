@@ -120,6 +120,13 @@
 <script setup>
 import { ref } from 'vue'
 
+const props = defineProps({
+  bookId: {
+    type: Number,
+    required: true,
+  },
+})
+
 const book = ref({
   id: 1,
   title: 'The One',
