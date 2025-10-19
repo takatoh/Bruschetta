@@ -114,6 +114,20 @@
         </q-item>
       </q-list>
     </div>
+
+    <div class="q-pa-md q-gutter-y-md column items-start">
+      <q-btn-group outline>
+        <q-btn label="Edit" color="teal" outline href="/"></q-btn>
+        <template v-if="!book.coverartUrl">
+          <q-separator inset></q-separator>
+          <q-btn label="Upload coverart" color="teal" outline href="/"></q-btn>
+        </template>
+        <tamplate v-if="book.coverartUrl">
+          <q-separator inset></q-separator>
+          <q-btn label="Delete coverart" color="teal" outline href="/"></q-btn>
+        </tamplate>
+      </q-btn-group>
+    </div>
   </q-page>
 </template>
 
@@ -152,6 +166,7 @@ const book = ref({
     name: '',
   },
   createdAt: '',
+  coverartUrl: '',
 })
 
 const titleWithVolume = computed(() => {
