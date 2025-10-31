@@ -31,7 +31,7 @@
         <q-item>
           <q-item-section>
             <q-item-label overline>Series volume</q-item-label>
-            <q-item-label>{{ book.seriesVolume }}</q-item-label>
+            <q-item-label>{{ book.series_volume }}</q-item-label>
           </q-item-section>
         </q-item>
         <q-item>
@@ -55,13 +55,13 @@
         <q-item>
           <q-item-section>
             <q-item-label overline>Category</q-item-label>
-            <q-item-label>{{ book.category.name }}</q-item-label>
+            <q-item-label>{{ book.category }}</q-item-label>
           </q-item-section>
         </q-item>
         <q-item>
           <q-item-section>
             <q-item-label overline>Format</q-item-label>
-            <q-item-label>{{ book.format.name }}</q-item-label>
+            <q-item-label>{{ book.format }}</q-item-label>
           </q-item-section>
         </q-item>
         <q-item>
@@ -73,13 +73,13 @@
         <q-item>
           <q-item-section>
             <q-item-label overline>Published on</q-item-label>
-            <q-item-label>{{ book.publishedOn }}</q-item-label>
+            <q-item-label>{{ book.published_on }}</q-item-label>
           </q-item-section>
         </q-item>
         <q-item>
           <q-item-section>
             <q-item-label overline>Original title</q-item-label>
-            <q-item-label>{{ book.originalTitle }}</q-item-label>
+            <q-item-label>{{ book.original_title }}</q-item-label>
           </q-item-section>
         </q-item>
         <q-item>
@@ -103,13 +103,13 @@
         <q-item>
           <q-item-section>
             <q-item-label overline>Bookshelf</q-item-label>
-            <q-item-label>{{ book.bookshelf.name }}</q-item-label>
+            <q-item-label>{{ book.bookshelf }}</q-item-label>
           </q-item-section>
         </q-item>
         <q-item>
           <q-item-section>
             <q-item-label overline>Created at</q-item-label>
-            <q-item-label>{{ book.createdAt }}</q-item-label>
+            <q-item-label>{{ book.created_at }}</q-item-label>
           </q-item-section>
         </q-item>
       </q-list>
@@ -124,7 +124,7 @@
           color="teal"
           outline
           href="/"
-          v-if="!book.coverartUrl"
+          v-if="!book.coverart_url"
         ></q-btn>
         <q-btn label="Delete coverart" color="teal" outline href="/" v-else></q-btn>
       </q-btn-group>
@@ -140,27 +140,21 @@ const book = ref({
   title: 'The One',
   volume: '1',
   series: '',
-  seriesVolume: '',
+  series_volume: '',
   author: 'Andy',
   translator: '',
   publisher: '',
-  category: {
-    name: 'novel',
-  },
-  format: {
-    name: 'bunko',
-  },
+  category: 'novel',
+  format: 'bunko',
   isbn: '',
-  publishedOn: '',
-  originalTitle: '',
+  published_on: '',
+  original_title: '',
   note: '',
   keyword: '',
   disk: '',
-  bookshelf: {
-    name: '',
-  },
-  createdAt: '',
-  coverartUrl: '',
+  bookshelf: '',
+  created_at: '',
+  coverart_url: '',
 })
 
 const titleWithVolume = computed(() => {
