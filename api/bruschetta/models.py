@@ -51,6 +51,7 @@ class Book(db.Model):
 
     def to_dictionary(self):
         bookshelf = self.bookshelf.name if self.bookshelf else ""
+        coverart = self.coverart.filename if self.coverart else ""
         return {
             "id": self.id,
             "title": self.title,
@@ -70,6 +71,7 @@ class Book(db.Model):
             "disk": self.disk,
             "bookshelf": bookshelf,
             "disposed": self.disposed,
+            "coverart_url": coverart,
         }
 
     def str_created_at(self):
