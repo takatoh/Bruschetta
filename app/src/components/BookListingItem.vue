@@ -4,7 +4,7 @@
       {{ props.bookId }}
     </q-card-section>
     <q-card-section class="q-pa-none col-5">
-      <router-link to="/book/1">{{ props.title }}</router-link>
+      <router-link :to="'/book/' + bookId">{{ props.title }}</router-link>
     </q-card-section>
     <q-card-section class="q-pa-none col-5">
       {{ props.author }}
