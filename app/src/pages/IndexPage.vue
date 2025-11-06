@@ -34,16 +34,11 @@
 import { ref } from 'vue'
 import BookListingItem from 'components/BookListingItem.vue'
 
-const books = ref([
-  { id: 1, title: 'The One', author: 'Andy' },
-  { id: 2, title: 'Seconds', author: 'Bill' },
-  { id: 3, title: 'The Third Man', author: 'Charlie' },
-])
+const books = ref([])
 
 const getBooks = async () => {
   const apiRoot = 'http://localhost:5000/api/v2'
   const url = `${apiRoot}/books`
-  console.log(url)
   await fetch(url)
     .then((response) => response.json())
     .then((result) => (books.value = result.books))
