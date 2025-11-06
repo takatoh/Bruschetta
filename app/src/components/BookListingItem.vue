@@ -4,7 +4,7 @@
       {{ props.bookId }}
     </q-card-section>
     <q-card-section class="q-pa-none col-5">
-      <router-link :to="'/book/' + bookId">{{ titleWithVolume() }}</router-link>
+      <router-link :to="'/book/' + bookId">{{ titleWithVolume }}</router-link>
     </q-card-section>
     <q-card-section class="q-pa-none col-5">
       {{ props.author }}
@@ -13,6 +13,8 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
+
 const props = defineProps({
   bookId: {
     type: Number,
@@ -32,11 +34,11 @@ const props = defineProps({
   },
 })
 
-const titleWithVolume = () => {
+const titleWithVolume = computed(() => {
   if (props.volume.length > 0) {
     return `${props.title} [${props.volume}]`
   } else {
     return props.title
   }
-}
+})
 </script>
