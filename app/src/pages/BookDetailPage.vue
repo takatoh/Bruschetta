@@ -133,19 +133,26 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
+
+const props = defineProps({
+  bookId: {
+    type: Number,
+    required: true,
+  },
+})
 
 const book = ref({
-  id: 1,
-  title: 'The One',
-  volume: '1',
+  id: 0,
+  title: '',
+  volume: '',
   series: '',
   series_volume: '',
-  author: 'Andy',
+  author: '',
   translator: '',
   publisher: '',
-  category: 'novel',
-  format: 'bunko',
+  category: '',
+  format: '',
   isbn: '',
   published_on: '',
   original_title: '',
@@ -163,5 +170,20 @@ const titleWithVolume = computed(() => {
   } else {
     return book.value.title
   }
+})
+
+const getBookInfo = async (bookId) => {
+  const apiRoot = 'http://localhost:5000/api/v2'
+  const url = `${apiRoot}/books/${bookId}`
+  console.log(url)
+  await fetch(url)
+    .then((response) => response.json())
+    .then((result) => (book.value = result.books[0]))
+}
+
+getBookInfo(props.bookId)
+
+watch(props.bookId, async (newBookId) => {
+  book.value = getBookInfo(newBookId)
 })
 </script>
