@@ -175,7 +175,6 @@ const titleWithVolume = computed(() => {
 const getBookDetails = async (bookId) => {
   const apiRoot = 'http://localhost:5000/api/v2'
   const url = `${apiRoot}/books/${bookId}`
-  console.log(url)
   await fetch(url)
     .then((response) => response.json())
     .then((result) => (book.value = result.books[0]))
