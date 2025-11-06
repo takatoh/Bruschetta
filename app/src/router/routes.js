@@ -7,7 +7,7 @@ const routes = [
       { path: 'categories', component: () => import('pages/CategoryPage.vue') },
       { path: 'formats', component: () => import('pages/FormatPage.vue') },
       { path: 'bookshelves', component: () => import('pages/BookshelfPage.vue') },
-      { path: 'book/:bookId', component: () => import('pages/BookDetailPage.vue') },
+      { path: 'book/:bookId', component: () => import('pages/BookDetailPage.vue'), props: true },
     ],
   },
 
