@@ -172,7 +172,7 @@ const titleWithVolume = computed(() => {
   }
 })
 
-const getBookInfo = async (bookId) => {
+const getBookDetails = async (bookId) => {
   const apiRoot = 'http://localhost:5000/api/v2'
   const url = `${apiRoot}/books/${bookId}`
   console.log(url)
@@ -181,9 +181,9 @@ const getBookInfo = async (bookId) => {
     .then((result) => (book.value = result.books[0]))
 }
 
-getBookInfo(props.bookId)
+getBookDetails(props.bookId)
 
 watch(props.bookId, async (newBookId) => {
-  book.value = getBookInfo(newBookId)
+  book.value = getBookDetails(newBookId)
 })
 </script>
