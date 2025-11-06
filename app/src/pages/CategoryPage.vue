@@ -23,14 +23,20 @@
 <script setup>
 import { ref } from 'vue'
 
-const categories = ref([
-  { id: 1, name: 'manga' },
-  { id: 2, name: 'novel' },
-  { id: 3, name: 'sience' },
-])
+const categories = ref([])
 
 const categoryColumns = [
   { name: 'id', label: 'ID', align: 'left', field: (row) => row['id'], format: (val) => `${val}` },
   { name: 'name', label: 'Name', align: 'left', field: 'name' },
 ]
+
+const getCategories = async () => {
+  const apiRoot = 'http://localhost:5000/api/v2'
+  const url = `${apiRoot}/categories`
+  await fetch(url)
+    .then((response) => response.json())
+    .then((result) => (categories.value = result.categories))
+}
+
+getCategories()
 </script>
