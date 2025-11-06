@@ -182,7 +182,7 @@ const getBookDetails = async (bookId) => {
 
 getBookDetails(props.bookId)
 
-watch(props.bookId, async (newBookId) => {
-  book.value = getBookDetails(newBookId)
+watch(props.bookId, (newBookId) => {
+  getBookDetails(newBookId)
 })
 </script>
