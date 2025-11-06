@@ -23,16 +23,20 @@
 <script setup>
 import { ref } from 'vue'
 
-const formats = ref([
-  { id: 1, name: 'bunko' },
-  { id: 2, name: 'B6' },
-  { id: 3, name: 'A5' },
-  { id: 4, name: 'B5' },
-  { id: 5, name: 'A4' },
-])
+const formats = ref([])
 
 const formatColumns = [
   { name: 'id', label: 'ID', align: 'left', field: (row) => row['id'], format: (val) => `${val}` },
   { name: 'name', label: 'Name', align: 'left', field: 'name' },
 ]
+
+const getFormats = async () => {
+  const apiRoot = 'http://localhost:5000/api/v2'
+  const url = `${apiRoot}/formats`
+  await fetch(url)
+    .then((response) => response.json())
+    .then((result) => (formats.value = result.formats))
+}
+
+getFormats()
 </script>
