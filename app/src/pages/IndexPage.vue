@@ -23,6 +23,7 @@
           :key="book.id"
           :book-id="book.id"
           :title="book.title"
+          :volume="book.volume"
           :author="book.author"
         ></book-listing-item>
       </q-list>
