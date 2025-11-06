@@ -23,15 +23,21 @@
 <script setup>
 import { ref } from 'vue'
 
-const bookshelves = ref([
-  { id: 1, name: 'Bookshelf 1', description: 'Big.' },
-  { id: 2, name: 'Bookshelf 2', description: 'Middle' },
-  { id: 3, name: 'Bookshelf 3', description: 'Small.' },
-])
+const bookshelves = ref([])
 
 const bookshelfColumns = [
   { name: 'id', label: 'ID', align: 'left', field: (row) => row['id'], format: (val) => `${val}` },
   { name: 'name', label: 'Name', align: 'left', field: 'name' },
   { name: 'description', label: 'Description', align: 'left', field: 'description' },
 ]
+
+const getBookshelves = async () => {
+  const apiRoot = 'http://localhost:5000/api/v2'
+  const url = `${apiRoot}/bookshelves`
+  await fetch(url)
+    .then((response) => response.json())
+    .then((result) => (bookshelves.value = result.bookshelves))
+}
+
+getBookshelves()
 </script>
