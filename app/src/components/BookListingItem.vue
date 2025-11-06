@@ -4,7 +4,7 @@
       {{ props.bookId }}
     </q-card-section>
     <q-card-section class="q-pa-none col-5">
-      <router-link :to="'/book/' + bookId">{{ props.title }}</router-link>
+      <router-link :to="'/book/' + bookId">{{ titleWithVolume() }}</router-link>
     </q-card-section>
     <q-card-section class="q-pa-none col-5">
       {{ props.author }}
@@ -22,9 +22,21 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  volume: {
+    type: String,
+    default: '',
+  },
   author: {
     type: String,
     default: '',
   },
 })
+
+const titleWithVolume = () => {
+  if (props.volume.length > 0) {
+    return `${props.title} [${props.volume}]`
+  } else {
+    return props.title
+  }
+}
 </script>
