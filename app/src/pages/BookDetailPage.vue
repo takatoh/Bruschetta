@@ -31,7 +31,7 @@
         <q-item>
           <q-item-section>
             <q-item-label overline>Series volume</q-item-label>
-            <q-item-label>{{ book.series_volume }}</q-item-label>
+            <q-item-label>{{ book.seriesVolume }}</q-item-label>
           </q-item-section>
         </q-item>
         <q-item>
@@ -73,13 +73,13 @@
         <q-item>
           <q-item-section>
             <q-item-label overline>Published on</q-item-label>
-            <q-item-label>{{ book.published_on }}</q-item-label>
+            <q-item-label>{{ book.publishedOn }}</q-item-label>
           </q-item-section>
         </q-item>
         <q-item>
           <q-item-section>
             <q-item-label overline>Original title</q-item-label>
-            <q-item-label>{{ book.original_title }}</q-item-label>
+            <q-item-label>{{ book.originalTitle }}</q-item-label>
           </q-item-section>
         </q-item>
         <q-item>
@@ -97,7 +97,7 @@
         <q-item>
           <q-item-section>
             <q-item-label overline>Disc</q-item-label>
-            <q-item-label>{{ book.disk }}</q-item-label>
+            <q-item-label>{{ book.disc }}</q-item-label>
           </q-item-section>
         </q-item>
         <q-item>
@@ -109,7 +109,7 @@
         <q-item>
           <q-item-section>
             <q-item-label overline>Created at</q-item-label>
-            <q-item-label>{{ book.created_at }}</q-item-label>
+            <q-item-label>{{ book.createdAt }}</q-item-label>
           </q-item-section>
         </q-item>
       </q-list>
@@ -119,13 +119,7 @@
       <q-btn-group outline>
         <q-btn label="Edit" color="teal" outline href="/"></q-btn>
         <q-separator></q-separator>
-        <q-btn
-          label="Upload coverart"
-          color="teal"
-          outline
-          href="/"
-          v-if="!book.coverart_url"
-        ></q-btn>
+        <q-btn label="Upload coverart" color="teal" outline href="/" v-if="!book.coverart"></q-btn>
         <q-btn label="Delete coverart" color="teal" outline href="/" v-else></q-btn>
       </q-btn-group>
     </div>
@@ -147,21 +141,21 @@ const book = ref({
   title: '',
   volume: '',
   series: '',
-  series_volume: '',
+  seriesVolume: '',
   author: '',
   translator: '',
   publisher: '',
   category: '',
   format: '',
   isbn: '',
-  published_on: '',
-  original_title: '',
+  publishedOn: '',
+  originalTitle: '',
   note: '',
   keyword: '',
-  disk: '',
+  disc: '',
   bookshelf: '',
-  created_at: '',
-  coverart_url: '',
+  createdAt: '',
+  coverart: '',
 })
 
 const titleWithVolume = computed(() => {
