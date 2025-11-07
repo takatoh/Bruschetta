@@ -41,18 +41,18 @@ def add_book():
         title=request.json["title"],
         volume=request.json["volume"],
         series=request.json["series"],
-        series_volume=request.json["series_volume"],
+        series_volume=request.json["seriesVolume"],
         author=request.json["author"],
         translator=request.json["translator"],
         publisher=request.json["publisher"],
         category_id=category.id,
         format_id=fmt.id,
         isbn=request.json["isbn"],
-        published_on=request.json["published_on"],
-        original_title=request.json["original_title"],
+        published_on=request.json["publishedOn"],
+        original_title=request.json["originalTitle"],
         note=request.json["note"],
         keyword=request.json["keyword"],
-        disk=request.json["disk"],
+        disk=request.json["disc"],
     )
     book.disposed = request.json["disposed"]
     db.session.add(book)
@@ -76,18 +76,18 @@ def update_book(book_id):
     book.title = request.json["title"]
     book.volume = request.json["volume"]
     book.series = request.json["series"]
-    book.series_volume = request.json["series_volume"]
+    book.series_volume = request.json["seriesVolume"]
     book.author = request.json["author"]
     book.translator = request.json["translator"]
     book.publisher = request.json["publisher"]
     book.category_id = category.id
     book.format_id = fmt.id
     book.isbn = request.json["isbn"]
-    book.published_on = request.json["published_on"]
-    book.original_title = request.json["original_title"]
+    book.published_on = request.json["publishedOn"]
+    book.original_title = request.json["originalTitle"]
     book.note = request.json["note"]
     book.keyword = request.json["keyword"]
-    book.disk = request.json["disk"]
+    book.disk = request.json["disc"]
     book.bookshelf_id = bookshelf_id
     book.disposed = request.json["disposed"]
     db.session.commit()
