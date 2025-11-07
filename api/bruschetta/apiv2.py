@@ -20,7 +20,7 @@ def list_books():
     if not include_disposed:
         dataset = dataset.filter_by(disposed=False)
     books = dataset.offset(offset).limit(limit).all()
-    data = [b.to_dictionary() for b in books]
+    data = [b.as_dict() for b in books]
     return jsonify({"status": "OK", "books": data})
 
 
@@ -29,7 +29,7 @@ def show_book(book_id):
     book = Book.query.get(book_id)
     data = []
     if book is not None:
-        data.append(book.to_dictionary())
+        data.append(book.as_dict())
     return jsonify({"status": "OK", "books": data})
 
 
@@ -57,7 +57,7 @@ def add_book():
     book.disposed = request.json["disposed"]
     db.session.add(book)
     db.session.commit()
-    return jsonify({"status": "OK", "books": [book.to_dictionary()]})
+    return jsonify({"status": "OK", "books": [book.as_dict()]})
 
 
 @bp.route("/books/<int:book_id>", methods=["PUT"])
@@ -91,7 +91,7 @@ def update_book(book_id):
     book.bookshelf_id = bookshelf_id
     book.disposed = request.json["disposed"]
     db.session.commit()
-    return jsonify({"status": "OK", "books": [book.to_dictionary()]})
+    return jsonify({"status": "OK", "books": [book.as_dict()]})
 
 
 @bp.route("/books/<int:book_id>", methods=["DELETE"])
@@ -99,7 +99,7 @@ def delete_book(book_id):
     book = Book.query.get(book_id)
     book.disposed = True
     db.session.commit()
-    return jsonify({"status": "OK", "books": [book.to_dictionary()]})
+    return jsonify({"status": "OK", "books": [book.as_dict()]})
 
 
 @bp.route("/books/search")
@@ -119,7 +119,7 @@ def search_books():
         if author:
             dataset = dataset.filter(Book.author.like("%" + author + "%"))
     books = dataset.all()
-    data = [b.to_dictionary() for b in books]
+    data = [b.as_dict() for b in books]
     return jsonify({"status": "OK", "books": data})
 
 
@@ -127,7 +127,7 @@ def search_books():
 def list_books_categorized(category_id):
     category = Category.query.get(category_id)
     books = Book.query.filter_by(category_id=category_id, disposed=False).all()
-    data = [b.to_dictionary() for b in books]
+    data = [b.as_dict() for b in books]
     return jsonify({"status": "OK", "category": category.name, "books": data})
 
 
@@ -137,7 +137,7 @@ def list_books_disposed():
     limit = request.args.get("limit", default=100, type=int)
     dataset = Book.query.filter_by(disposed=True).order_by(Book.id.asc())
     books = dataset.offset(offset).limit(limit).all()
-    data = [b.to_dictionary() for b in books]
+    data = [b.as_dict() for b in books]
     return jsonify({"status": "OK", "books": data})
 
 
@@ -165,7 +165,7 @@ def upload_coverart(book_id):
     book.coverart_id = coverart.id
     db.session.commit()
     os.remove(tmp_filename)
-    return jsonify({"status": "OK", "books": [book.to_dictionary()]})
+    return jsonify({"status": "OK", "books": [book.as_dict()]})
 
 
 @bp.route("/coverarts/<int:book_id>", methods=["DELETE"])
@@ -182,13 +182,13 @@ def delete_coverart(book_id):
     book.coverart_id = None
     db.session.delete(coverart)
     db.session.commit()
-    return jsonify({"status": "OK", "books": [book.to_dictionary()]})
+    return jsonify({"status": "OK", "books": [book.as_dict()]})
 
 
 @bp.route("/categories")
 def list_categories():
     categories = Category.query.all()
-    data = [c.to_dictionary() for c in categories]
+    data = [c.as_dict() for c in categories]
     return jsonify({"status": "OK", "categories": data})
 
 
@@ -197,13 +197,13 @@ def add_category():
     category = Category(name=request.json["name"])
     db.session.add(category)
     db.session.commit()
-    return jsonify({"status": "OK", "categories": [category.to_dictionary()]})
+    return jsonify({"status": "OK", "categories": [category.as_dict()]})
 
 
 @bp.route("/formats")
 def list_formats():
     formats = Format.query.all()
-    data = [f.to_dictionary() for f in formats]
+    data = [f.as_dict() for f in formats]
     return jsonify({"status": "OK", "formats": data})
 
 
@@ -212,13 +212,13 @@ def add_format():
     fmt = Format(name=request.json["name"])
     db.session.add(fmt)
     db.session.commit()
-    return jsonify({"status": "OK", "formats": [fmt.to_dictionary()]})
+    return jsonify({"status": "OK", "formats": [fmt.as_dict()]})
 
 
 @bp.route("/bookshelves")
 def list_bookshelves():
     bookshelves = BookShelf.query.all()
-    data = [b.to_dictionary() for b in bookshelves]
+    data = [b.as_dict() for b in bookshelves]
     return jsonify({"status": "OK", "bookshelves": data})
 
 
@@ -227,7 +227,7 @@ def show_bookshelf(bookshelf_id):
     bookshelf = BookShelf.query.get(bookshelf_id)
     data = []
     if bookshelf is not None:
-        data.append(bookshelf.to_dictionary())
+        data.append(bookshelf.as_dict())
     return jsonify({"status": "OK", "bookshelves": data})
 
 
@@ -238,9 +238,7 @@ def add_bookshelf():
     )
     db.session.add(bookshelf)
     db.session.commit()
-    return jsonify(
-        {"status": "OK", "bookshelves": [bookshelf.to_dictionary()]}
-    )
+    return jsonify({"status": "OK", "bookshelves": [bookshelf.as_dict()]})
 
 
 @bp.route("/bookshelves/<int:bookshelf_id>", methods=["PUT"])
@@ -249,6 +247,4 @@ def update_bookshelf(bookshelf_id):
     bookshelf.name = request.json["name"]
     bookshelf.description = request.json["description"]
     db.session.commit()
-    return jsonify(
-        {"status": "OK", "bookshelves": [bookshelf.to_dictionary()]}
-    )
+    return jsonify({"status": "OK", "bookshelves": [bookshelf.as_dict()]})
