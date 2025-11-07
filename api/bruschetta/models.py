@@ -74,6 +74,31 @@ class Book(db.Model):
             "coverart_url": coverart,
         }
 
+    def as_dict(self):
+        bookshelf = self.bookshelf.name if self.bookshelf else ""
+        coverart = self.coverart.filename if self.coverart else ""
+        return {
+            "id": self.id,
+            "title": self.title,
+            "volume": self.volume,
+            "series": self.series,
+            "seriesVolume": self.series_volume,
+            "author": self.author,
+            "translator": self.translator,
+            "publisher": self.publisher,
+            "category": self.category.name,
+            "format": self.format.name,
+            "isbn": self.isbn,
+            "publishedOn": self.published_on,
+            "originalTitle": self.original_title,
+            "note": self.note,
+            "keyword": self.keyword,
+            "disc": self.disk,
+            "coverart": coverart,
+            "bookshelf": bookshelf,
+            "disposed": self.disposed,
+        }
+
     def str_created_at(self):
         dt = self.created_at.replace(tzinfo=UTC()).astimezone(JST())
         return f"{dt:%Y-%m-%d %H:%M:%S}"
@@ -91,6 +116,9 @@ class Category(db.Model):
     def to_dictionary(self):
         return {"id": self.id, "name": self.name}
 
+    def as_dict(self):
+        return {"id": self.id, "name": self.name}
+
 
 class Format(db.Model):
     __tablename__ = "formats"
@@ -104,6 +132,9 @@ class Format(db.Model):
     def to_dictionary(self):
         return {"id": self.id, "name": self.name}
 
+    def as_dict(self):
+        return {"id": self.id, "name": self.name}
+
 
 class CoverArt(db.Model):
     __tablename__ = "coverarts"
@@ -113,6 +144,9 @@ class CoverArt(db.Model):
 
     def __repr__(self):
         return f"<CoverArt id={self.id} filename={self.filename}>"
+
+    def as_dict(self):
+        return {"id": self.id, "filename": self.filename}
 
 
 class BookShelf(db.Model):
@@ -126,6 +160,13 @@ class BookShelf(db.Model):
         return f"<BookShelf id={self.id} name={self.name}>"
 
     def to_dictionary(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "description": self.description,
+        }
+
+    def as_dict(self):
         return {
             "id": self.id,
             "name": self.name,
