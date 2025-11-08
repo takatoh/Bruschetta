@@ -13,10 +13,12 @@ bp = Blueprint("apiv2", __name__)
 def list_books():
     offset = request.args.get("offset", default=0, type=int)
     limit = request.args.get("limit", default=100, type=int)
-    include_disposed = str_to_bool(
-        request.args.get("include_disposed", default="")
+    include_disposed = request.args.get(
+        "include_disposed", default=False, type=str_to_bool
     )
-    reverse_order = str_to_bool(request.args.get("reverse", default=""))
+    reverse_order = request.args.get(
+        "reverse", default=False, type=str_to_bool
+    )
     if reverse_order:
         dataset = Book.query.order_by(Book.id.desc())
     else:
