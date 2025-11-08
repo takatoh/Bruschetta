@@ -39,7 +39,9 @@ const books = ref([])
 
 const getBooks = async () => {
   const apiRoot = 'http://localhost:5000/api/v2'
-  const url = `${apiRoot}/books`
+  const params = new URLSearchParams()
+  params.append('reverse', 'true')
+  const url = `${apiRoot}/books?${params}`
   await fetch(url)
     .then((response) => response.json())
     .then((result) => (books.value = result.books))
