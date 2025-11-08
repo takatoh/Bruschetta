@@ -16,7 +16,11 @@ def list_books():
     include_disposed = str_to_bool(
         request.args.get("include_disposed", default="")
     )
-    dataset = Book.query.order_by(Book.id.asc())
+    reverse_order = str_to_bool(request.args.get("reverse", default=""))
+    if reverse_order:
+        dataset = Book.query.order_by(Book.id.desc())
+    else:
+        dataset = Book.query.order_by(Book.id.asc())
     if not include_disposed:
         dataset = dataset.filter_by(disposed=False)
     books = dataset.offset(offset).limit(limit).all()
