@@ -3,7 +3,7 @@
     <q-header bordered>
       <div class="bg-teal-9 q-px-xl q-py-sm">
         <q-toolbar>
-          <q-toolbar-title class="text-center"> Bruschetta </q-toolbar-title>
+          <q-toolbar-title class="text-center"> {{ $APP_NAME }} </q-toolbar-title>
         </q-toolbar>
       </div>
       <div>
@@ -23,8 +23,8 @@
     <q-footer bordered class="bg-teal text-white q-px-xl q-py-sm text-center">
       <q-toolbar>
         <q-space></q-space>
-        <text-subtitle2 class="q-px-sm">Bruschetta</text-subtitle2>
-        <q-badge class="bg-white text-teal q-px-sm">develop</q-badge>
+        <text-subtitle2 class="q-px-sm">{{ $PROJECT_NAME }}</text-subtitle2>
+        <q-badge class="bg-white text-teal q-px-sm">{{ $PROJECT_VERSION }}</q-badge>
         <q-space></q-space>
       </q-toolbar>
     </q-footer>
