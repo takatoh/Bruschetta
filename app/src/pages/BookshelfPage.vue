@@ -32,7 +32,7 @@ const bookshelfColumns = [
 ]
 
 const getBookshelves = async () => {
-  const apiRoot = 'http://localhost:5000/api/v2'
+  const apiRoot = process.env.VUE_APP_API_ROOT
   const url = `${apiRoot}/bookshelves`
   await fetch(url)
     .then((response) => response.json())

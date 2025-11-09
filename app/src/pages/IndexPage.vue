@@ -38,7 +38,8 @@ import BookListingItem from 'components/BookListingItem.vue'
 const books = ref([])
 
 const getBooks = async () => {
-  const apiRoot = 'http://localhost:5000/api/v2'
+  //  const apiRoot = 'http://localhost:5000/api/v2'
+  const apiRoot = process.env.VUE_APP_API_ROOT
   const params = new URLSearchParams()
   params.append('reverse', 'true')
   const url = `${apiRoot}/books?${params}`

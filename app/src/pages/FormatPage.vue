@@ -31,7 +31,7 @@ const formatColumns = [
 ]
 
 const getFormats = async () => {
-  const apiRoot = 'http://localhost:5000/api/v2'
+  const apiRoot = process.env.VUE_APP_API_ROOT
   const url = `${apiRoot}/formats`
   await fetch(url)
     .then((response) => response.json())
