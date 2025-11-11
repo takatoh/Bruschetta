@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 import os
 from .models import init_app, db
 
@@ -34,5 +35,10 @@ def create_app(config_filename="./bruschetta.conf"):
     )
     app.register_blueprint(coverarts.create_blueprint(coverarts_dir))
     # fmt: on
+
+    CORS(
+        app,
+        resources={r"/api/v2/*": {"origins": ["http://localhost:9000"]}},
+    )
 
     return app
