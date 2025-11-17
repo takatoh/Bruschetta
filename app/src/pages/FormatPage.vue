@@ -22,6 +22,7 @@
 
 <script setup>
 import { ref } from 'vue'
+import { apiRoot } from 'boot/ezglobals'
 
 const formats = ref([])
 
@@ -31,7 +32,6 @@ const formatColumns = [
 ]
 
 const getFormats = async () => {
-  const apiRoot = process.env.VUE_APP_API_ROOT
   const url = `${apiRoot}/formats`
   await fetch(url)
     .then((response) => response.json())

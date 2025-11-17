@@ -128,6 +128,7 @@
 
 <script setup>
 import { ref, computed, watch } from 'vue'
+import { apiRoot } from 'boot/ezglobals'
 
 const props = defineProps({
   bookId: {
@@ -167,7 +168,6 @@ const titleWithVolume = computed(() => {
 })
 
 const getBookDetails = async (bookId) => {
-  const apiRoot = process.env.VUE_APP_API_ROOT
   const url = `${apiRoot}/books/${bookId}`
   await fetch(url)
     .then((response) => response.json())

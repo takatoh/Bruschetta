@@ -22,6 +22,7 @@
 
 <script setup>
 import { ref } from 'vue'
+import { apiRoot } from 'boot/ezglobals'
 
 const categories = ref([])
 
@@ -31,7 +32,6 @@ const categoryColumns = [
 ]
 
 const getCategories = async () => {
-  const apiRoot = process.env.VUE_APP_API_ROOT
   const url = `${apiRoot}/categories`
   await fetch(url)
     .then((response) => response.json())

@@ -22,6 +22,7 @@
 
 <script setup>
 import { ref } from 'vue'
+import { apiRoot } from 'boot/ezglobals'
 
 const bookshelves = ref([])
 
@@ -32,7 +33,6 @@ const bookshelfColumns = [
 ]
 
 const getBookshelves = async () => {
-  const apiRoot = process.env.VUE_APP_API_ROOT
   const url = `${apiRoot}/bookshelves`
   await fetch(url)
     .then((response) => response.json())
