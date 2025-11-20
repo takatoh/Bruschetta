@@ -14,17 +14,24 @@
       ></q-table>
 
       <div>
-        <q-btn label="Add a new format" color="teal" outline></q-btn>
+        <q-btn label="Add a new format" color="teal" outline @click="openDialog"></q-btn>
       </div>
     </div>
+
+    <adding-dialog v-model="dialogOpen" label="Adding a New Format">
+      <q-input name="name" v-model="formatNew" label="Name" color="teal"></q-input>
+    </adding-dialog>
   </q-page>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import { apiRoot } from 'boot/ezglobals'
+import AddingDialog from 'src/components/AddingDialog.vue'
 
 const formats = ref([])
+const dialogOpen = ref(false)
+const formatNew = ref(null)
 
 const formatColumns = [
   { name: 'id', label: 'ID', align: 'left', field: (row) => row['id'], format: (val) => `${val}` },
@@ -36,6 +43,10 @@ const getFormats = async () => {
   await fetch(url)
     .then((response) => response.json())
     .then((result) => (formats.value = result.formats))
+}
+
+const openDialog = () => {
+  dialogOpen.value = !dialogOpen.value
 }
 
 getFormats()
