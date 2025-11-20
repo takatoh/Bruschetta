@@ -20,15 +20,15 @@
 
     <q-dialog v-model="dialogOpen" persistent>
       <q-card style="width: 400px">
-        <q-card-section style="background-color: teal; color: white">
+        <q-card-section class="bg-teal text-white text-center">
           <span>Adding a New Cagetory</span>
         </q-card-section>
         <q-card-section>
           <q-input name="name" v-model="categoryNew" label="Name" color="teal"></q-input>
         </q-card-section>
         <q-card-actions align="right">
-          <q-btn outline color="teal" label="Cancel" v-close-popup></q-btn>
-          <q-btn outline color="teal" label="Submit" v-close-popup></q-btn>
+          <q-btn outline class="text-teal" label="Cancel" v-close-popup></q-btn>
+          <q-btn outline class="text-teal" label="Submit" v-close-popup></q-btn>
         </q-card-actions>
       </q-card>
     </q-dialog>
