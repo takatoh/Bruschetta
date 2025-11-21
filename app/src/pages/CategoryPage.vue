@@ -18,7 +18,12 @@
       </div>
     </div>
 
-    <adding-dialog v-model="dialogOpen" label="Adding a New Category">
+    <adding-dialog
+      v-model="dialogOpen"
+      label="Adding a New Category"
+      @submit="addCategory"
+      @cancel="cancel"
+    >
       <q-input name="name" v-model="categoryNew" label="Name" color="teal"></q-input>
     </adding-dialog>
   </q-page>
@@ -47,6 +52,14 @@ const getCategories = async () => {
 
 const openDialog = () => {
   dialogOpen.value = !dialogOpen.value
+}
+
+const addCategory = () => {
+  console.log(`Add a ner category: {categoryNew.value}`)
+}
+
+const cancel = () => {
+  categoryNew.value = null
 }
 
 getCategories()
