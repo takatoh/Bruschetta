@@ -55,7 +55,7 @@ const openDialog = () => {
 }
 
 const addCategory = async () => {
-  console.log(`Add a ner category: ${categoryNew.value}`)
+  console.log(`Add a new category: ${categoryNew.value}`)
   const url = `${apiRoot}/categories`
   await fetch(url, {
     method: 'POST',
