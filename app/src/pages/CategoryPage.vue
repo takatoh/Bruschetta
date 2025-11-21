@@ -57,8 +57,6 @@ const openDialog = () => {
 const addCategory = async () => {
   console.log(`Add a ner category: ${categoryNew.value}`)
   const url = `${apiRoot}/categories`
-  //const formData = new FormData()
-  //formData.append('name', categoryNew.value)
   await fetch(url, {
     method: 'POST',
     headers: {
@@ -68,16 +66,12 @@ const addCategory = async () => {
   })
     .then((response) => {
       if (response.ok) {
-        //console.log('Response OK')
         return response.json()
       } else {
-        //console.log('Error: ' + response.status)
         throw new Error(`Error occured: response status = ${response.status}`)
       }
     })
     .then(() => {
-      //const categ = categories.value.push(result['categories'][0])
-      //console.log(categ.name)
       categoryNew.value = null
       getCategories()
     })
