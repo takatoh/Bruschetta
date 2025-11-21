@@ -30,6 +30,6 @@ const onCancel = () => {
 }
 
 const onSubmit = () => {
-  emit('submit)')
+  emit('submit')
 }
 </script>
