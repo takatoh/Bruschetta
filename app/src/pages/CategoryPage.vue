@@ -55,7 +55,7 @@ const openDialog = () => {
 }
 
 const addCategory = () => {
-  console.log(`Add a ner category: {categoryNew.value}`)
+  console.log(`Add a ner category: ${categoryNew.value}`)
 }
 
 const cancel = () => {
