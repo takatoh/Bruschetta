@@ -12,8 +12,18 @@
         <q-input name="author" v-model="book.author" label="Author"></q-input>
         <q-input name="translator" v-model="book.translator" label="Translator"></q-input>
         <q-input name="publisher" v-model="book.publisher" label="Publisher"></q-input>
-        <q-input name="category" v-model="book.category" label="Category"></q-input>
-        <q-input name="format" v-model="book.format" label="Format"></q-input>
+        <q-select
+          name="category"
+          v-model="book.category"
+          :options="categoryOptions"
+          label="Category"
+        ></q-select>
+        <q-select
+          name="format"
+          v-model="book.format"
+          :options="formatOptions"
+          label="Format"
+        ></q-select>
         <q-input name="isbn" v-model="book.isbn" label="ISBN"></q-input>
         <q-input name="published_on" v-model="book.publishedOn" label="Published on"></q-input>
         <q-input
@@ -24,7 +34,12 @@
         <q-input name="note" v-model="book.note" label="Note"></q-input>
         <q-input name="keyword" v-model="book.keyword" label="Keyword"></q-input>
         <q-input name="disk" v-model="book.disc" label="Disc"></q-input>
-        <q-input name="bookshelf" v-model="book.bookshelf" label="Bookshelf"></q-input>
+        <q-select
+          name="bookshelf"
+          v-model="book.bookshelf"
+          :options="bookshelfOptions"
+          label="Bookshelf"
+        ></q-select>
       </q-card-section>
       <q-card-actions align="right">
         <q-btn outline class="text-teal" label="Cancel" v-close-popup @click="onCancel"></q-btn>
@@ -36,6 +51,7 @@
 
 <script setup>
 import { ref } from 'vue'
+import { apiRoot } from 'boot/ezglobals'
 
 const props = defineProps({
   label: {
@@ -65,6 +81,37 @@ const book = ref({
   coverart: '',
 })
 
+const categoryOptions = ref([])
+const formatOptions = ref([])
+const bookshelfOptions = ref([])
+
+const getCategories = async () => {
+  const url = `${apiRoot}/categories`
+  await fetch(url)
+    .then((response) => response.json())
+    .then((result) => {
+      categoryOptions.value = result.categories.map((c) => c['name'])
+    })
+}
+
+const getFormats = async () => {
+  const url = `${apiRoot}/formats`
+  await fetch(url)
+    .then((response) => response.json())
+    .then((result) => {
+      formatOptions.value = result.formats.map((c) => c['name'])
+    })
+}
+
+const getBookshelves = async () => {
+  const url = `${apiRoot}/bookshelves`
+  await fetch(url)
+    .then((response) => response.json())
+    .then((result) => {
+      bookshelfOptions.value = result.bookshelves.map((bs) => bs['name'])
+    })
+}
+
 const emit = defineEmits(['submit', 'cancel'])
 
 const onCancel = () => {
@@ -74,4 +121,8 @@ const onCancel = () => {
 const onSubmit = () => {
   emit('submit')
 }
+
+getCategories()
+getFormats()
+getBookshelves()
 </script>
