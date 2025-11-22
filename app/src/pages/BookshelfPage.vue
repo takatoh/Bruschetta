@@ -14,7 +14,7 @@
       ></q-table>
 
       <div>
-        <q-btn label="Add a new format" color="teal" outline @click="openDialog"></q-btn>
+        <q-btn label="Add a new bookshelf" color="teal" outline @click="openDialog"></q-btn>
       </div>
     </div>
 
