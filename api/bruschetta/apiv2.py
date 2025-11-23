@@ -60,7 +60,7 @@ def add_book():
         keyword=request.json["keyword"],
         disk=request.json["disc"],
     )
-    book.disposed = request.json["disposed"]
+    book.disposed = False
     db.session.add(book)
     db.session.commit()
     return jsonify({"status": "OK", "books": [book.as_dict()]})
