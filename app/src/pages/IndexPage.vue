@@ -39,7 +39,12 @@
     </div>
   </q-page>
 
-  <book-adding-dialog v-model="addingDialogOpen" label="Add a New Book"></book-adding-dialog>
+  <book-adding-dialog
+    v-model="addingDialogOpen"
+    label="Add a New Book"
+    @submit="addBook"
+    @cancel="cancel"
+  ></book-adding-dialog>
 </template>
 
 <script setup>
@@ -63,6 +68,12 @@ const getBooks = async () => {
 const openAddingDialog = () => {
   addingDialogOpen.value = !addingDialogOpen.value
 }
+
+const addBook = (e) => {
+  console.log(e)
+}
+
+const cancel = () => {}
 
 getBooks()
 </script>
