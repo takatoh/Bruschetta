@@ -122,7 +122,9 @@ const onCancel = () => {
 }
 
 const onSubmit = () => {
-  emit('submit')
+  const bookInfo = Object.assign({}, book.value)
+  book.value = bookInitial()
+  emit('submit', bookInfo)
 }
 
 getCategories()
