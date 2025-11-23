@@ -69,8 +69,27 @@ const openAddingDialog = () => {
   addingDialogOpen.value = !addingDialogOpen.value
 }
 
-const addBook = (e) => {
+const addBook = async (e) => {
   console.log(e)
+  const url = `${apiRoot}/books`
+  await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(e),
+  })
+    .then((response) => {
+      if (response.ok) {
+        return response.json()
+      } else {
+        throw new Error(`Error occured: response status = ${response.status}`)
+      }
+    })
+    .then(() => {
+      getBooks()
+    })
+    .catch((error) => console.log(error))
 }
 
 const cancel = () => {}
