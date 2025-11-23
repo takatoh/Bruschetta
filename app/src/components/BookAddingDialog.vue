@@ -60,26 +60,28 @@ const props = defineProps({
   },
 })
 
-const book = ref({
-  title: '',
-  volume: '',
-  series: '',
-  seriesVolume: '',
-  author: '',
-  translator: '',
-  publisher: '',
-  category: '',
-  format: '',
-  isbn: '',
-  publishedOn: '',
-  originalTitle: '',
-  note: '',
-  keyword: '',
-  disc: '',
-  bookshelf: '',
-  createdAt: '',
-  coverart: '',
-})
+const bookInitial = () => {
+  return {
+    title: '',
+    volume: '',
+    series: '',
+    seriesVolume: '',
+    author: '',
+    translator: '',
+    publisher: '',
+    category: '',
+    format: '',
+    isbn: '',
+    publishedOn: '',
+    originalTitle: '',
+    note: '',
+    keyword: '',
+    disc: '',
+    bookshelf: '',
+  }
+}
+
+const book = ref(bookInitial())
 
 const categoryOptions = ref([])
 const formatOptions = ref([])
