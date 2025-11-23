@@ -117,6 +117,7 @@ const getBookshelves = async () => {
 const emit = defineEmits(['submit', 'cancel'])
 
 const onCancel = () => {
+  book.value = bookInitial()
   emit('cancel')
 }
 
