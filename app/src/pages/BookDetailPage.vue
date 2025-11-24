@@ -117,18 +117,26 @@
 
     <div class="q-pa-md q-gutter-y-md column items-start">
       <q-btn-group outline>
-        <q-btn label="Edit" color="teal" outline href="/"></q-btn>
+        <q-btn label="Edit" color="teal" outline v-close-popup @click="openEditingDialog"></q-btn>
         <q-separator></q-separator>
         <q-btn label="Upload coverart" color="teal" outline href="/" v-if="!book.coverart"></q-btn>
         <q-btn label="Delete coverart" color="teal" outline href="/" v-else></q-btn>
       </q-btn-group>
     </div>
   </q-page>
+
+  <book-editing-dialog
+    v-model="editingDialogOpen"
+    label="Edit a Book"
+    @submit="editBook"
+    @cancel="cancel"
+  ></book-editing-dialog>
 </template>
 
 <script setup>
 import { ref, computed, watch } from 'vue'
 import { apiRoot } from 'boot/ezglobals'
+import BookEditingDialog from 'components/BookAddingDialog.vue'
 
 const props = defineProps({
   bookId: {
@@ -172,6 +180,12 @@ const getBookDetails = async (bookId) => {
   await fetch(url)
     .then((response) => response.json())
     .then((result) => (book.value = result.books[0]))
+}
+
+const editingDialogOpen = ref(false)
+
+const openEditingDialog = () => {
+  editingDialogOpen.value = !editingDialogOpen.value
 }
 
 getBookDetails(props.bookId)
