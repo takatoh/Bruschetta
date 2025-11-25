@@ -140,7 +140,7 @@ import BookEditingDialog from 'components/BookAddingDialog.vue'
 
 const props = defineProps({
   bookId: {
-    type: Number,
+    type: String,
     required: true,
   },
 })
@@ -188,9 +188,18 @@ const openEditingDialog = () => {
   editingDialogOpen.value = !editingDialogOpen.value
 }
 
+const editBook = (e) => {
+  console.log(e)
+}
+
+const cancel = () => {}
+
 getBookDetails(props.bookId)
 
-watch(props.bookId, (newBookId) => {
-  getBookDetails(newBookId)
-})
+watch(
+  () => props.bookId,
+  (newBookId) => {
+    getBookDetails(newBookId)
+  },
+)
 </script>
