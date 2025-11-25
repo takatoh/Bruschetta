@@ -23,7 +23,7 @@
     <q-footer bordered class="bg-teal text-white q-px-xl q-py-sm text-center">
       <q-toolbar>
         <q-space></q-space>
-        <text-subtitle2 class="q-px-sm">{{ $PROJECT_NAME }}</text-subtitle2>
+        <span class="q-px-sm">{{ $PROJECT_NAME }}</span>
         <q-badge class="bg-white text-teal q-px-sm">{{ $PROJECT_VERSION }}</q-badge>
         <q-space></q-space>
       </q-toolbar>
