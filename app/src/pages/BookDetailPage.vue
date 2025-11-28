@@ -129,7 +129,7 @@
     v-model="editingDialogOpen"
     label="Editing a Book"
     :book-id="book.id"
-    @submit="editBook"
+    @submit="updateBook"
     @cancel="cancel"
   ></book-editing-dialog>
 </template>
@@ -189,7 +189,7 @@ const openEditingDialog = () => {
   editingDialogOpen.value = !editingDialogOpen.value
 }
 
-const editBook = async (e) => {
+const updateBook = async (e) => {
   console.log(e)
   const url = `${apiRoot}/books/${e.id}`
   await fetch(url, {
