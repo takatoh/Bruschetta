@@ -97,7 +97,7 @@ class Book(db.Model):
             "coverart": coverart,
             "bookshelf": bookshelf,
             "disposed": self.disposed,
-            "createdAt": self.created_at,
+            "createdAt": self.str_created_at(),
         }
 
     def str_created_at(self):
