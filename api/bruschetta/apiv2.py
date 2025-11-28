@@ -36,9 +36,7 @@ def show_book(book_id):
     data = []
     if book is not None:
         book_details = book.as_dict()
-        coverart = book_details["coverart"]
-        if coverart:
-            book_details["coverart"] = f"{request.host_url}coverart/{coverart}"
+        book_details = _set_coverart_url(book_details, request.host_url)
         data.append(book_details)
         return jsonify({"status": "OK", "books": data})
     else:
@@ -260,3 +258,10 @@ def update_bookshelf(bookshelf_id):
     bookshelf.description = request.json["description"]
     db.session.commit()
     return jsonify({"status": "OK", "bookshelves": [bookshelf.as_dict()]})
+
+
+def _set_coverart_url(book_details, host_url):
+    coverart = book_details["coverart"]
+    if len(coverart) > 0:
+        book_details["coverart"] = f"{host_url}coverart/{coverart}"
+    return book_details
