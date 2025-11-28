@@ -35,7 +35,11 @@ def show_book(book_id):
     book = Book.query.get(book_id)
     data = []
     if book is not None:
-        data.append(book.as_dict())
+        book_details = book.as_dict()
+        coverart = book_details["coverart"]
+        if coverart:
+            book_details["coverart"] = f"{request.host_url}coverart/{coverart}"
+        data.append(book_details)
         return jsonify({"status": "OK", "books": data})
     else:
         return jsonify({"status": "Error", "cause": "Not found"})
