@@ -58,10 +58,6 @@ const props = defineProps({
     type: String,
     require: true,
   },
-  bookId: {
-    type: Number,
-    require: true,
-  },
   bookDetails: {
     type: Object,
     require: true,
@@ -93,13 +89,6 @@ const bookInitial = () => {
 }
 
 const book = ref(props.bookDetails)
-
-//const getBookDetails = async (bookId) => {
-//  const url = `${apiRoot}/books/${bookId}`
-//  await fetch(url)
-//    .then((response) => response.json())
-//    .then((result) => (book.value = result.books[0]))
-//}
 
 const categoryOptions = ref([])
 const formatOptions = ref([])
@@ -135,7 +124,6 @@ const getBookshelves = async () => {
 const emit = defineEmits(['submit', 'cancel'])
 
 const onCancel = () => {
-  //book.value = bookInitial()
   const details = Object.assign({}, props.bookDetails)
   book.value = details
   emit('cancel')
@@ -143,12 +131,10 @@ const onCancel = () => {
 
 const onSubmit = () => {
   const bookInfo = Object.assign({}, book.value)
-  //    const details = Object.assign({}, newBookDetails)
   book.value = bookInitial()
   emit('submit', bookInfo, props.bookId)
 }
 
-//getBookDetails(props.bookId)
 getCategories()
 getFormats()
 getBookshelves()
@@ -156,7 +142,6 @@ getBookshelves()
 watch(
   () => props.bookDetails,
   (newBookDetails) => {
-    //getBookDetails(newBookId)
     const details = Object.assign({}, newBookDetails)
     book.value = details
   },
