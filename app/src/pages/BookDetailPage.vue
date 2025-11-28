@@ -2,6 +2,10 @@
   <q-page padding>
     <h5 class="text-teal-10">{{ titleWithVolume }}</h5>
 
+    <div v-if="book.coverart.length > 0">
+      <img :src="book.coverart" />
+    </div>
+
     <div class="q-pa-md" style="min-width: 600px">
       <q-list>
         <q-item>
