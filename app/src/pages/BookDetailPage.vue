@@ -136,7 +136,7 @@
 <script setup>
 import { ref, computed, watch } from 'vue'
 import { apiRoot } from 'boot/ezglobals'
-import BookEditingDialog from 'components/BookAddingDialog.vue'
+import BookEditingDialog from 'components/BookEditingDialog.vue'
 
 const props = defineProps({
   bookId: {
