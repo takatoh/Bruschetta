@@ -189,8 +189,27 @@ const openEditingDialog = () => {
   editingDialogOpen.value = !editingDialogOpen.value
 }
 
-const editBook = (e) => {
+const editBook = async (e) => {
   console.log(e)
+  const url = `${apiRoot}/books/${e.id}`
+  await fetch(url, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(e),
+  })
+    .then((response) => {
+      if (response.ok) {
+        return response.json()
+      } else {
+        throw new Error(`Error occured: response status = ${response.status}`)
+      }
+    })
+    .then((result) => {
+      book.value = result.books[0]
+    })
+    .catch((error) => console.log(error))
 }
 
 const cancel = () => {}
