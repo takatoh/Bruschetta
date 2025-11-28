@@ -50,7 +50,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { apiRoot } from 'boot/ezglobals'
 
 const props = defineProps({
@@ -66,6 +66,7 @@ const props = defineProps({
 
 const bookInitial = () => {
   return {
+    id: 0,
     title: '',
     volume: '',
     series: '',
@@ -82,10 +83,19 @@ const bookInitial = () => {
     keyword: '',
     disc: '',
     bookshelf: '',
+    createdAt: '',
+    coverart: '',
   }
 }
 
 const book = ref(bookInitial())
+
+const getBookDetails = async (bookId) => {
+  const url = `${apiRoot}/books/${bookId}`
+  await fetch(url)
+    .then((response) => response.json())
+    .then((result) => (book.value = result.books[0]))
+}
 
 const categoryOptions = ref([])
 const formatOptions = ref([])
@@ -131,7 +141,15 @@ const onSubmit = () => {
   emit('submit', bookInfo, props.bookId)
 }
 
+getBookDetails(props.bookId)
 getCategories()
 getFormats()
 getBookshelves()
+
+watch(
+  () => props.bookId,
+  (newBookId) => {
+    getBookDetails(newBookId)
+  },
+)
 </script>
