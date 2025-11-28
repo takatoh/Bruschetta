@@ -128,7 +128,7 @@
   <book-editing-dialog
     v-model="editingDialogOpen"
     label="Editing a Book"
-    :book-id="book.id"
+    :book-details="book"
     @submit="updateBook"
     @cancel="cancel"
   ></book-editing-dialog>
