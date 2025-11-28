@@ -36,7 +36,9 @@ def show_book(book_id):
     data = []
     if book is not None:
         data.append(book.as_dict())
-    return jsonify({"status": "OK", "books": data})
+        return jsonify({"status": "OK", "books": data})
+    else:
+        return jsonify({"status": "Error", "cause": "Not found"})
 
 
 @bp.route("/books", methods=["POST"])
