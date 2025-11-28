@@ -62,6 +62,10 @@ const props = defineProps({
     type: Number,
     require: true,
   },
+  bookDetails: {
+    type: Object,
+    require: true,
+  },
 })
 
 const bookInitial = () => {
@@ -88,14 +92,14 @@ const bookInitial = () => {
   }
 }
 
-const book = ref(bookInitial())
+const book = ref(props.bookDetails)
 
-const getBookDetails = async (bookId) => {
-  const url = `${apiRoot}/books/${bookId}`
-  await fetch(url)
-    .then((response) => response.json())
-    .then((result) => (book.value = result.books[0]))
-}
+//const getBookDetails = async (bookId) => {
+//  const url = `${apiRoot}/books/${bookId}`
+//  await fetch(url)
+//    .then((response) => response.json())
+//    .then((result) => (book.value = result.books[0]))
+//}
 
 const categoryOptions = ref([])
 const formatOptions = ref([])
@@ -131,25 +135,30 @@ const getBookshelves = async () => {
 const emit = defineEmits(['submit', 'cancel'])
 
 const onCancel = () => {
-  book.value = bookInitial()
+  //book.value = bookInitial()
+  const details = Object.assign({}, props.bookDetails)
+  book.value = details
   emit('cancel')
 }
 
 const onSubmit = () => {
   const bookInfo = Object.assign({}, book.value)
+  //    const details = Object.assign({}, newBookDetails)
   book.value = bookInitial()
   emit('submit', bookInfo, props.bookId)
 }
 
-getBookDetails(props.bookId)
+//getBookDetails(props.bookId)
 getCategories()
 getFormats()
 getBookshelves()
 
 watch(
-  () => props.bookId,
-  (newBookId) => {
-    getBookDetails(newBookId)
+  () => props.bookDetails,
+  (newBookDetails) => {
+    //getBookDetails(newBookId)
+    const details = Object.assign({}, newBookDetails)
+    book.value = details
   },
 )
 </script>
