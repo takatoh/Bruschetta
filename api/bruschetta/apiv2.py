@@ -33,12 +33,10 @@ def list_books():
 @bp.route("/books/<int:book_id>")
 def show_book(book_id):
     book = Book.query.get(book_id)
-    data = []
     if book is not None:
         book_details = book.as_dict()
         book_details = _set_coverart_url(book_details, request.host_url)
-        data.append(book_details)
-        return jsonify({"status": "OK", "books": data})
+        return jsonify({"status": "OK", "books": [book_details]})
     else:
         return jsonify({"status": "Error", "cause": "Not found"})
 
