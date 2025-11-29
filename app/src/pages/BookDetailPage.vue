@@ -123,7 +123,14 @@
       <q-btn-group outline>
         <q-btn label="Edit" color="teal" outline v-close-popup @click="openEditingDialog"></q-btn>
         <q-separator></q-separator>
-        <q-btn label="Upload coverart" color="teal" outline href="/" v-if="!book.coverart"></q-btn>
+        <q-btn
+          label="Upload coverart"
+          color="teal"
+          outline
+          v-close-popup
+          @click="openCoverartDialog"
+          v-if="!book.coverart"
+        ></q-btn>
         <q-btn label="Delete coverart" color="teal" outline href="/" v-else></q-btn>
       </q-btn-group>
     </div>
@@ -136,12 +143,25 @@
     @submit="updateBook"
     @cancel="cancel"
   ></book-editing-dialog>
+
+  <adding-dialog
+    v-model="uploadingCoverartOpen"
+    label="Uploading Coverart"
+    @submit="uploadCoverart"
+    @cancel="cancelCoverart"
+  >
+    <div>
+      <span>{{ titleWithVolume }}</span>
+    </div>
+    <q-file name="file" v-model="coverartNew" label="Cover art file" color="teal"></q-file>
+  </adding-dialog>
 </template>
 
 <script setup>
 import { ref, computed, watch } from 'vue'
 import { apiRoot } from 'boot/ezglobals'
 import BookEditingDialog from 'components/BookEditingDialog.vue'
+import AddingDialog from 'components/AddingDialog.vue'
 
 const props = defineProps({
   bookId: {
@@ -188,9 +208,15 @@ const getBookDetails = async (bookId) => {
 }
 
 const editingDialogOpen = ref(false)
+const uploadingCoverartOpen = ref(false)
+const coverartNew = ref(null)
 
 const openEditingDialog = () => {
   editingDialogOpen.value = !editingDialogOpen.value
+}
+
+const openCoverartDialog = () => {
+  uploadingCoverartOpen.value = !uploadingCoverartOpen.value
 }
 
 const updateBook = async (e) => {
@@ -217,6 +243,12 @@ const updateBook = async (e) => {
 }
 
 const cancel = () => {}
+
+const uploadCoverart = async () => {
+  console.log('upload coverart')
+}
+
+const cancelCoverart = () => {}
 
 getBookDetails(props.bookId)
 
