@@ -207,16 +207,11 @@ const getBookDetails = async (bookId) => {
     .then((result) => (book.value = result.books[0]))
 }
 
+// Edit and update book details
 const editingDialogOpen = ref(false)
-const uploadingCoverartOpen = ref(false)
-const coverartNew = ref(null)
 
 const openEditingDialog = () => {
   editingDialogOpen.value = !editingDialogOpen.value
-}
-
-const openCoverartDialog = () => {
-  uploadingCoverartOpen.value = !uploadingCoverartOpen.value
 }
 
 const updateBook = async (e) => {
@@ -244,6 +239,14 @@ const updateBook = async (e) => {
 
 const cancel = () => {}
 
+// Upload coverart for the book
+const uploadingCoverartOpen = ref(false)
+const coverartNew = ref(null)
+
+const openCoverartDialog = () => {
+  uploadingCoverartOpen.value = !uploadingCoverartOpen.value
+}
+
 const uploadCoverart = async () => {
   console.log('upload coverart')
   const url = `${apiRoot}/coverarts/${book.value.id}`
@@ -266,7 +269,9 @@ const uploadCoverart = async () => {
     .catch((error) => console.log(error))
 }
 
-const cancelCoverart = () => {}
+const cancelCoverart = () => {
+  coverartNew.value = null
+}
 
 getBookDetails(props.bookId)
 
