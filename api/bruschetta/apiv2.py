@@ -26,9 +26,19 @@ def list_books():
         dataset = Book.query.order_by(Book.id.asc())
     if not include_disposed:
         dataset = dataset.filter_by(disposed=False)
+    total_count = dataset.count()
     books = dataset.offset(offset).limit(limit).all()
     data = [b.as_dict() for b in books]
-    return jsonify({"status": "OK", "books": data})
+    count = len(data)
+    return jsonify(
+        {
+            "status": "OK",
+            "books": data,
+            "count": count,
+            "totalCount": total_count,
+            "offset": offset,
+        }
+    )
 
 
 @bp.route("/books/<int:book_id>")
