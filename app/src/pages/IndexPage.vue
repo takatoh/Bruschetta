@@ -2,7 +2,7 @@
   <q-page padding>
     <h5 class="text-teal-10">Books</h5>
 
-    <div class="q-pa-sm">
+    <div class="row q-pa-sm" style="width: 600px">
       <q-input outlined dense v-model="searchText" style="width: 300px">
         <template v-slot:append>
           <q-icon
@@ -14,8 +14,7 @@
           <q-icon name="search" @click="onSearchEnter" class="cursor-pointer"></q-icon>
         </template>
       </q-input>
-    </div>
-    <div>
+      <q-space></q-space>
       <q-btn
         outline
         class="text-teal"
