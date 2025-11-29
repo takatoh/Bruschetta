@@ -99,7 +99,8 @@ def update_book(book_id):
     book.bookshelf_id = bookshelf_id
     book.disposed = request.json["disposed"]
     db.session.commit()
-    return jsonify({"status": "OK", "books": [book.as_dict()]})
+    book_details = _set_coverart_url(book.as_dict(), request.host_url)
+    return jsonify({"status": "OK", "books": [book_details]})
 
 
 @bp.route("/books/<int:book_id>", methods=["DELETE"])
@@ -173,7 +174,8 @@ def upload_coverart(book_id):
     book.coverart_id = coverart.id
     db.session.commit()
     os.remove(tmp_filename)
-    return jsonify({"status": "OK", "books": [book.as_dict()]})
+    book_details = _set_coverart_url(book.as_dict(), request.host_url)
+    return jsonify({"status": "OK", "books": [book_details]})
 
 
 @bp.route("/coverarts/<int:book_id>", methods=["DELETE"])
