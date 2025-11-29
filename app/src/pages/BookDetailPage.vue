@@ -246,6 +246,24 @@ const cancel = () => {}
 
 const uploadCoverart = async () => {
   console.log('upload coverart')
+  const url = `${apiRoot}/coverarts/${book.value.id}`
+  const formData = new FormData()
+  formData.append('file', coverartNew.value)
+  await fetch(url, {
+    method: 'POST',
+    body: formData,
+  })
+    .then((response) => {
+      if (response.ok) {
+        return response.json()
+      } else {
+        throw new Error(`Error occured: response status = ${response.status}`)
+      }
+    })
+    .then((result) => {
+      book.value = result.books[0]
+    })
+    .catch((error) => console.log(error))
 }
 
 const cancelCoverart = () => {}
