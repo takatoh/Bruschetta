@@ -131,7 +131,7 @@
           @click="openCoverartDialog"
           v-if="!book.coverart"
         ></q-btn>
-        <q-btn label="Delete coverart" color="teal" outline href="/" v-else></q-btn>
+        <q-btn label="Delete coverart" color="teal" outline @click="deleteCoverart" v-else></q-btn>
       </q-btn-group>
     </div>
   </q-page>
@@ -271,6 +271,24 @@ const uploadCoverart = async () => {
 
 const cancelCoverart = () => {
   coverartNew.value = null
+}
+
+// Delete coverart
+const deleteCoverart = async () => {
+  console.log('Delete coverart')
+  const url = `${apiRoot}/coverarts/${book.value.id}`
+  await fetch(url, { method: 'DELETE' })
+    .then((response) => {
+      if (response.ok) {
+        return response.json()
+      } else {
+        throw new Error(`Error occured: response status = ${response.status}`)
+      }
+    })
+    .then((result) => {
+      book.value = result.books[0]
+    })
+    .catch((error) => console.log(error))
 }
 
 getBookDetails(props.bookId)
