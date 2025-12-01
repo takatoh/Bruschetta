@@ -1,11 +1,10 @@
 <template>
   <q-pagination
     :model-value="props.currentPage"
-    color="teal"
     :max="props.maxPage"
     :max-pages="9"
     @update:model-value="jumpPage"
-    boundary-numbers
+    color="teal"
   ></q-pagination>
 </template>
 <script setup>
