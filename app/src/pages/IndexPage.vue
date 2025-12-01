@@ -25,7 +25,7 @@
     </div>
 
     <div class="q-pa-md flex">
-      <page-navi :current-page="6" :max-page="27"></page-navi>
+      <page-navi :current-page="currentPage" :max-page="maxPage"></page-navi>
     </div>
 
     <div class="q-pa-sm col items-start">
@@ -42,7 +42,7 @@
     </div>
 
     <div class="q-pa-md flex">
-      <page-navi :current-page="6" :max-page="27"></page-navi>
+      <page-navi :current-page="currentPage" :max-page="maxPage"></page-navi>
     </div>
   </q-page>
 
@@ -63,6 +63,8 @@ import { apiRoot } from 'boot/ezglobals'
 
 const books = ref([])
 const addingDialogOpen = ref(false)
+const currentPage = ref(6)
+const maxPage = ref(27)
 
 const getBooks = async () => {
   const params = new URLSearchParams()
