@@ -24,6 +24,10 @@
       ></q-btn>
     </div>
 
+    <div class="q-pa-md flex">
+      <page-navi :current-page="6" :max-page="27"></page-navi>
+    </div>
+
     <div class="q-pa-sm col items-start">
       <q-list class="q-gutter-md">
         <book-listing-item
@@ -35,6 +39,10 @@
           :author="book.author"
         ></book-listing-item>
       </q-list>
+    </div>
+
+    <div class="q-pa-md flex">
+      <page-navi :current-page="6" :max-page="27"></page-navi>
     </div>
   </q-page>
 
@@ -50,6 +58,7 @@
 import { ref } from 'vue'
 import BookListingItem from 'components/BookListingItem.vue'
 import BookAddingDialog from 'src/components/BookAddingDialog.vue'
+import PageNavi from 'src/components/PageNavi.vue'
 import { apiRoot } from 'boot/ezglobals'
 
 const books = ref([])
