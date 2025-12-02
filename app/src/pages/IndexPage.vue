@@ -65,8 +65,8 @@ const PER_PAGE = 10
 
 const books = ref([])
 const addingDialogOpen = ref(false)
-const currentPage = ref(6)
-const maxPage = ref(27)
+const currentPage = ref(1)
+const maxPage = ref(1)
 
 const getBooks = async (page = 1) => {
   const limit = PER_PAGE
@@ -78,7 +78,8 @@ const getBooks = async (page = 1) => {
   const url = `${apiRoot}/books?${params}`
   await fetch(url)
     .then((response) => response.json())
-    .then((result) => {books.value = result.books
+    .then((result) => {
+      books.value = result.books
       currentPage.value = page
       maxPage.value = Math.ceil(result.totalCount / PER_PAGE)
     })
