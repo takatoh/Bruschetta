@@ -61,18 +61,27 @@ import BookAddingDialog from 'src/components/BookAddingDialog.vue'
 import PageNavi from 'src/components/PageNavi.vue'
 import { apiRoot } from 'boot/ezglobals'
 
+const PER_PAGE = 10
+
 const books = ref([])
 const addingDialogOpen = ref(false)
 const currentPage = ref(6)
 const maxPage = ref(27)
 
-const getBooks = async () => {
+const getBooks = async (page = 1) => {
+  const limit = PER_PAGE
+  const offset = PER_PAGE * (page - 1)
   const params = new URLSearchParams()
   params.append('reverse', 'true')
+  params.append('limit', limit)
+  params.append('offset', offset)
   const url = `${apiRoot}/books?${params}`
   await fetch(url)
     .then((response) => response.json())
-    .then((result) => (books.value = result.books))
+    .then((result) => {books.value = result.books
+      currentPage.value = page
+      maxPage.value = Math.ceil(result.totalCount / PER_PAGE)
+    })
 }
 
 const openAddingDialog = () => {
