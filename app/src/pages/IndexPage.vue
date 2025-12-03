@@ -63,6 +63,14 @@ import { apiRoot } from 'boot/ezglobals'
 
 const PER_PAGE = 10
 
+const props = defineProps({
+  page: {
+    type: Number,
+    required: true,
+    default: 1,
+  },
+})
+
 const books = ref([])
 const addingDialogOpen = ref(false)
 const currentPage = ref(1)
@@ -114,5 +122,5 @@ const addBook = async (e) => {
 
 const cancel = () => {}
 
-getBooks()
+getBooks(props.page)
 </script>
