@@ -25,7 +25,7 @@
     </div>
 
     <div class="q-pa-md flex">
-      <page-navi :current-page="currentPage" :max-page="maxPage"></page-navi>
+      <page-navi :current-page="currentPage" :max-page="maxPage" @page-jump="pageJump"></page-navi>
     </div>
 
     <div class="q-pa-sm col items-start">
@@ -42,7 +42,7 @@
     </div>
 
     <div class="q-pa-md flex">
-      <page-navi :current-page="currentPage" :max-page="maxPage"></page-navi>
+      <page-navi :current-page="currentPage" :max-page="maxPage" @page-jump="pageJump"></page-navi>
     </div>
   </q-page>
 
@@ -60,6 +60,7 @@ import BookListingItem from 'components/BookListingItem.vue'
 import BookAddingDialog from 'src/components/BookAddingDialog.vue'
 import PageNavi from 'src/components/PageNavi.vue'
 import { apiRoot } from 'boot/ezglobals'
+import { onBeforeRouteUpdate, useRouter } from 'vue-router'
 
 const PER_PAGE = 10
 
@@ -92,6 +93,18 @@ const getBooks = async (page = 1) => {
       maxPage.value = Math.ceil(result.totalCount / PER_PAGE)
     })
 }
+
+const router = useRouter()
+
+const pageJump = (e) => {
+  console.log(e)
+  router.push({ name: 'books', query: { page: e } })
+}
+
+onBeforeRouteUpdate((to) => {
+  const page = Number(to.query.page)
+  getBooks(page)
+})
 
 const openAddingDialog = () => {
   addingDialogOpen.value = !addingDialogOpen.value
