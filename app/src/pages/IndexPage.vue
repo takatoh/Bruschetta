@@ -104,7 +104,7 @@ const pageJump = (e) => {
 
 onBeforeRouteUpdate((to) => {
   const page = Number(to.query.page)
-  getBooks(page)
+  getBooks(page || 1)
 })
 
 // Adding a new book
@@ -138,5 +138,5 @@ const addBook = async (e) => {
 const cancel = () => {}
 
 // Get index of books
-getBooks(props.page)
+getBooks(props.page || 1)
 </script>
