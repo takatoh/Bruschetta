@@ -19,5 +19,9 @@ const props = defineProps({
   },
 })
 
-const jumpPage = () => {}
+const emit = defineEmits(['pageJump'])
+
+const jumpPage = (e) => {
+  emit('pageJump', e)
+}
 </script>
