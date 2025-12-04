@@ -94,6 +94,7 @@ const getBooks = async (page = 1) => {
     })
 }
 
+// Page navigation
 const router = useRouter()
 
 const pageJump = (e) => {
@@ -106,6 +107,7 @@ onBeforeRouteUpdate((to) => {
   getBooks(page)
 })
 
+// Adding a new book
 const openAddingDialog = () => {
   addingDialogOpen.value = !addingDialogOpen.value
 }
@@ -135,5 +137,6 @@ const addBook = async (e) => {
 
 const cancel = () => {}
 
+// Get index of books
 getBooks(props.page)
 </script>
