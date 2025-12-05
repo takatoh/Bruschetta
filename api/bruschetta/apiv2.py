@@ -127,7 +127,22 @@ def search_books():
     title = request.args.get("title")
     author = request.args.get("author")
     both = request.args.get("both")
-    dataset = Book.query.order_by(Book.id.asc()).filter_by(disposed=False)
+    offset = request.args.get("offset", default=0, type=int)
+    limit = request.args.get("limit", default=100, type=int)
+    include_disposed = request.args.get(
+        "inclde_disoposed", default=False, type=str_to_bool
+    )
+    reverse_order = request.args.get(
+        "reverse", default=False, type=str_to_bool
+    )
+    if reverse_order:
+        dataset = Book.query.order_by(Book.id.desc()).filter_by(
+            disposed=include_disposed
+        )
+    else:
+        dataset = Book.query.order_by(Book.id.asc()).filter_by(
+            disposed=include_disposed
+        )
     if both:
         both = "%" + both + "%"
         dataset = dataset.filter(
@@ -138,9 +153,19 @@ def search_books():
             dataset = dataset.filter(Book.title.like("%" + title + "%"))
         if author:
             dataset = dataset.filter(Book.author.like("%" + author + "%"))
-    books = dataset.all()
+    total_count = dataset.count()
+    books = dataset.offset(offset).limit(limit).all()
     data = [b.as_dict() for b in books]
-    return jsonify({"status": "OK", "books": data})
+    count = len(data)
+    return jsonify(
+        {
+            "status": "OK",
+            "books": data,
+            "count": count,
+            "totalCount": total_count,
+            "offset": offset,
+        }
+    )
 
 
 @bp.route("/books/categorized/<int:category_id>")
