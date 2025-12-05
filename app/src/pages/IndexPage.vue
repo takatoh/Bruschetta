@@ -76,6 +76,7 @@ const books = ref([])
 const addingDialogOpen = ref(false)
 const currentPage = ref(1)
 const maxPage = ref(1)
+const searchText = ref('')
 
 const getBooks = async (page = 1) => {
   const limit = PER_PAGE
@@ -92,6 +93,11 @@ const getBooks = async (page = 1) => {
       currentPage.value = page
       maxPage.value = Math.ceil(result.totalCount / PER_PAGE)
     })
+}
+
+// Search books
+const onSearchEnter = () => {
+  console.log(searchText.value)
 }
 
 // Page navigation
