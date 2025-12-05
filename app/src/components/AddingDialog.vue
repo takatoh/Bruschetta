@@ -7,7 +7,7 @@
       <q-card-section>
         <slot></slot>
       </q-card-section>
-      <q-card-actions align="right">
+      <q-card-actions align="center">
         <q-btn outline class="text-teal" label="Cancel" v-close-popup @click="onCancel"></q-btn>
         <q-btn outline class="text-teal" label="Submit" v-close-popup @click="onSubmit"></q-btn>
       </q-card-actions>
