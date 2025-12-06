@@ -137,7 +137,7 @@
       </q-btn-group>
     </div>
 
-    <div class="q-pa-md">
+    <div class="q-pa-md" v-if="!book.disposed">
       <h6 class="text-teal-10">Danger Zone</h6>
       <q-btn
         label="Delete"
