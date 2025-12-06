@@ -108,6 +108,7 @@ const onSearchEnter = () => {
 
 const clearSearchText = () => {
   searchText.value = ''
+  getBooks()
 }
 
 // Page navigation
