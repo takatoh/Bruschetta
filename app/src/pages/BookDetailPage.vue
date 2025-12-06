@@ -119,7 +119,7 @@
       </q-list>
     </div>
 
-    <div class="q-pa-md q-gutter-y-md column items-start">
+    <div class="q-pa-md q-gutter-y-md col items-start">
       <q-btn-group outline>
         <q-btn label="Edit" color="teal" outline v-close-popup @click="openEditingDialog"></q-btn>
         <q-separator></q-separator>
@@ -133,6 +133,11 @@
         ></q-btn>
         <q-btn label="Delete coverart" color="teal" outline @click="deleteCoverart" v-else></q-btn>
       </q-btn-group>
+    </div>
+
+    <div class="q-pa-md">
+      <h6 class="text-teal-10">Danger Zone</h6>
+      <q-btn label="Delete" color="red" @click="deleteBook" v-if="!book.disposed"></q-btn>
     </div>
   </q-page>
 
