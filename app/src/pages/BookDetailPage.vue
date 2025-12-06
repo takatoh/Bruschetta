@@ -137,7 +137,12 @@
 
     <div class="q-pa-md">
       <h6 class="text-teal-10">Danger Zone</h6>
-      <q-btn label="Delete" color="red" @click="deleteBook" v-if="!book.disposed"></q-btn>
+      <q-btn
+        label="Delete"
+        color="red"
+        @click="openDeleteConfirmDialog"
+        v-if="!book.disposed"
+      ></q-btn>
     </div>
   </q-page>
 
@@ -160,6 +165,12 @@
     </div>
     <q-file name="file" v-model="coverartNew" label="Cover art file" color="teal"></q-file>
   </adding-dialog>
+
+  <confirm-dialog v-model="deleteConfirmDialogOpen" label="Delete this book">
+    <div align="center">
+      <span>Are you sure?</span>
+    </div>
+  </confirm-dialog>
 </template>
 
 <script setup>
@@ -167,6 +178,7 @@ import { ref, computed, watch } from 'vue'
 import { apiRoot } from 'boot/ezglobals'
 import BookEditingDialog from 'components/BookEditingDialog.vue'
 import AddingDialog from 'components/AddingDialog.vue'
+import ConfirmDialog from 'components/ConfirmDialog.vue'
 
 const props = defineProps({
   bookId: {
@@ -243,6 +255,13 @@ const updateBook = async (e) => {
 }
 
 const cancel = () => {}
+
+// Delete the book
+const deleteConfirmDialogOpen = ref(false)
+
+const openDeleteConfirmDialog = () => {
+  deleteConfirmDialogOpen.value = !deleteConfirmDialogOpen.value
+}
 
 // Upload coverart for the book
 const uploadingCoverartOpen = ref(false)
