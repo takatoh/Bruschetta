@@ -166,7 +166,12 @@
     <q-file name="file" v-model="coverartNew" label="Cover art file" color="teal"></q-file>
   </adding-dialog>
 
-  <confirm-dialog v-model="deleteConfirmDialogOpen" label="Delete this book">
+  <confirm-dialog
+    v-model="deleteConfirmDialogOpen"
+    label="Delete this book"
+    @ok="deleteBook"
+    @cancle="cancelDelete"
+  >
     <div align="center">
       <span>Are you sure?</span>
     </div>
@@ -262,6 +267,27 @@ const deleteConfirmDialogOpen = ref(false)
 const openDeleteConfirmDialog = () => {
   deleteConfirmDialogOpen.value = !deleteConfirmDialogOpen.value
 }
+
+const deleteBook = async () => {
+  console.log(`Delete the book: ${book.value.title}`)
+  const url = `${apiRoot}/books/${book.value.id}`
+  await fetch(url, {
+    method: 'DELETE',
+  })
+    .then((response) => {
+      if (response.ok) {
+        return response.json()
+      } else {
+        throw new Error(`Error occured: response status = ${response.status}`)
+      }
+    })
+    .then((result) => {
+      book.value = result.books[0]
+    })
+    .catch((error) => console.log(error))
+}
+
+const cancelDelete = () => {}
 
 // Upload coverart for the book
 const uploadingCoverartOpen = ref(false)
