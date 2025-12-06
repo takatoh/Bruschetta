@@ -3,7 +3,14 @@
     <h5 class="text-teal-10">Books</h5>
 
     <div class="row q-pa-sm" style="width: 600px">
-      <q-input outlined dense v-model="searchText" color="teal" style="width: 300px">
+      <q-input
+        outlined
+        dense
+        v-model="searchText"
+        @keyup.enter="onSearchEnter"
+        color="teal"
+        style="width: 300px"
+      >
         <template v-slot:append>
           <q-icon
             v-if="searchText !== ''"
@@ -102,7 +109,10 @@ const getBooks = async (page = 1) => {
 }
 
 // Search books
-const onSearchEnter = () => {
+const onSearchEnter = (e) => {
+  if (e.keycode === 13) {
+    e.preventDefauilt()
+  }
   getBooks()
 }
 
