@@ -8,7 +8,7 @@
           <q-icon
             v-if="searchText !== ''"
             name="close"
-            @click="searchText = ''"
+            @click="clearSearchText"
             class="cursor-pointer"
           ></q-icon>
           <q-icon name="search" @click="onSearchEnter" class="cursor-pointer"></q-icon>
@@ -104,6 +104,10 @@ const getBooks = async (page = 1) => {
 // Search books
 const onSearchEnter = () => {
   getBooks()
+}
+
+const clearSearchText = () => {
+  searchText.value = ''
 }
 
 // Page navigation
