@@ -85,7 +85,13 @@ const getBooks = async (page = 1) => {
   params.append('reverse', 'true')
   params.append('limit', limit)
   params.append('offset', offset)
-  const url = `${apiRoot}/books?${params}`
+  let url = ''
+  if (searchText.value.length > 0) {
+    params.append('both', searchText.value)
+    url = `${apiRoot}/books/search?${params}`
+  } else {
+    url = `${apiRoot}/books?${params}`
+  }
   await fetch(url)
     .then((response) => response.json())
     .then((result) => {
@@ -97,7 +103,7 @@ const getBooks = async (page = 1) => {
 
 // Search books
 const onSearchEnter = () => {
-  console.log(searchText.value)
+  getBooks()
 }
 
 // Page navigation
