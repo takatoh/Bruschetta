@@ -2,6 +2,8 @@
   <q-page padding>
     <h5 class="text-teal-10">{{ titleWithVolume }}</h5>
 
+    <q-badge class="q-px-md q-py-sm" color="red" outline v-if="book.disposed">DISPOSED</q-badge>
+
     <div v-if="book.coverart.length > 0">
       <img :src="book.coverart" />
     </div>
@@ -212,6 +214,7 @@ const book = ref({
   bookshelf: '',
   createdAt: '',
   coverart: '',
+  disposed: false,
 })
 
 const titleWithVolume = computed(() => {
