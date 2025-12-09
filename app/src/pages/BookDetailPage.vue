@@ -2,6 +2,12 @@
   <q-page padding>
     <h5 class="text-teal-10">{{ titleWithVolume }}</h5>
 
+    <q-badge class="q-px-md q-py-sm" color="red" outline v-if="book.disposed">DISPOSED</q-badge>
+
+    <div v-if="book.coverart.length > 0">
+      <img :src="book.coverart" />
+    </div>
+
     <div class="q-pa-md" style="min-width: 600px">
       <q-list>
         <q-item>
@@ -115,23 +121,76 @@
       </q-list>
     </div>
 
-    <div class="q-pa-md q-gutter-y-md column items-start">
+    <div class="q-pa-md q-gutter-y-md col items-start">
       <q-btn-group outline>
-        <q-btn label="Edit" color="teal" outline href="/"></q-btn>
+        <q-btn label="Edit" color="teal" outline v-close-popup @click="openEditingDialog"></q-btn>
         <q-separator></q-separator>
-        <q-btn label="Upload coverart" color="teal" outline href="/" v-if="!book.coverart"></q-btn>
-        <q-btn label="Delete coverart" color="teal" outline href="/" v-else></q-btn>
+        <q-btn
+          label="Upload coverart"
+          color="teal"
+          outline
+          v-close-popup
+          @click="openCoverartDialog"
+          v-if="!book.coverart"
+        ></q-btn>
+        <q-btn label="Delete coverart" color="teal" outline @click="deleteCoverart" v-else></q-btn>
       </q-btn-group>
     </div>
+
+    <q-card class="q-pa-md" bordered style="width: 600px" v-if="!book.disposed">
+      <h6 class="text-teal-9 q-gutter-y-sm">Danger Zone</h6>
+      <q-btn
+        label="Delete"
+        color="red"
+        @click="openDeleteConfirmDialog"
+        v-if="!book.disposed"
+      ></q-btn>
+      <span class="q-px-lg">Delete this book</span>
+    </q-card>
   </q-page>
+
+  <book-editing-dialog
+    v-model="editingDialogOpen"
+    label="Editing a Book"
+    :book-details="book"
+    @submit="updateBook"
+    @cancel="cancel"
+  ></book-editing-dialog>
+
+  <adding-dialog
+    v-model="uploadingCoverartOpen"
+    label="Uploading Coverart"
+    @submit="uploadCoverart"
+    @cancel="cancelCoverart"
+  >
+    <div>
+      <span>{{ titleWithVolume }}</span>
+    </div>
+    <q-file name="file" v-model="coverartNew" label="Cover art file" color="teal"></q-file>
+  </adding-dialog>
+
+  <confirm-dialog
+    v-model="deleteConfirmDialogOpen"
+    label="Delete this book"
+    @ok="deleteBook"
+    @cancle="cancelDelete"
+  >
+    <div align="center">
+      <span>Are you sure?</span>
+    </div>
+  </confirm-dialog>
 </template>
 
 <script setup>
 import { ref, computed, watch } from 'vue'
+import { apiRoot } from 'boot/ezglobals'
+import BookEditingDialog from 'components/BookEditingDialog.vue'
+import AddingDialog from 'components/AddingDialog.vue'
+import ConfirmDialog from 'components/ConfirmDialog.vue'
 
 const props = defineProps({
   bookId: {
-    type: Number,
+    type: String,
     required: true,
   },
 })
@@ -156,6 +215,7 @@ const book = ref({
   bookshelf: '',
   createdAt: '',
   coverart: '',
+  disposed: false,
 })
 
 const titleWithVolume = computed(() => {
@@ -167,16 +227,130 @@ const titleWithVolume = computed(() => {
 })
 
 const getBookDetails = async (bookId) => {
-  const apiRoot = process.env.VUE_APP_API_ROOT
   const url = `${apiRoot}/books/${bookId}`
   await fetch(url)
     .then((response) => response.json())
     .then((result) => (book.value = result.books[0]))
 }
 
+// Edit and update book details
+const editingDialogOpen = ref(false)
+
+const openEditingDialog = () => {
+  editingDialogOpen.value = !editingDialogOpen.value
+}
+
+const updateBook = async (e) => {
+  console.log(e)
+  const url = `${apiRoot}/books/${e.id}`
+  await fetch(url, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(e),
+  })
+    .then((response) => {
+      if (response.ok) {
+        return response.json()
+      } else {
+        throw new Error(`Error occured: response status = ${response.status}`)
+      }
+    })
+    .then((result) => {
+      book.value = result.books[0]
+    })
+    .catch((error) => console.log(error))
+}
+
+const cancel = () => {}
+
+// Delete the book
+const deleteConfirmDialogOpen = ref(false)
+
+const openDeleteConfirmDialog = () => {
+  deleteConfirmDialogOpen.value = !deleteConfirmDialogOpen.value
+}
+
+const deleteBook = async () => {
+  console.log(`Delete the book: ${book.value.title}`)
+  const url = `${apiRoot}/books/${book.value.id}`
+  await fetch(url, {
+    method: 'DELETE',
+  })
+    .then((response) => {
+      if (response.ok) {
+        return response.json()
+      } else {
+        throw new Error(`Error occured: response status = ${response.status}`)
+      }
+    })
+    .then((result) => {
+      book.value = result.books[0]
+    })
+    .catch((error) => console.log(error))
+}
+
+const cancelDelete = () => {}
+
+// Upload coverart for the book
+const uploadingCoverartOpen = ref(false)
+const coverartNew = ref(null)
+
+const openCoverartDialog = () => {
+  uploadingCoverartOpen.value = !uploadingCoverartOpen.value
+}
+
+const uploadCoverart = async () => {
+  console.log('upload coverart')
+  const url = `${apiRoot}/coverarts/${book.value.id}`
+  const formData = new FormData()
+  formData.append('file', coverartNew.value)
+  await fetch(url, {
+    method: 'POST',
+    body: formData,
+  })
+    .then((response) => {
+      if (response.ok) {
+        return response.json()
+      } else {
+        throw new Error(`Error occured: response status = ${response.status}`)
+      }
+    })
+    .then((result) => {
+      book.value = result.books[0]
+    })
+    .catch((error) => console.log(error))
+}
+
+const cancelCoverart = () => {
+  coverartNew.value = null
+}
+
+// Delete coverart
+const deleteCoverart = async () => {
+  console.log('Delete coverart')
+  const url = `${apiRoot}/coverarts/${book.value.id}`
+  await fetch(url, { method: 'DELETE' })
+    .then((response) => {
+      if (response.ok) {
+        return response.json()
+      } else {
+        throw new Error(`Error occured: response status = ${response.status}`)
+      }
+    })
+    .then((result) => {
+      book.value = result.books[0]
+    })
+    .catch((error) => console.log(error))
+}
+
 getBookDetails(props.bookId)
 
-watch(props.bookId, (newBookId) => {
-  getBookDetails(newBookId)
-})
+watch(
+  () => props.bookId,
+  (newBookId) => {
+    getBookDetails(newBookId)
+  },
+)
 </script>

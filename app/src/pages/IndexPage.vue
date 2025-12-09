@@ -2,18 +2,37 @@
   <q-page padding>
     <h5 class="text-teal-10">Books</h5>
 
-    <div class="q-pa-sm">
-      <q-input outlined dense v-model="searchText" style="width: 300px">
+    <div class="row q-pa-sm" style="width: 600px">
+      <q-input
+        outlined
+        dense
+        v-model="searchText"
+        @keyup.enter="onSearchEnter"
+        color="teal"
+        style="width: 300px"
+      >
         <template v-slot:append>
           <q-icon
             v-if="searchText !== ''"
             name="close"
-            @click="searchText = ''"
+            @click="clearSearchText"
             class="cursor-pointer"
           ></q-icon>
           <q-icon name="search" @click="onSearchEnter" class="cursor-pointer"></q-icon>
         </template>
       </q-input>
+      <q-space></q-space>
+      <q-btn
+        outline
+        class="text-teal"
+        label="Add a New Book"
+        v-close-popup
+        @click="openAddingDialog"
+      ></q-btn>
+    </div>
+
+    <div class="q-pa-md flex">
+      <page-navi :current-page="currentPage" :max-page="maxPage" @page-jump="pageJump"></page-navi>
     </div>
 
     <div class="q-pa-sm col items-start">
@@ -28,25 +47,123 @@
         ></book-listing-item>
       </q-list>
     </div>
+
+    <div class="q-pa-md flex">
+      <page-navi :current-page="currentPage" :max-page="maxPage" @page-jump="pageJump"></page-navi>
+    </div>
   </q-page>
+
+  <book-adding-dialog
+    v-model="addingDialogOpen"
+    label="Add a New Book"
+    @submit="addBook"
+    @cancel="cancel"
+  ></book-adding-dialog>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import BookListingItem from 'components/BookListingItem.vue'
+import BookAddingDialog from 'src/components/BookAddingDialog.vue'
+import PageNavi from 'src/components/PageNavi.vue'
+import { apiRoot } from 'boot/ezglobals'
+import { onBeforeRouteUpdate, useRouter } from 'vue-router'
+
+const PER_PAGE = 10
+
+const props = defineProps({
+  page: {
+    type: Number,
+    required: true,
+    default: 1,
+  },
+})
 
 const books = ref([])
+const addingDialogOpen = ref(false)
+const currentPage = ref(1)
+const maxPage = ref(1)
+const searchText = ref('')
 
-const getBooks = async () => {
-  //  const apiRoot = 'http://localhost:5000/api/v2'
-  const apiRoot = process.env.VUE_APP_API_ROOT
+const getBooks = async (page = 1) => {
+  const limit = PER_PAGE
+  const offset = PER_PAGE * (page - 1)
   const params = new URLSearchParams()
   params.append('reverse', 'true')
-  const url = `${apiRoot}/books?${params}`
+  params.append('limit', limit)
+  params.append('offset', offset)
+  let url = ''
+  if (searchText.value.length > 0) {
+    params.append('both', searchText.value)
+    url = `${apiRoot}/books/search?${params}`
+  } else {
+    url = `${apiRoot}/books?${params}`
+  }
   await fetch(url)
     .then((response) => response.json())
-    .then((result) => (books.value = result.books))
+    .then((result) => {
+      books.value = result.books
+      currentPage.value = page
+      maxPage.value = Math.ceil(result.totalCount / PER_PAGE)
+    })
 }
 
-getBooks()
+// Search books
+const onSearchEnter = (e) => {
+  if (e.keycode === 13) {
+    e.preventDefauilt()
+  }
+  getBooks()
+}
+
+const clearSearchText = () => {
+  searchText.value = ''
+  getBooks()
+}
+
+// Page navigation
+const router = useRouter()
+
+const pageJump = (e) => {
+  console.log(e)
+  router.push({ name: 'books', query: { page: e } })
+}
+
+onBeforeRouteUpdate((to) => {
+  const page = Number(to.query.page)
+  getBooks(page || 1)
+})
+
+// Adding a new book
+const openAddingDialog = () => {
+  addingDialogOpen.value = !addingDialogOpen.value
+}
+
+const addBook = async (e) => {
+  console.log(e)
+  const url = `${apiRoot}/books`
+  await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(e),
+  })
+    .then((response) => {
+      if (response.ok) {
+        return response.json()
+      } else {
+        throw new Error(`Error occured: response status = ${response.status}`)
+      }
+    })
+    .then(() => {
+      getBooks()
+    })
+    .catch((error) => console.log(error))
+}
+
+const cancel = () => {}
+
+// Get index of books
+getBooks(props.page || 1)
 </script>
