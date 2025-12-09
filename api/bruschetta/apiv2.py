@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify, current_app
 import os
+import tempfile
 from .models import db, Book, Category, Format, BookShelf, CoverArt
 from .utils import str_to_bool, save_coverart, is_picture
 
@@ -25,18 +26,30 @@ def list_books():
         dataset = Book.query.order_by(Book.id.asc())
     if not include_disposed:
         dataset = dataset.filter_by(disposed=False)
+    total_count = dataset.count()
     books = dataset.offset(offset).limit(limit).all()
     data = [b.as_dict() for b in books]
-    return jsonify({"status": "OK", "books": data})
+    count = len(data)
+    return jsonify(
+        {
+            "status": "OK",
+            "books": data,
+            "count": count,
+            "totalCount": total_count,
+            "offset": offset,
+        }
+    )
 
 
 @bp.route("/books/<int:book_id>")
 def show_book(book_id):
     book = Book.query.get(book_id)
-    data = []
     if book is not None:
-        data.append(book.as_dict())
-    return jsonify({"status": "OK", "books": data})
+        book_details = book.as_dict()
+        book_details = _set_coverart_url(book_details, request.host_url)
+        return jsonify({"status": "OK", "books": [book_details]})
+    else:
+        return jsonify({"status": "Error", "cause": "Not found"})
 
 
 @bp.route("/books", methods=["POST"])
@@ -60,7 +73,7 @@ def add_book():
         keyword=request.json["keyword"],
         disk=request.json["disc"],
     )
-    book.disposed = request.json["disposed"]
+    book.disposed = False
     db.session.add(book)
     db.session.commit()
     return jsonify({"status": "OK", "books": [book.as_dict()]})
@@ -97,7 +110,8 @@ def update_book(book_id):
     book.bookshelf_id = bookshelf_id
     book.disposed = request.json["disposed"]
     db.session.commit()
-    return jsonify({"status": "OK", "books": [book.as_dict()]})
+    book_details = _set_coverart_url(book.as_dict(), request.host_url)
+    return jsonify({"status": "OK", "books": [book_details]})
 
 
 @bp.route("/books/<int:book_id>", methods=["DELETE"])
@@ -113,7 +127,22 @@ def search_books():
     title = request.args.get("title")
     author = request.args.get("author")
     both = request.args.get("both")
-    dataset = Book.query.order_by(Book.id.asc()).filter_by(disposed=False)
+    offset = request.args.get("offset", default=0, type=int)
+    limit = request.args.get("limit", default=100, type=int)
+    include_disposed = request.args.get(
+        "inclde_disoposed", default=False, type=str_to_bool
+    )
+    reverse_order = request.args.get(
+        "reverse", default=False, type=str_to_bool
+    )
+    if reverse_order:
+        dataset = Book.query.order_by(Book.id.desc()).filter_by(
+            disposed=include_disposed
+        )
+    else:
+        dataset = Book.query.order_by(Book.id.asc()).filter_by(
+            disposed=include_disposed
+        )
     if both:
         both = "%" + both + "%"
         dataset = dataset.filter(
@@ -124,9 +153,19 @@ def search_books():
             dataset = dataset.filter(Book.title.like("%" + title + "%"))
         if author:
             dataset = dataset.filter(Book.author.like("%" + author + "%"))
-    books = dataset.all()
+    total_count = dataset.count()
+    books = dataset.offset(offset).limit(limit).all()
     data = [b.as_dict() for b in books]
-    return jsonify({"status": "OK", "books": data})
+    count = len(data)
+    return jsonify(
+        {
+            "status": "OK",
+            "books": data,
+            "count": count,
+            "totalCount": total_count,
+            "offset": offset,
+        }
+    )
 
 
 @bp.route("/books/categorized/<int:category_id>")
@@ -155,23 +194,19 @@ def upload_coverart(book_id):
         return jsonify(
             {"status": "ERROR", "cause": "Looks like a not picture"}
         )
-    tmp_filename = os.path.join(
-        current_app.instance_path,
-        current_app.config["TEMP_DIR"],
-        file.filename,
-    )
-    file.save(tmp_filename)
     coverart_dir = os.path.join(
         current_app.instance_path, current_app.config["COVERARTS_DIR"]
     )
-    coverart_filename = save_coverart(tmp_filename, coverart_dir)
+    with tempfile.NamedTemporaryFile(mode="w+b", delete=True) as tmp:
+        tmp.write(file.read())
+        coverart_filename = save_coverart(tmp.name, coverart_dir)
     coverart = CoverArt(filename=coverart_filename)
     db.session.add(coverart)
     db.session.commit()
     book.coverart_id = coverart.id
     db.session.commit()
-    os.remove(tmp_filename)
-    return jsonify({"status": "OK", "books": [book.as_dict()]})
+    book_details = _set_coverart_url(book.as_dict(), request.host_url)
+    return jsonify({"status": "OK", "books": [book_details]})
 
 
 @bp.route("/coverarts/<int:book_id>", methods=["DELETE"])
@@ -254,3 +289,10 @@ def update_bookshelf(bookshelf_id):
     bookshelf.description = request.json["description"]
     db.session.commit()
     return jsonify({"status": "OK", "bookshelves": [bookshelf.as_dict()]})
+
+
+def _set_coverart_url(book_details, host_url):
+    coverart = book_details["coverart"]
+    if len(coverart) > 0:
+        book_details["coverart"] = f"{host_url}coverart/{coverart}"
+    return book_details

@@ -6,6 +6,9 @@ from .models import init_app, db
 __version__ = "v0.5-alpha"
 
 BRUSCHETTA_INSTANCE_DIR = os.getenv("BRUSCHETTA_INSTANCE_DIR")
+BRUSCHETTA_ALLOW_ORIGNS = (os.getenv("BRUSCHETTA_ALLOW_ORIGINS") or "").split(
+    ","
+)
 
 
 def create_app(config_filename="./bruschetta.conf"):
@@ -38,7 +41,7 @@ def create_app(config_filename="./bruschetta.conf"):
 
     CORS(
         app,
-        resources={r"/api/v2/*": {"origins": ["http://localhost:9000"]}},
+        resources={r"/api/v2/*": {"origins": BRUSCHETTA_ALLOW_ORIGNS}},
     )
 
     return app
