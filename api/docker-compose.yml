@@ -3,7 +3,7 @@ services:
   bruschetta:
     image: "bruschetta:${TAG-latest}"
     build:
-      context: ./docker
+      context: .
       dockerfile: Dockerfile
     ports:
       - 5000:5000
