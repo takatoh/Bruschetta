@@ -1,0 +1,26 @@
+services:
+
+  bruschetta-api:
+    image: "bruschetta-api:${TAG-latest}"
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    ports:
+      - 5000:5000
+    volumes:
+      - ./api:/app:cached
+    tty: true
+    restart: unless-stopped
+
+  bruschetta-app:
+    image: "bruschetta-app:${TAG-latest}"
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    ports:
+      - 9000:80
+    environment:
+      - VUE_APP_NAME=Bruschetta-dev
+      - VUE_APP_API_ROOT=http://localhost:5000/api/v2
+    tty: true
+    restart: unless-stopped
