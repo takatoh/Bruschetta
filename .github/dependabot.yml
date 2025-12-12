@@ -1,0 +1,15 @@
+---
+version: 2
+updates:
+
+  # pip updates
+  - package-ecosystem: pip
+    directory: /api
+    schedule:
+      interval: dairy
+
+  # npm updates
+  - package-ecosystem: npm
+    directory: app/
+    schedule:
+      interval: dairy
