@@ -10,6 +10,6 @@ updates:
 
   # npm updates
   - package-ecosystem: npm
-    directory: app/
+    directory: /app
     schedule:
       interval: dairy
