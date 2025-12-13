@@ -1,7 +1,7 @@
 services:
 
-  bruschetta:
-    image: "bruschetta-api:${TAG-latest}"
+  bruschetta-api-devel:
+    image: "bruschetta-api:${TAG-devel}"
     build:
       context: .
       dockerfile: Dockerfile
