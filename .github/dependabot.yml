@@ -6,10 +6,10 @@ updates:
   - package-ecosystem: pip
     directory: /api
     schedule:
-      interval: daily
+      interval: weekly
 
   # npm updates
   - package-ecosystem: npm
     directory: /app
     schedule:
-      interval: daily
+      interval: weekly
