@@ -69,7 +69,7 @@ import PageNavi from 'src/components/PageNavi.vue'
 import { apiRoot } from 'boot/ezglobals'
 import { onBeforeRouteUpdate, useRouter } from 'vue-router'
 
-const PER_PAGE = 10
+const PER_PAGE = 20
 
 const props = defineProps({
   page: {
