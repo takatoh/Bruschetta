@@ -3,7 +3,7 @@ from flask_cors import CORS
 import os
 from .models import init_app, db
 
-__version__ = "v0.5-alpha"
+__version__ = "v1.0.0"
 
 BRUSCHETTA_INSTANCE_DIR = os.getenv("BRUSCHETTA_INSTANCE_DIR")
 BRUSCHETTA_ALLOW_ORIGNS = (os.getenv("BRUSCHETTA_ALLOW_ORIGINS") or "").split(
