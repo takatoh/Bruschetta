@@ -1,4 +1,4 @@
-FROM ubuntu:24.04 AS builder
+FROM debian:bookworm AS builder
 
 RUN apt-get update \
   && apt-get upgrade -y \
