@@ -6,7 +6,7 @@ export default defineBoot(async ({ app }) => {
   // something to do
   app.config.globalProperties.$APP_NAME = process.env.VUE_APP_NAME
   app.config.globalProperties.$PROJECT_NAME = 'Bruschetta'
-  app.config.globalProperties.$PROJECT_VERSION = 'develop'
+  app.config.globalProperties.$PROJECT_VERSION = 'v1.0.0'
 })
 
 const apiRoot = process.env.VUE_APP_API_ROOT
