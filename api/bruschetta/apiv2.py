@@ -56,6 +56,7 @@ def show_book(book_id):
 def add_book():
     category = Category.query.filter_by(name=request.json["category"]).first()
     fmt = Format.query.filter_by(name=request.json["format"]).first()
+    bookshelf = BookShelf.query.filter_by(name=request.json["bookshelf"]).first()
     book = Book(
         title=request.json["title"],
         volume=request.json["volume"],
@@ -72,6 +73,7 @@ def add_book():
         note=request.json["note"],
         keyword=request.json["keyword"],
         disk=request.json["disc"],
+        bookshelf_id=bookshelf.id if bookshelf else None,
     )
     book.disposed = False
     db.session.add(book)
