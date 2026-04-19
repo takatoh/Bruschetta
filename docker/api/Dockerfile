@@ -1,4 +1,4 @@
-FROM debian:bookworm AS builder
+FROM debian:trixie AS builder
 
 RUN apt-get update \
   && apt-get upgrade -y \
@@ -6,7 +6,7 @@ RUN apt-get update \
 RUN git clone https://github.com/takatoh/bruschetta.git
 
 
-FROM python:3.12-slim-bookworm
+FROM python:3.13.13-slim-trixie
 
 RUN apt-get update && apt-get upgrade -y \
   && pip install --upgrade pip \
