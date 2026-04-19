@@ -6,10 +6,16 @@ RUN apt-get update && apt-get upgrade -y \
 
 RUN pip install --upgrade pip \
   && pip install poetry \
-  && pip install poetry-plugin-export \
-  && poetry config virtualenvs.in-project true
+  && pip install poetry-plugin-export
 
+RUN groupadd -g 1000 bruschetta \
+  && useradd -u 1000 -g bruschetta -m -s /bin/bash bruschetta
+
+USER bruschetta
 WORKDIR /app
+
+RUN poetry config virtualenvs.in-project true
+#RUN poetry install
 
 ENV PYTHONPATH=/app
 ENV LANG=ja_JP.UTF-8
