@@ -1,4 +1,4 @@
-FROM python:3.13.13-slim-bookworm
+FROM python:3.13.13-slim-trixie
 
 RUN apt-get update && apt-get upgrade -y \
   && apt-get clean \
