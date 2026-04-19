@@ -1,12 +1,13 @@
 FROM python:3.12-slim-bookworm
 
 RUN apt-get update && apt-get upgrade -y \
-  && pip install --upgrade pip \
-  && pip install poetry \
-  && pip install poetry-plugin-export \
-  && poetry config virtualenvs.in-project true \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
+
+RUN pip install --upgrade pip \
+  && pip install poetry \
+  && pip install poetry-plugin-export \
+  && poetry config virtualenvs.in-project true
 
 WORKDIR /app
 
