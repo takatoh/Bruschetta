@@ -1,0 +1,14 @@
+services:
+
+  bruschetta-app-devel:
+    image: "bruschetta-app:${TAG-dev}"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 9000:9000
+    volumes:
+      - .:/app:cached
+    tty: true
+    restart: unless-stopped
+  
