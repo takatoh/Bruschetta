@@ -1,18 +1,11 @@
-FROM node:24 AS builder
+FROM node:24
+
+# node:24 のイメージには、`node` という uid=1000、
+# gid=1000 のユーザがあらかじめ存在する。
 
 WORKDIR /app
+USER node
 
-COPY ./ ./
+#RUN npm install
 
-RUN npm install
-
-RUN npm run build
-
-
-FROM nginx:1.29.3
-
-COPY --from=builder /app/dist/spa/ /usr/share/nginx/html/
-
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["npm", "run", "dev"]
