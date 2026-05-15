@@ -121,7 +121,8 @@ def delete_book(book_id):
     book = Book.query.get(book_id)
     book.disposed = True
     db.session.commit()
-    return jsonify({"status": "OK", "books": [book.as_dict()]})
+    book_details = _set_coverart_url(book.as_dict(), request.host_url)
+    return jsonify({"status": "OK", "books": [book_details]})
 
 
 @bp.route("/books/search")
