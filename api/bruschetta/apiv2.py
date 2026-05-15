@@ -120,6 +120,7 @@ def update_book(book_id):
 def delete_book(book_id):
     book = Book.query.get(book_id)
     book.disposed = True
+    book.bookshelf_id = None
     db.session.commit()
     book_details = _set_coverart_url(book.as_dict(), request.host_url)
     return jsonify({"status": "OK", "books": [book_details]})
