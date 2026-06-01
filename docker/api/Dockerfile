@@ -21,8 +21,9 @@ ENV LANG=ja_JP.UTF8
 WORKDIR /app
 
 COPY --from=builder /bruschetta/api/ ./
-RUN pip install -r requirements.txt
+RUN pip install -r requirements.txt \
+  && pip install gunicorn
 
 EXPOSE 5000
 
-CMD [ "/usr/local/bin/flask", "run", "--host=0.0.0.0", "--port=5000" ]
+CMD [ "/usr/local/bin/gunicorn", "--bind", "0.0.0.0:5000", "bruschetta:create_app()" ]
