@@ -15,15 +15,19 @@ RUN apt-get update \
 
 RUN pip install --upgrade pip
 
+RUN groupadd -g 1000 bruschetta \
+  && useradd -u 1000 -g bruschetta -m -s /bin/bash bruschetta
+
 ENV PYTHONPATH=/app
 ENV LANG=ja_JP.UTF8
 
+USER bruschetta
 WORKDIR /app
 
-COPY --from=builder /bruschetta/api/ ./
-RUN pip install -r requirements.txt \
-  && pip install gunicorn
+COPY --from=builder --chown=1000:1000 /bruschetta/api/ ./
+RUN pip install --user -r requirements.txt \
+  && pip install --user gunicorn
 
 EXPOSE 5000
 
-CMD [ "/usr/local/bin/gunicorn", "--bind", "0.0.0.0:5000", "bruschetta:create_app()" ]
+CMD [ "/home/bruschetta/.local/bin/gunicorn", "--bind", "0.0.0.0:5000", "bruschetta:create_app()" ]
