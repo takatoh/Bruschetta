@@ -23,7 +23,6 @@ WORKDIR /app
 
 COPY --from=builder /bruschetta/api/ ./
 RUN poetry install
-COPY files/bruschetta.conf ./instance
 
 EXPOSE 5000
 
