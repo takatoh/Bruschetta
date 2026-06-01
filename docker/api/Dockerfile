@@ -8,7 +8,8 @@ RUN git clone https://github.com/takatoh/bruschetta.git
 
 FROM python:3.13.13-slim-trixie
 
-RUN apt-get update && apt-get upgrade -y \
+RUN apt-get update \
+  && apt-get upgrade -y \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
