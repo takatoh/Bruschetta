@@ -13,9 +13,7 @@ RUN apt-get update \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
-RUN pip install --upgrade pip \
-  && pip install poetry \
-  && poetry config virtualenvs.in-project true
+RUN pip install --upgrade pip
 
 ENV PYTHONPATH=/app
 ENV LANG=ja_JP.UTF8
@@ -23,8 +21,8 @@ ENV LANG=ja_JP.UTF8
 WORKDIR /app
 
 COPY --from=builder /bruschetta/api/ ./
-RUN poetry install
+RUN pip install -r requirements.txt
 
 EXPOSE 5000
 
-CMD [ "./start.sh" ]
+CMD [ "/usr/local/bin/flask", "run", "--host=0.0.0.0", "--port=5000" ]
