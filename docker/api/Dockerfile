@@ -1,7 +1,6 @@
 FROM debian:trixie AS builder
 
 RUN apt-get update \
-  && apt-get upgrade -y \
   && apt-get install -y git
 RUN git clone https://github.com/takatoh/bruschetta.git
 
